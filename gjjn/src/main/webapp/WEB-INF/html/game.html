@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="static/js/mui.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/game.js" type="text/javascript" charset="utf-8"></script>
+		<link href="static/css/mui.min.css" rel="stylesheet" />
+		<link href="static/css/game.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		
+	</head>
+
+	<body onload="autoLogin()">
+		<!-- 帐号操作 -->
+		<div id="zhop">
+			<header class="mui-bar">
+				<h1 class="mui-title">登录挂机舰娘</h1>
+			</header>
+			<div style="height:60px;"></div>
+			<!--登录界面-->
+			<div id="login" style="display:none">
+				<form class="input-group">
+					<div class="labelrow">
+						<label>账号</label><span class="tstxt">输入游戏账号</span>
+					</div>
+					<div class="labelrow">
+						<input id='login_username' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					</div>
+					<div class="labelrow">
+						<label>密码</label><span class="tstxt">输入密码</span>
+					</div>
+					<div class="labelrow">
+						<input id='login_password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					</div>
+				</form>
+
+				<div class="button-padded">
+					<a href="javascript:login('post');" class="mui-btn mui-btn-block">登录</a>
+					<div class="link-area">
+						<a href="javascript:Button_div_login('reg')">注册账号</a> &nbsp; &nbsp;
+						<a href="javascript:Button_div_login('password')">修改密码</a>
+					</div>
+				</div>
+				<center><img src="https://s1.ax1x.com/2018/06/17/CxkSoV.png" width=160px></center><br>
+				<div style="width:160px;margin:0 auto;margin-top:20px;">
+				</div>
+			</div>
+
+			<!--注册界面-->
+			<div id="reg" style="display:none">
+				<form class="input-group">
+					<div class="labelrow">
+						<label>账号</label><span class="tstxt">输入5-20位字符，不含特殊字符</span>
+					</div>
+					<div class="labelrow">
+						<input id='reg_username' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					</div>
+					<div class="labelrow">
+						<label>密码</label><span class="tstxt">输入5-20位字符</span>
+					</div>
+					<div class="labelrow">
+						<input id='reg_password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					</div>
+					<div class="labelrow">
+						<label>确认</label><span class="tstxt">再次确认密码</span>
+					</div>
+					<div class="labelrow">
+						<input id='reg_password1' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+					</div>
+					<div class="labelrow">
+						<label>邮箱</label><span class="tstxt">输入一个备用的邮箱以便找回密码</span>
+					</div>
+					<div class="labelrow">
+						<input id='reg_Email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					</div>
+				</form>
+				<div class="c"></div>
+				<div class="mui-login-bt">
+					<a href="javascript:register()"  class="mui-btn">注册</a>
+					<a href="javascript:Button_div_login('login')" class="mui-btn">返回</a>
+				</div>
+
+			</div>
+
+			<!-- 修改密码 -->
+			<div id="changepasswdview" style="display: none">
+				<form class="input-group">
+					<div class="labelrow">
+						<label>账号</label><span class="tstxt">输入5-20位字符，不含特殊字符</span>
+					</div>
+					<div class="labelrow">
+						<input id='cpd_username' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					</div>
+					<div class="labelrow">
+						<label>邮箱</label><span class="tstxt">请输入邮箱找回密码</span>
+					</div>
+					<div class="labelrow">
+						<input id='cpd_Email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					</div>
+					<div class="labelrow">
+						<label>密码</label><span class="tstxt">输入5-20位字符</span>
+					</div>
+					<div class="labelrow">
+						<input id='cpd_password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					</div>
+					<div class="labelrow">
+						<label>确认</label><span class="tstxt">再次确认密码</span>
+					</div>
+					<div class="labelrow">
+						<input id='cpd_password1' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+					</div>
+					
+				</form>
+				<div class="c"></div>
+				<div class="mui-login-bt">
+					<a href="javascript:changepasswd()"  class="mui-btn">修改密码</a>
+					<a href="javascript:Button_div_login('login')" class="mui-btn">返回</a>
+				</div>
+			</div>
+			<!-- 创建角色 -->
+			<div id="cjrole" style="display: none">
+				<div id="cjjs_selectjn" style="text-align: center;">
+					<br />
+					<span><font color="white">请选择初始舰娘：</font></span><br /><br />
+					<div id="cjjs_jnimgs" style="text-align: center;">
+						<img src="http://p7.qhimg.com/t01535c81c507db711c.jpg" class="cjjs_jnimg select_jn" id="jnimg1" />
+						<img src="http://p3.qhimg.com/t01ecb8dde5bb45b58b.jpg" class="cjjs_jnimg select_jn" id="jnimg2" />
+						<img src="http://p2.qhimg.com/t018d7ff11e8b5fc3db.jpg" class="cjjs_jnimg select_jn" id="jnimg3" />
+						<input type="text" id="selectedId" style="display: none;" />
+					</div>
+					<font id="jnworld" color="white"></font>
+				</div>
+				<div id="cjjs_zhgname" class="input-group">
+					<br />
+					<div class="labelrow">
+						<input id='cjrole_zhgname' type="text" class="mui-input-clear mui-input" placeholder="请输入指挥官名称(6字符以内)">
+					</div>
+					<div class="button-padded">
+						<a href="javascript:createrole();" class="mui-btn mui-btn-block">创建角色</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--主界面-->
+		<div id="mainview" style="display: none;">
+			<header class="mui-bar">
+				<div id="head_touxiang">
+					<img id="roletouxiang" src="" width="40px" height="40px" style="float: left;margin-top: 10px;" />
+				</div>
+				<div id="head_info">
+					<div id="head_line1" style="margin-top: 10px;margin-left: 10px; float: left;">
+						<div id="rolename" style="color: white;">
+							柳梦璃
+						</div>
+						<div id="rolelevel" style="color: white;">
+							110级
+						</div>
+
+					</div>
+					<div id="head_line2" style="float: right; margin-top: 10px;">
+						<div id="zuanshi" style="float: right; color: rgb(241,66,113); clear: both;">
+							<img src="https://s1.ax1x.com/2018/06/17/CxFoIf.png" width="20px" height="20px" style="float: right;" />
+							<div id="zs_num" style="float: right;">
+								11111111
+							</div>
+						</div>
+						<div id="wuzi" style="color: rgb(253,247,97);  clear: both;">
+							<img src="https://s1.ax1x.com/2018/06/17/CxFbRg.png" width="20px" height="20px" style="float: right;" />
+							<div id="wz_num" style="float: right;">
+								2222222
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</header>
+			<div style="height: 60px;"></div>
+			<!--底部菜单-->
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active" href="#jianduiview">
+					<span class="mui-tab-label" onclick="getRoleData()">舰队</span>
+				</a>
+				<a class="mui-tab-item" href="#jianniangview">
+					<span class="mui-tab-label" onclick="showjnlist()">舰娘</span>
+				</a>
+				<a class="mui-tab-item"  href="#cangkuview">
+					<span class="mui-tab-label" onclick="showsplist()">仓库</span>
+				</a>
+				<a class="mui-tab-item" href="#chujiview" onclick="gotomap()">
+					<span class="mui-tab-label">出击</span>
+				</a>
+				<a class="mui-tab-item" href="#caidanview">
+					<span class="mui-tab-label">菜单</span>
+				</a>
+			</nav>
+
+			<div class="mui-content">
+				<!--舰队页面-->
+				<div id="jianduiview" class="mui-control-content mui-active">
+					<!--舰队属性-->
+					<div id="jianduisx">
+
+						<ul class="mui-table-view mui-grid-view mui-grid-9" style="border:none">
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">ID</span>
+								<span class="liright" id="roleid">1111</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">军衔</span>
+								<span id="rolejunxian" class="liright">海军元帅</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">石油</span>
+								<span id="roleshiyou" class="liright">455</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">魔方</span>
+								<span id="rolemofang" class="liright">232</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">科研点</span>
+								<span id="rolekeyandian" class="liright">455</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+								<span class="lileft">战斗力</span>
+								<span id="rolezdl" class="liright">2326</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12">								
+								<span class="lileft">当前经验</span>
+								<span id="roleexp" style="color: white;margin-left: 0px;">2326</span>
+								<span id="roleexprate" style="float: right; color: #FFFF00">45.82%</span>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" >
+								<span class="lileft">升级经验</span>
+								<span id="rolesj" style="color: #FFFFFF">0111</span>
+								<span style="float: right;"><button onclick="openkeyanview()" type="button" class="mui-btn libutton">科研</button></span>
+								<span style="float: right;"><button type="button" class="mui-btn libutton" onclick="rolejinjie()">进阶</button></span>
+							</li>
+						</ul>
+
+						<ul class='mui-table-view' id='mydwlist'>
+						</ul>
+					</div>
+					<!--科研界面-->
+					<div id="keyanview" style="display: none;">
+						<div class="mui-bar" style="top: 60px; height: 46px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 46px; font-size: 14px;">
+							<span>每级提升10%的对应舰队属性</span>
+							<div style="float: right;"><button class="mytitlebut mui-btn" onclick="keyan_back()">返回</button></div>
+						</div>
+						<div style="height: 46px;"></div>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/CxkuFK.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										攻击 Lv.<font id='gjdj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='gjky'>200</font>科研点 <font id='gjwz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('gj')">升级</button>						
+								</div>
+							</li>
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/CxkUFf.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										防御 Lv.<font id='fydj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='fyky'>200</font>科研点 <font id='fywz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('fy')">升级</button>						
+								</div>
+							</li>
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/CxkaY8.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										血量 Lv.<font id='xldj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='xlky'>200</font>科研点 <font id='xlwz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('xl')">升级</button>						
+								</div>
+								
+							</li>
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/CxkdfS.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										速度 Lv.<font id='sddj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='sdky'>200</font>科研点 <font id='sdwz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('sd')">升级</button>						
+								</div>
+								
+							</li>
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/Cxk0Sg.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										暴击 Lv.<font id='bjdj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='bjky'>200</font>科研点 <font id='bjwz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('bj')">升级</button>						
+								</div>
+								
+							</li>
+							<li class="mui-table-view-cell mui-media">
+								<div style="float: left;">
+									<img class="mui-media-object mui-pull-left" src="https://s1.ax1x.com/2018/06/17/CxkBlQ.jpg">
+									<div class="mui-media-body" style="color: rgb(228,234,8)">
+										躲避 Lv.<font id='dbdj'>5</font>
+										<p class='myp mui-ellipsis'><span>需求：<font id='dbky'>200</font>科研点 <font id='dbwz'>200</font>物资</span></p>
+									</div>
+								</div>
+								<div style="float: right;">
+									<button type="button" class="mui-btn" onclick="keyansj('db')">升级</button>						
+								</div>
+								
+							</li>
+						</ul>
+					</div>
+					<!--舰娘详情-->
+					<div id="jiannianginfo" style="display: none; background-color: rgb(59,112,130);">
+						<div style="height: 45px; padding-top: 6px; background-color: rgb(9,56,77);">
+							<button id="jninfo_sztx" type="button" class="mytitlebut mui-btn" onclick="changetouxiang()">设为头像</button>
+							<button id="jninfo_shengxing" type="button" class="mytitlebut mui-btn" onclick="jnshengxing(1)">升星</button>
+							<button onclick="jninfo_back()" type="button" class="mytitlebut mui-btn" style="float: right;">返回</button>
+						</div>
+						<div style="background-color: rgb(59,112,130);margin: 5px;">
+							<div id="jninfo_touxiangandname" style="height: 105px;">
+								<img src="" width="100px" height="100px" id="jninfo_touxiang" style="float: left;" />
+								<div style="margin-left: 110px; line-height: 50px;">
+									<div id="jninfo_name" style="font-size: 30px; height: 50px; line-height: 50px;">拉菲</div>
+
+									<div><span style="float: left; color: gold; font-size: 20px;">战力：</span>
+										<div id="jninfo_zdl" style="color: white;font-size: 20px; float: left;">8088</div>
+									</div>
+								</div>
+
+							</div>
+							<div id="jninfo_shuxing">
+								<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color: rgb(59,112,130); border-color: rgb(44,79,98);">
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">等级</span>
+										<span style="float: right; color: white;" id="jninfo_id">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">星级</span>
+										<span style="float: right; color: white;" id="jninfo_star">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">攻击</span>
+										<span style="float: right; color: white;" id="jninfo_gj">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">防御</span>
+										<span style="float: right; color: white;" id="jninfo_fy">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">血量</span>
+										<span style="float: right; color: white;" id="jninfo_xl">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">速度</span>
+										<span style="float: right; color: white;" id="jninfo_sd">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">暴击</span>
+										<span style="float: right; color: white;" id="jninfo_bj">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">躲避</span>
+										<span style="float: right; color: white;" id="jninfo_db">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">当前经验</span>
+										<span style="float: right; color: white;" id="jninfo_jy">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">升级经验</span>
+										<span style="float: right; color: white;" id="jninfo_sj">1111</span>
+									</li>
+								</ul>
+								<center><img src="" id='jninfo_lh' width="350px" height="525px" style="padding-top: 5px;" /></center>
+							</div>
+						</div>
+					</div>
+					<input type="text" id="jninfohideid" style="display: none"/>
+				</div>
+				<!--舰娘页面-->
+				<div id="jianniangview" class="mui-control-content">
+					<!--舰娘头像list-->
+					<div style="margin: 5px; background-color: rgb(44,79,98);" id='jnlistdiv'>
+					</div>
+
+					<!--舰娘详情-->
+					<div id="jiannianginfo2" style="display: none; background-color: rgb(59,112,130);">
+						<div style="height: 45px; padding-top: 6px; background-color: rgb(9,56,77);">
+							<button id="jninfo_sztx2" type="button" class="mytitlebut mui-btn" onclick="changetouxiang()">设为头像</button>
+							<button id="jninfo_shengxing2" type="button" class="mytitlebut mui-btn" onclick="jnshengxing(2)">升星</button>
+							<button id="jninfo_shangzhen2" type="button" class="mytitlebut mui-btn" onclick="shangzhen()">上阵</button>
+							<button onclick="jninfo_back2()" type="button" class="mytitlebut mui-btn" style="float: right;">返回</button>
+						</div>
+						<div style="background-color: rgb(59,112,130);margin: 5px;">
+							<div id="jninfo_touxiangandname2" style="height: 105px;">
+								<img src="" width="100px" height="100px" id="jninfo_touxiang2" style="float: left;" />
+								<div style="margin-left: 110px; line-height: 50px;">
+									<div id="jninfo_name2" style="font-size: 30px; height: 50px; line-height: 50px;">拉菲</div>
+
+									<div><span style="float: left; color: gold; font-size: 20px;">战力：</span>
+										<div id="jninfo_zdl2" style="color: white;font-size: 20px; float: left;">8088</div>
+									</div>
+								</div>
+
+							</div>
+							<div id="jninfo_shuxing">
+								<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color: rgb(59,112,130); border-color: rgb(44,79,98);">
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">等级</span>
+										<span style="float: right; color: white;" id="jninfo_id2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">星级</span>
+										<span style="float: right; color: white;" id="jninfo_star2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">攻击</span>
+										<span style="float: right; color: white;" id="jninfo_gj2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">防御</span>
+										<span style="float: right; color: white;" id="jninfo_fy2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">血量</span>
+										<span style="float: right; color: white;" id="jninfo_xl2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">速度</span>
+										<span style="float: right; color: white;" id="jninfo_sd2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">暴击</span>
+										<span style="float: right; color: white;" id="jninfo_bj2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">躲避</span>
+										<span style="float: right; color: white;" id="jninfo_db2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">当前经验</span>
+										<span style="float: right; color: white;" id="jninfo_jy2">1111</span>
+									</li>
+									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
+										<span style="float: left; color: gold;">升级经验</span>
+										<span style="float: right; color: white;" id="jninfo_sj2">1111</span>
+									</li>
+								</ul>
+								<center><img src="" id='jninfo_lh2' width="350px" height="525px" style="padding-top: 5px;" /></center>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!--仓库页面-->
+				<div id="cangkuview" class="mui-control-content">
+					<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
+						<div style="float: left;">紫布里碎片:<span id='zbl'>12</span>个</div>
+						<div style="float: right;">金布里碎片:<span id='jbl'>25</span>个</div>
+					</div>
+					<div style="height: 40px;"></div>
+					<ul class="mui-table-view" id="splistul">
+					</ul>
+				</div>
+				<!--出击界面-->
+				<div id="chujiview" class="mui-control-content" style="style=" background-color: red; "">
+					<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
+						<div style="float: left;" >挂机时间:<font id="roleguajitime">2018-06-10 14:01:12</font></div>
+						<div style="float: right;">挂机经验:<font id="roleguajijy">12000</font></div>
+					</div>
+					<div style="height: 40px;"></div>
+					<ul class="mui-table-view mui-content" style="margin: 5px;" id="mapul">
+					</ul>
+
+				</div>
+				
+				<!--菜单-->
+				<div id="caidanview" class="mui-control-content" style="padding-top: 5px;">
+					
+					<div id='menus'>
+						<button type="button" class="mui-btn mui-btn-block btnsys" onclick="qiandao()">每日签到<span class="tishi">每天24:00后可以进行签到</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="paihangbang()">排行榜<span class="tishi">实时排行榜</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="jianzao()">普通建造<span class="tishi">快速获取舰娘</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="gjjianzao()">高级建造<span class="tishi">高级建造保底紫皮</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="zuanshisd()">钻石商店<span class="tishi">50钻石购买500石油</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="xianshijianzao()">限时建造<span class="tishi">Fate/Grand Order联动UP</span></button>
+
+					<button id="btn_full" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianfull()">出售满破碎片<span class="tishi">橙色及以下满破舰娘的碎片</span></button>
+
+					<button id="btn_exist" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianexist()">一键出售碎片<span class="tishi">橙色及以下已拥有舰娘的碎片</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salezbl()">紫布里兑换<span class="tishi">20个紫布里兑换一个金布里</span></button>				
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="getlosejn()">未获取的舰娘<span class="tishi">查看还有哪些未得到的舰娘</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salemofang()">魔方出售<span class="tishi">1000魔方兑换16W物资</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="buymofang()">魔方购买<span class="tishi">20W物资购买1000魔方</span></button>
+
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="game.shuaxin()">༺重载游戏༻</button>
+					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="logout()">༺退出游戏༻</button>
+					</div>
+					<!-- 排行榜 -->
+					<div id="phb" style="display: none;">
+						<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
+						<div style="float: left;">
+							<div>
+							    <input type="radio" name="phbtype" value="a" checked="checked">等级榜
+								<input type="radio" name="phbtype" value="b">战力榜
+								<input type="radio" name="phbtype" value="c">图鉴榜
+								<input type="radio" name="phbtype" value="d">舰娘榜
+							</div>
+						</div>
+						<div style="float: right;"><button type="button" style="line-height: 16px;" class="mytitlebut mui-btn" onclick="back_phb()">返回</button></div>
+					</div>
+					<div style="height: 40px;"></div>
+					<ul class="mui-table-view" id="phbul">
+					</ul>
+					</div>
+
+					<!-- 缺少的图鉴 -->
+					<div id="losejn" style="display: none;">
+						<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
+						<div style="float: left;"><font color='gold'>未获取的舰娘列表</font></div>
+						<div style="float: right;"><button type="button" style="line-height: 16px;" class="mytitlebut mui-btn" onclick="back_losejn()">返回</button></div>
+					</div>
+					<div style="height: 40px;"></div>
+					<div id="losejnul">
+					</div>
+					</div>
+
+				</div>
+				
+			</div>
+
+
+
+		<script type="text/javascript">
+			$(document).keyup(function(event){
+  				if(event.keyCode ==13&&!$('#login').is('.hidden')){
+    				login('post');
+    				return;
+  				}
+			});
+		</script>
+	</body>
+</html>
