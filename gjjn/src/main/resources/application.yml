@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gjjn
+    username: root
+    password: 111111
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:      max-wait-millis: 10000
+      min-idle: 5
+      max-idle: 8
+      initial-size: 5
+      max-total: 30  redis:    host: 127.0.0.1
+    port: 6379
+    database: 0
+    lettuce:      pool:        max-active: 10
+        max-wait: -1
+        max-idle: 8
+        min-idle: 5
+
+mybatis:  mapper-locations: classpath:mappers/*.xml

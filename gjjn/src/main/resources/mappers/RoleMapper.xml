@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mochen.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.mochen.model.Role">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="exp" jdbcType="INTEGER" property="exp" />
+    <result column="zuanshi" jdbcType="INTEGER" property="zuanshi" />
+    <result column="mofang" jdbcType="INTEGER" property="mofang" />
+    <result column="guajitime" jdbcType="TIMESTAMP" property="guajitime" />
+    <result column="shiyou" jdbcType="INTEGER" property="shiyou" />
+    <result column="qdts" jdbcType="INTEGER" property="qdts" />
+    <result column="qdsj" jdbcType="TIMESTAMP" property="qdsj" />
+    <result column="djsx" jdbcType="INTEGER" property="djsx" />
+    <result column="guajimap_id" jdbcType="INTEGER" property="guajimapId" />
+    <result column="junxian_id" jdbcType="INTEGER" property="junxianId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="keyandian" jdbcType="INTEGER" property="keyandian" />
+    <result column="wuzi" jdbcType="INTEGER" property="wuzi" />
+    <result column="openmap_id" jdbcType="INTEGER" property="openmapId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mochen.model.Role">
+    <result column="touxiang" jdbcType="LONGVARCHAR" property="touxiang" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, rolename, level, exp, zuanshi, mofang, guajitime, shiyou, qdts, qdsj, djsx, guajimap_id, 
+    junxian_id, user_id, keyandian, wuzi, openmap_id
+  </sql>
+  <sql id="Blob_Column_List">
+    touxiang
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from work_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mochen.model.Role">
+    insert into work_role (id, rolename, level, 
+      exp, zuanshi, mofang, 
+      guajitime, shiyou, qdts, 
+      qdsj, djsx, guajimap_id, 
+      junxian_id, user_id, keyandian, 
+      wuzi, openmap_id, touxiang
+      )
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{exp,jdbcType=INTEGER}, #{zuanshi,jdbcType=INTEGER}, #{mofang,jdbcType=INTEGER}, 
+      #{guajitime,jdbcType=TIMESTAMP}, #{shiyou,jdbcType=INTEGER}, #{qdts,jdbcType=INTEGER}, 
+      #{qdsj,jdbcType=TIMESTAMP}, #{djsx,jdbcType=INTEGER}, #{guajimapId,jdbcType=INTEGER}, 
+      #{junxianId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{keyandian,jdbcType=INTEGER}, 
+      #{wuzi,jdbcType=INTEGER}, #{openmapId,jdbcType=INTEGER}, #{touxiang,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mochen.model.Role">
+    insert into work_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="rolename != null">
+        rolename,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="exp != null">
+        exp,
+      </if>
+      <if test="zuanshi != null">
+        zuanshi,
+      </if>
+      <if test="mofang != null">
+        mofang,
+      </if>
+      <if test="guajitime != null">
+        guajitime,
+      </if>
+      <if test="shiyou != null">
+        shiyou,
+      </if>
+      <if test="qdts != null">
+        qdts,
+      </if>
+      <if test="qdsj != null">
+        qdsj,
+      </if>
+      <if test="djsx != null">
+        djsx,
+      </if>
+      <if test="guajimapId != null">
+        guajimap_id,
+      </if>
+      <if test="junxianId != null">
+        junxian_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="keyandian != null">
+        keyandian,
+      </if>
+      <if test="wuzi != null">
+        wuzi,
+      </if>
+      <if test="openmapId != null">
+        openmap_id,
+      </if>
+      <if test="touxiang != null">
+        touxiang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="zuanshi != null">
+        #{zuanshi,jdbcType=INTEGER},
+      </if>
+      <if test="mofang != null">
+        #{mofang,jdbcType=INTEGER},
+      </if>
+      <if test="guajitime != null">
+        #{guajitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shiyou != null">
+        #{shiyou,jdbcType=INTEGER},
+      </if>
+      <if test="qdts != null">
+        #{qdts,jdbcType=INTEGER},
+      </if>
+      <if test="qdsj != null">
+        #{qdsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="djsx != null">
+        #{djsx,jdbcType=INTEGER},
+      </if>
+      <if test="guajimapId != null">
+        #{guajimapId,jdbcType=INTEGER},
+      </if>
+      <if test="junxianId != null">
+        #{junxianId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="keyandian != null">
+        #{keyandian,jdbcType=INTEGER},
+      </if>
+      <if test="wuzi != null">
+        #{wuzi,jdbcType=INTEGER},
+      </if>
+      <if test="openmapId != null">
+        #{openmapId,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        #{touxiang,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.Role">
+    update work_role
+    <set>
+      <if test="rolename != null">
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="zuanshi != null">
+        zuanshi = #{zuanshi,jdbcType=INTEGER},
+      </if>
+      <if test="mofang != null">
+        mofang = #{mofang,jdbcType=INTEGER},
+      </if>
+      <if test="guajitime != null">
+        guajitime = #{guajitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shiyou != null">
+        shiyou = #{shiyou,jdbcType=INTEGER},
+      </if>
+      <if test="qdts != null">
+        qdts = #{qdts,jdbcType=INTEGER},
+      </if>
+      <if test="qdsj != null">
+        qdsj = #{qdsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="djsx != null">
+        djsx = #{djsx,jdbcType=INTEGER},
+      </if>
+      <if test="guajimapId != null">
+        guajimap_id = #{guajimapId,jdbcType=INTEGER},
+      </if>
+      <if test="junxianId != null">
+        junxian_id = #{junxianId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="keyandian != null">
+        keyandian = #{keyandian,jdbcType=INTEGER},
+      </if>
+      <if test="wuzi != null">
+        wuzi = #{wuzi,jdbcType=INTEGER},
+      </if>
+      <if test="openmapId != null">
+        openmap_id = #{openmapId,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        touxiang = #{touxiang,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mochen.model.Role">
+    update work_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
+      zuanshi = #{zuanshi,jdbcType=INTEGER},
+      mofang = #{mofang,jdbcType=INTEGER},
+      guajitime = #{guajitime,jdbcType=TIMESTAMP},
+      shiyou = #{shiyou,jdbcType=INTEGER},
+      qdts = #{qdts,jdbcType=INTEGER},
+      qdsj = #{qdsj,jdbcType=TIMESTAMP},
+      djsx = #{djsx,jdbcType=INTEGER},
+      guajimap_id = #{guajimapId,jdbcType=INTEGER},
+      junxian_id = #{junxianId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      keyandian = #{keyandian,jdbcType=INTEGER},
+      wuzi = #{wuzi,jdbcType=INTEGER},
+      openmap_id = #{openmapId,jdbcType=INTEGER},
+      touxiang = #{touxiang,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mochen.model.Role">
+    update work_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
+      zuanshi = #{zuanshi,jdbcType=INTEGER},
+      mofang = #{mofang,jdbcType=INTEGER},
+      guajitime = #{guajitime,jdbcType=TIMESTAMP},
+      shiyou = #{shiyou,jdbcType=INTEGER},
+      qdts = #{qdts,jdbcType=INTEGER},
+      qdsj = #{qdsj,jdbcType=TIMESTAMP},
+      djsx = #{djsx,jdbcType=INTEGER},
+      guajimap_id = #{guajimapId,jdbcType=INTEGER},
+      junxian_id = #{junxianId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      keyandian = #{keyandian,jdbcType=INTEGER},
+      wuzi = #{wuzi,jdbcType=INTEGER},
+      openmap_id = #{openmapId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

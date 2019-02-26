@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mochen.dao.JianniangMapper">
+  <resultMap id="BaseResultMap" type="com.mochen.model.Jianniang">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pinji" jdbcType="INTEGER" property="pinji" />
+    <result column="gongji" jdbcType="INTEGER" property="gongji" />
+    <result column="fangyu" jdbcType="INTEGER" property="fangyu" />
+    <result column="xueliang" jdbcType="INTEGER" property="xueliang" />
+    <result column="sudu" jdbcType="INTEGER" property="sudu" />
+    <result column="baoji" jdbcType="INTEGER" property="baoji" />
+    <result column="duobi" jdbcType="INTEGER" property="duobi" />
+    <result column="star" jdbcType="INTEGER" property="star" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="spnum" jdbcType="INTEGER" property="spnum" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mochen.model.JianniangWithBLOBs">
+    <result column="touxiang" jdbcType="LONGVARCHAR" property="touxiang" />
+    <result column="lihui" jdbcType="LONGVARCHAR" property="lihui" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, pinji, gongji, fangyu, xueliang, sudu, baoji, duobi, star, color, spnum
+  </sql>
+  <sql id="Blob_Column_List">
+    touxiang, lihui
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from work_jianniang
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_jianniang
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mochen.model.JianniangWithBLOBs">
+    insert into work_jianniang (id, name, pinji, 
+      gongji, fangyu, xueliang, 
+      sudu, baoji, duobi, 
+      star, color, spnum, 
+      touxiang, lihui)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinji,jdbcType=INTEGER}, 
+      #{gongji,jdbcType=INTEGER}, #{fangyu,jdbcType=INTEGER}, #{xueliang,jdbcType=INTEGER}, 
+      #{sudu,jdbcType=INTEGER}, #{baoji,jdbcType=INTEGER}, #{duobi,jdbcType=INTEGER}, 
+      #{star,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, #{spnum,jdbcType=INTEGER}, 
+      #{touxiang,jdbcType=LONGVARCHAR}, #{lihui,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mochen.model.JianniangWithBLOBs">
+    insert into work_jianniang
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pinji != null">
+        pinji,
+      </if>
+      <if test="gongji != null">
+        gongji,
+      </if>
+      <if test="fangyu != null">
+        fangyu,
+      </if>
+      <if test="xueliang != null">
+        xueliang,
+      </if>
+      <if test="sudu != null">
+        sudu,
+      </if>
+      <if test="baoji != null">
+        baoji,
+      </if>
+      <if test="duobi != null">
+        duobi,
+      </if>
+      <if test="star != null">
+        star,
+      </if>
+      <if test="color != null">
+        color,
+      </if>
+      <if test="spnum != null">
+        spnum,
+      </if>
+      <if test="touxiang != null">
+        touxiang,
+      </if>
+      <if test="lihui != null">
+        lihui,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="gongji != null">
+        #{gongji,jdbcType=INTEGER},
+      </if>
+      <if test="fangyu != null">
+        #{fangyu,jdbcType=INTEGER},
+      </if>
+      <if test="xueliang != null">
+        #{xueliang,jdbcType=INTEGER},
+      </if>
+      <if test="sudu != null">
+        #{sudu,jdbcType=INTEGER},
+      </if>
+      <if test="baoji != null">
+        #{baoji,jdbcType=INTEGER},
+      </if>
+      <if test="duobi != null">
+        #{duobi,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        #{star,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="spnum != null">
+        #{spnum,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        #{touxiang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lihui != null">
+        #{lihui,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.JianniangWithBLOBs">
+    update work_jianniang
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        pinji = #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="gongji != null">
+        gongji = #{gongji,jdbcType=INTEGER},
+      </if>
+      <if test="fangyu != null">
+        fangyu = #{fangyu,jdbcType=INTEGER},
+      </if>
+      <if test="xueliang != null">
+        xueliang = #{xueliang,jdbcType=INTEGER},
+      </if>
+      <if test="sudu != null">
+        sudu = #{sudu,jdbcType=INTEGER},
+      </if>
+      <if test="baoji != null">
+        baoji = #{baoji,jdbcType=INTEGER},
+      </if>
+      <if test="duobi != null">
+        duobi = #{duobi,jdbcType=INTEGER},
+      </if>
+      <if test="star != null">
+        star = #{star,jdbcType=INTEGER},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="spnum != null">
+        spnum = #{spnum,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        touxiang = #{touxiang,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lihui != null">
+        lihui = #{lihui,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mochen.model.JianniangWithBLOBs">
+    update work_jianniang
+    set name = #{name,jdbcType=VARCHAR},
+      pinji = #{pinji,jdbcType=INTEGER},
+      gongji = #{gongji,jdbcType=INTEGER},
+      fangyu = #{fangyu,jdbcType=INTEGER},
+      xueliang = #{xueliang,jdbcType=INTEGER},
+      sudu = #{sudu,jdbcType=INTEGER},
+      baoji = #{baoji,jdbcType=INTEGER},
+      duobi = #{duobi,jdbcType=INTEGER},
+      star = #{star,jdbcType=INTEGER},
+      color = #{color,jdbcType=VARCHAR},
+      spnum = #{spnum,jdbcType=INTEGER},
+      touxiang = #{touxiang,jdbcType=LONGVARCHAR},
+      lihui = #{lihui,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mochen.model.Jianniang">
+    update work_jianniang
+    set name = #{name,jdbcType=VARCHAR},
+      pinji = #{pinji,jdbcType=INTEGER},
+      gongji = #{gongji,jdbcType=INTEGER},
+      fangyu = #{fangyu,jdbcType=INTEGER},
+      xueliang = #{xueliang,jdbcType=INTEGER},
+      sudu = #{sudu,jdbcType=INTEGER},
+      baoji = #{baoji,jdbcType=INTEGER},
+      duobi = #{duobi,jdbcType=INTEGER},
+      star = #{star,jdbcType=INTEGER},
+      color = #{color,jdbcType=VARCHAR},
+      spnum = #{spnum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

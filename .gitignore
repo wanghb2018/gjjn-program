@@ -23,5 +23,7 @@
 hs_err_pid*
 gjjn/.classpath
 gjjn/.project
-gjjn/WebContent/META-INF/MANIFEST.MF
 gjjn/.settings/*
+gjjn/mvnw.cmd
+gjjn/mvnw
+gjjn/.mvn

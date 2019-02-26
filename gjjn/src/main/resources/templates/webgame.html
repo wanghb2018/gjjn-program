@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://dm.pooi.cc/gjjn/static/img/gjjn_icon.jpg" />
+    <title>挂机舰娘</title>
+    {% load static %}
+<script type="text/javascript">
+var system = {
+    win: false,
+    mac: false,
+    xll: false,
+    ipad: false
+};
+var p = navigator.platform;
+system.win = p.indexOf("Win") == 0;
+system.mac = p.indexOf("Mac") == 0;
+system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+system.ipad = (navigator.userAgent.match(/iPad/i) != null) ? true : false;
+if (system.win || system.mac || system.xll || system.ipad) {
+
+} else {
+    window.location.href = "{% url 'game'%}";
+}
+
+function changeFrameHeight(){
+    var ifm= document.getElementById("iframepage"); 
+    ifm.height=document.documentElement.clientHeight;
+
+}
+
+window.onresize=function(){  
+     changeFrameHeight();  
+
+} 
+</script>
+<style>
+body {
+    width: 515px;
+    margin: 0 auto;
+    background:#3a3e4a;
+    background-image: url("http://dm.pooi.cc/gjjn/static/img/bg.jpg");
+    background-repeat:no-repeat ;
+    background-size:100% 100%; 
+    background-attachment:fixed;" 
+}
+
+iframe {
+    width: 515px;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+    <iframe id="iframepage" src="{% url 'game'%}" frameborder="0" name="mainFrame" scrolling="auto" onload="changeFrameHeight()"></iframe>
+</body>
+
+</html>

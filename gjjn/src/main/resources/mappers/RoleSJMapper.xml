@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mochen.dao.RoleSJMapper">
+  <resultMap id="BaseResultMap" type="com.mochen.model.RoleSJ">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="needjy" jdbcType="INTEGER" property="needjy" />
+    <result column="needwz" jdbcType="INTEGER" property="needwz" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, needjy, needwz
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_rolesj
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from work_rolesj
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mochen.model.RoleSJ">
+    insert into work_rolesj (id, needjy, needwz
+      )
+    values (#{id,jdbcType=INTEGER}, #{needjy,jdbcType=INTEGER}, #{needwz,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mochen.model.RoleSJ">
+    insert into work_rolesj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="needjy != null">
+        needjy,
+      </if>
+      <if test="needwz != null">
+        needwz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="needjy != null">
+        #{needjy,jdbcType=INTEGER},
+      </if>
+      <if test="needwz != null">
+        #{needwz,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.RoleSJ">
+    update work_rolesj
+    <set>
+      <if test="needjy != null">
+        needjy = #{needjy,jdbcType=INTEGER},
+      </if>
+      <if test="needwz != null">
+        needwz = #{needwz,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mochen.model.RoleSJ">
+    update work_rolesj
+    set needjy = #{needjy,jdbcType=INTEGER},
+      needwz = #{needwz,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
