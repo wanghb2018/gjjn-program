@@ -16,4 +16,6 @@ public interface RoleMapper {
     int updateByPrimaryKeyWithBLOBs(Role record);
 
     int updateByPrimaryKey(Role record);
+    
+    Role getByUserId(Integer userId);
 }

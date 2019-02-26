@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import com.mochen.model.GameMap;
 
 public interface GameMapMapper {
@@ -14,4 +16,6 @@ public interface GameMapMapper {
     int updateByPrimaryKeySelective(GameMap record);
 
     int updateByPrimaryKey(GameMap record);
+    
+    List<GameMap> getAll();
 }

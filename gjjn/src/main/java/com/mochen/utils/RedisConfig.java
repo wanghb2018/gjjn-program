@@ -32,7 +32,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 
 		RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair)
 				.disableCachingNullValues();
-		config = config.entryTtl(Duration.ofMinutes(2));
 
 		Set<String> cacheNames = new HashSet<>();
 		cacheNames.add(Constant.CACHE_YEAR);

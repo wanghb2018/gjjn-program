@@ -20,11 +20,17 @@
     from auth_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from auth_user
+    where username = #{userName,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from auth_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mochen.model.User">
+  <insert id="insert" parameterType="com.mochen.model.User" useGeneratedKeys="true" keyProperty="id">
     insert into auth_user (id, password, last_login, 
       username, email, is_staff, 
       is_active, date_joined)

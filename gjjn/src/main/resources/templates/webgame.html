@@ -3,7 +3,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" type="image/x-icon" href="http://dm.pooi.cc/gjjn/static/img/gjjn_icon.jpg" />
     <title>挂机舰娘</title>
-    {% load static %}
 <script type="text/javascript">
 var system = {
     win: false,
@@ -19,7 +18,7 @@ system.ipad = (navigator.userAgent.match(/iPad/i) != null) ? true : false;
 if (system.win || system.mac || system.xll || system.ipad) {
 
 } else {
-    window.location.href = "{% url 'game'%}";
+    window.location.href = "game";
 }
 
 function changeFrameHeight(){
@@ -51,7 +50,7 @@ iframe {
 </style>
 </head>
 <body>
-    <iframe id="iframepage" src="{% url 'game'%}" frameborder="0" name="mainFrame" scrolling="auto" onload="changeFrameHeight()"></iframe>
+    <iframe id="iframepage" src="game" name="mainFrame" onload="changeFrameHeight()"></iframe>
 </body>
 
 </html>
