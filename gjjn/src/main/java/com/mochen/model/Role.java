@@ -7,27 +7,27 @@ public class Role {
 
     private String rolename;
 
-    private Integer level;
+    private Integer level = 1;
 
-    private Integer exp;
+    private Integer exp = 0;
 
-    private Integer zuanshi;
+    private Integer zuanshi = 0;
 
-    private Integer mofang;
+    private Integer mofang = 0;
 
     private Date guajitime;
 
-    private Integer shiyou;
+    private Integer shiyou = 200;
 
-    private Integer qdts;
+    private Integer qdts = 0;
 
     private Date qdsj;
 
-    private Integer djsx;
+    private Integer djsx = 10;
 
     private Integer guajimapId;
 
-    private Integer junxianId;
+    private Integer junxianId = 1;
 
     private Integer userId;
 

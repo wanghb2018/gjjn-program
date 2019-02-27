@@ -42,4 +42,8 @@ public class AccountService {
 	public void updateUser(User user) {
 		userMapper.updateByPrimaryKey(user);
 	}
+	
+	public void createRole(Role role) {
+		roleMapper.insertSelective(role);
+	}
 }

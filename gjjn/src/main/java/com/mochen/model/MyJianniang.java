@@ -28,6 +28,26 @@ public class MyJianniang {
     private Integer jnId;
 
     private Integer roleId;
+    
+    public MyJianniang() {
+    	
+    }
+    
+    public MyJianniang(Integer roleId, JianniangWithBLOBs jn, Integer isWar) {
+    	this.gongji = jn.getGongji();
+    	this.fangyu = jn.getFangyu();
+    	this.xueliang = jn.getXueliang();
+    	this.sudu = jn.getSudu();
+    	this.baoji = jn.getBaoji();
+    	this.duobi = jn.getDuobi();
+    	this.star = jn.getStar();
+    	this.level = 1;
+    	this.jingyan = 0;
+    	this.iswar = isWar;
+    	this.jnId = jn.getId();
+    	this.roleId = roleId;
+    }
+    
 
     public Integer getId() {
         return id;
