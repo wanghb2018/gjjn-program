@@ -27,11 +27,20 @@
     from work_myjianniang
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getByIdList" parameterType="java.util.List" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_myjianniang
+    where id in 
+    <foreach collection="ids" item="id" open="(" separator="," close=")">
+    	#{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from work_myjianniang
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mochen.model.MyJianniang">
+  <insert id="insert" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
     insert into work_myjianniang (id, gongji, fangyu, 
       xueliang, sudu, baoji, 
       duobi, star, level, 
@@ -43,7 +52,7 @@
       #{iswar,jdbcType=INTEGER}, #{zdl,jdbcType=INTEGER}, #{jingyan,jdbcType=INTEGER}, 
       #{jnId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang">
+  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
     insert into work_myjianniang
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

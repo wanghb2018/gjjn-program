@@ -14,7 +14,6 @@ import com.mochen.model.GenericJsonResult;
 import com.mochen.model.Role;
 import com.mochen.model.User;
 import com.mochen.service.AccountService;
-import com.mochen.service.RoleService;
 import com.mochen.utils.Constant;
 import com.mochen.utils.Hasher;
 
@@ -22,8 +21,6 @@ import com.mochen.utils.Hasher;
 public class AccountController {
 	@Autowired
 	AccountService accountService;
-	@Autowired
-	RoleService roleService;
 
 	@PostMapping("/login")
 	public GenericJsonResult<Role> login(String userName, String password, HttpSession session) {
@@ -40,30 +37,37 @@ public class AccountController {
 		session.setAttribute(Constant.SESSION_USER_ID, user.getId());
 		Role role = accountService.login(user);
 		result.setData(role);
+		if (role != null) {
+			session.setAttribute(Constant.SESSION_ROLE_ID, role.getId());
+		}
 		return result;
 	}
 
 	@GetMapping("/login")
 	public GenericJsonResult<Role> loginByCookie(
-			@SessionAttribute(value = Constant.SESSION_USER_ID, required = false) String sessionUserId) {
+			@SessionAttribute(value = Constant.SESSION_USER_ID, required = false) Integer userId, HttpSession session) {
 		GenericJsonResult<Role> result = new GenericJsonResult<>();
-		if (sessionUserId == null) {
+		if (userId == null) {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
-		User user = accountService.getById(Integer.valueOf(sessionUserId));
+		User user = accountService.getById(userId);
 		if (user == null) {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
 		Role role = accountService.login(user);
 		result.setData(role);
+		if (role != null) {
+			session.setAttribute(Constant.SESSION_ROLE_ID, role.getId());
+		}
 		return result;
 	}
 	
 	@GetMapping("/logout")
 	public Integer logout(HttpSession session) {
 		session.removeAttribute(Constant.SESSION_USER_ID);
+		session.removeAttribute(Constant.SESSION_ROLE_ID);
 		return Constant.SUCCESS;
 	}
 	

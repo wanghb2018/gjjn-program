@@ -5,6 +5,7 @@ public class Constant {
 	public static final String CACHE_HOUR = "cache_hour";
 
 	public static final String SESSION_USER_ID = "session_user_id";
+	public static final String SESSION_ROLE_ID = "session_role_id";
 
 	public static final int SUCCESS = 0;
 	public static final int FAILED = -1;

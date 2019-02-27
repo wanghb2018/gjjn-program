@@ -1,103 +1,113 @@
 package com.mochen.model;
 
 public class Duiwu {
-    private Integer id;
+	private Integer id;
 
-    private Integer totalzdl;
+	private Integer totalzdl;
 
-    private Integer fiveId;
+	private Integer fiveId;
 
-    private Integer fourId;
+	private Integer fourId;
 
-    private Integer oneId;
+	private Integer oneId;
 
-    private Integer roleId;
+	private Integer roleId;
 
-    private Integer sixId;
+	private Integer sixId;
 
-    private Integer threeId;
+	private Integer threeId;
 
-    private Integer twoId;
+	private Integer twoId;
 
-    private Integer count;
+	private Integer count;
 
-    public Integer getId() {
-        return id;
-    }
+	public Duiwu() {
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Duiwu(Integer roleId, MyJianniang myjn) {
+		this.roleId = roleId;
+		this.oneId = myjn.getId();
+		this.count = 1;
+		this.totalzdl = myjn.getZdl();
+	}
 
-    public Integer getTotalzdl() {
-        return totalzdl;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setTotalzdl(Integer totalzdl) {
-        this.totalzdl = totalzdl;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getFiveId() {
-        return fiveId;
-    }
+	public Integer getTotalzdl() {
+		return totalzdl;
+	}
 
-    public void setFiveId(Integer fiveId) {
-        this.fiveId = fiveId;
-    }
+	public void setTotalzdl(Integer totalzdl) {
+		this.totalzdl = totalzdl;
+	}
 
-    public Integer getFourId() {
-        return fourId;
-    }
+	public Integer getFiveId() {
+		return fiveId;
+	}
 
-    public void setFourId(Integer fourId) {
-        this.fourId = fourId;
-    }
+	public void setFiveId(Integer fiveId) {
+		this.fiveId = fiveId;
+	}
 
-    public Integer getOneId() {
-        return oneId;
-    }
+	public Integer getFourId() {
+		return fourId;
+	}
 
-    public void setOneId(Integer oneId) {
-        this.oneId = oneId;
-    }
+	public void setFourId(Integer fourId) {
+		this.fourId = fourId;
+	}
 
-    public Integer getRoleId() {
-        return roleId;
-    }
+	public Integer getOneId() {
+		return oneId;
+	}
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
+	public void setOneId(Integer oneId) {
+		this.oneId = oneId;
+	}
 
-    public Integer getSixId() {
-        return sixId;
-    }
+	public Integer getRoleId() {
+		return roleId;
+	}
 
-    public void setSixId(Integer sixId) {
-        this.sixId = sixId;
-    }
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public Integer getThreeId() {
-        return threeId;
-    }
+	public Integer getSixId() {
+		return sixId;
+	}
 
-    public void setThreeId(Integer threeId) {
-        this.threeId = threeId;
-    }
+	public void setSixId(Integer sixId) {
+		this.sixId = sixId;
+	}
 
-    public Integer getTwoId() {
-        return twoId;
-    }
+	public Integer getThreeId() {
+		return threeId;
+	}
 
-    public void setTwoId(Integer twoId) {
-        this.twoId = twoId;
-    }
+	public void setThreeId(Integer threeId) {
+		this.threeId = threeId;
+	}
 
-    public Integer getCount() {
-        return count;
-    }
+	public Integer getTwoId() {
+		return twoId;
+	}
 
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+	public void setTwoId(Integer twoId) {
+		this.twoId = twoId;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 }

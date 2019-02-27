@@ -184,6 +184,30 @@ function Button_div_login(type){
 	}
 }
 
+function createrole(){
+	jnid = $('#selectedId').val();
+	rolename = $('#cjrole_zhgname').val().trim();
+	if(jnid==""){
+		mui.toast("请选择初始舰娘！");
+		return;
+	}
+	if(rolename=="" || rolename.length > 6){
+		mui.toast("指挥官名称不能为空，且必须在6个字符以内");
+		return;
+	}
+	mui.post("createRole",{
+		'jnImgId':jnid,
+		'roleName':rolename
+	},function(data){
+		if(data){
+			location.reload();
+			$('#zhop').hide();
+			$('#mainview').show();
+			renderRoleData(data);
+		}
+	});
+}
+
 function renderRoleData(data){
 	if(data){
 		$('#rolename').html(data.rolename);

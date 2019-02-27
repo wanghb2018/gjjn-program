@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import com.mochen.model.MyJianniang;
 
 public interface MyJianniangMapper {
@@ -14,4 +16,8 @@ public interface MyJianniangMapper {
     int updateByPrimaryKeySelective(MyJianniang record);
 
     int updateByPrimaryKey(MyJianniang record);
+    
+    List<MyJianniang> getByIdList(List<Integer> ids);
+    
+    void batchSave(List<MyJianniang> myJns);
 }

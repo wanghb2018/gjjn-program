@@ -1,17 +1,21 @@
 package com.mochen.dao;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.mochen.model.Junxian;
+import com.mochen.utils.Constant;
 
 public interface JunxianMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(Junxian record);
+	int insert(Junxian record);
 
-    int insertSelective(Junxian record);
+	int insertSelective(Junxian record);
 
-    Junxian selectByPrimaryKey(Integer id);
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'junxian_'+#p0")
+	Junxian selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Junxian record);
+	int updateByPrimaryKeySelective(Junxian record);
 
-    int updateByPrimaryKey(Junxian record);
+	int updateByPrimaryKey(Junxian record);
 }

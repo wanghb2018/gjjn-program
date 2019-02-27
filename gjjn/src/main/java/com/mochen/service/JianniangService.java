@@ -1,14 +1,12 @@
 package com.mochen.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.mochen.dao.JianniangMapper;
 import com.mochen.dao.MyJianniangMapper;
 import com.mochen.model.JianniangWithBLOBs;
 import com.mochen.model.MyJianniang;
-import com.mochen.utils.Constant;
 
 @Service
 public class JianniangService {
@@ -17,12 +15,18 @@ public class JianniangService {
 	@Autowired
 	MyJianniangMapper myJianniangMapper;
 
-	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniang_'+#id")
 	public JianniangWithBLOBs getById(Integer id) {
 		return jianniangMapper.selectByPrimaryKey(id);
 	}
-	
+
+	public MyJianniang addMyJN(Integer roleId, JianniangWithBLOBs jn, Integer isWar) {
+		MyJianniang myJN = new MyJianniang(roleId, jn, isWar);
+		myJN.calJNZdl();
+		myJianniangMapper.insert(myJN);
+		return myJN;
+	}
+
 	public void addMyJN(Integer roleId, JianniangWithBLOBs jn) {
-		MyJianniang myJN = new MyJianniang();
+		addMyJN(roleId, jn, 0);
 	}
 }

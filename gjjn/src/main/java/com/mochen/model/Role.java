@@ -31,11 +31,11 @@ public class Role {
 
     private Integer userId;
 
-    private Integer keyandian;
+    private Integer keyandian = 0;
 
-    private Integer wuzi;
+    private Integer wuzi = 0;
 
-    private Integer openmapId;
+    private Integer openmapId = 1;
 
     private String touxiang;
 

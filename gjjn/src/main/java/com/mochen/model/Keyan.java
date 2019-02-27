@@ -1,143 +1,150 @@
 package com.mochen.model;
 
 public class Keyan {
-    private Integer id;
+	private Integer id;
 
-    private Integer gjdj;
+	private Integer gjdj = 0;
 
-    private Integer fydj;
+	private Integer fydj = 0;
 
-    private Integer xldj;
+	private Integer xldj = 0;
 
-    private Integer sddj;
+	private Integer sddj = 0;
 
-    private Integer bjdj;
+	private Integer bjdj = 0;
 
-    private Integer dbdj;
+	private Integer dbdj = 0;
 
-    private Integer gjjy;
+	private Integer gjjy = 0;
 
-    private Integer fyjy;
+	private Integer fyjy = 0;
 
-    private Integer xljy;
+	private Integer xljy = 0;
 
-    private Integer sdjy;
+	private Integer sdjy = 0;
 
-    private Integer bjjy;
+	private Integer bjjy = 0;
 
-    private Integer dbjy;
+	private Integer dbjy = 0;
 
-    private Integer roleId;
+	private Integer roleId;
 
-    public Integer getId() {
-        return id;
-    }
+	public Keyan() {
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Keyan(Integer roleId) {
+		this.roleId = roleId;
+	}
 
-    public Integer getGjdj() {
-        return gjdj;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setGjdj(Integer gjdj) {
-        this.gjdj = gjdj;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getFydj() {
-        return fydj;
-    }
+	public Integer getGjdj() {
+		return gjdj;
+	}
 
-    public void setFydj(Integer fydj) {
-        this.fydj = fydj;
-    }
+	public void setGjdj(Integer gjdj) {
+		this.gjdj = gjdj;
+	}
 
-    public Integer getXldj() {
-        return xldj;
-    }
+	public Integer getFydj() {
+		return fydj;
+	}
 
-    public void setXldj(Integer xldj) {
-        this.xldj = xldj;
-    }
+	public void setFydj(Integer fydj) {
+		this.fydj = fydj;
+	}
 
-    public Integer getSddj() {
-        return sddj;
-    }
+	public Integer getXldj() {
+		return xldj;
+	}
 
-    public void setSddj(Integer sddj) {
-        this.sddj = sddj;
-    }
+	public void setXldj(Integer xldj) {
+		this.xldj = xldj;
+	}
 
-    public Integer getBjdj() {
-        return bjdj;
-    }
+	public Integer getSddj() {
+		return sddj;
+	}
 
-    public void setBjdj(Integer bjdj) {
-        this.bjdj = bjdj;
-    }
+	public void setSddj(Integer sddj) {
+		this.sddj = sddj;
+	}
 
-    public Integer getDbdj() {
-        return dbdj;
-    }
+	public Integer getBjdj() {
+		return bjdj;
+	}
 
-    public void setDbdj(Integer dbdj) {
-        this.dbdj = dbdj;
-    }
+	public void setBjdj(Integer bjdj) {
+		this.bjdj = bjdj;
+	}
 
-    public Integer getGjjy() {
-        return gjjy;
-    }
+	public Integer getDbdj() {
+		return dbdj;
+	}
 
-    public void setGjjy(Integer gjjy) {
-        this.gjjy = gjjy;
-    }
+	public void setDbdj(Integer dbdj) {
+		this.dbdj = dbdj;
+	}
 
-    public Integer getFyjy() {
-        return fyjy;
-    }
+	public Integer getGjjy() {
+		return gjjy;
+	}
 
-    public void setFyjy(Integer fyjy) {
-        this.fyjy = fyjy;
-    }
+	public void setGjjy(Integer gjjy) {
+		this.gjjy = gjjy;
+	}
 
-    public Integer getXljy() {
-        return xljy;
-    }
+	public Integer getFyjy() {
+		return fyjy;
+	}
 
-    public void setXljy(Integer xljy) {
-        this.xljy = xljy;
-    }
+	public void setFyjy(Integer fyjy) {
+		this.fyjy = fyjy;
+	}
 
-    public Integer getSdjy() {
-        return sdjy;
-    }
+	public Integer getXljy() {
+		return xljy;
+	}
 
-    public void setSdjy(Integer sdjy) {
-        this.sdjy = sdjy;
-    }
+	public void setXljy(Integer xljy) {
+		this.xljy = xljy;
+	}
 
-    public Integer getBjjy() {
-        return bjjy;
-    }
+	public Integer getSdjy() {
+		return sdjy;
+	}
 
-    public void setBjjy(Integer bjjy) {
-        this.bjjy = bjjy;
-    }
+	public void setSdjy(Integer sdjy) {
+		this.sdjy = sdjy;
+	}
 
-    public Integer getDbjy() {
-        return dbjy;
-    }
+	public Integer getBjjy() {
+		return bjjy;
+	}
 
-    public void setDbjy(Integer dbjy) {
-        this.dbjy = dbjy;
-    }
+	public void setBjjy(Integer bjjy) {
+		this.bjjy = bjjy;
+	}
 
-    public Integer getRoleId() {
-        return roleId;
-    }
+	public Integer getDbjy() {
+		return dbjy;
+	}
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
+	public void setDbjy(Integer dbjy) {
+		this.dbjy = dbjy;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 }

@@ -14,4 +14,6 @@ public interface DuiwuMapper {
     int updateByPrimaryKeySelective(Duiwu record);
 
     int updateByPrimaryKey(Duiwu record);
+    
+    Duiwu getByRoleId(Integer roleId);
 }
