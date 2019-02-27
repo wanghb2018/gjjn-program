@@ -38,4 +38,8 @@ public class AccountService {
 	public void createUser(User user) {
 		userMapper.insert(user);
 	}
+	
+	public void updateUser(User user) {
+		userMapper.updateByPrimaryKey(user);
+	}
 }

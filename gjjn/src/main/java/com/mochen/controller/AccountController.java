@@ -26,9 +26,9 @@ public class AccountController {
 	RoleService roleService;
 
 	@PostMapping("/login")
-	public GenericJsonResult<Role> login(String username, String password, HttpSession session) {
+	public GenericJsonResult<Role> login(String userName, String password, HttpSession session) {
 		GenericJsonResult<Role> result = new GenericJsonResult<>();
-		User user = accountService.getByUserName(username);
+		User user = accountService.getByUserName(userName);
 		if (user == null) {
 			result.setHr(Constant.FAILED);
 			return result;
@@ -67,9 +67,9 @@ public class AccountController {
 		return Constant.SUCCESS;
 	}
 	
-	@PostMapping("register")
-	public Integer register(String username, String password, String email, HttpSession session){
-		User user = accountService.getByUserName(username);
+	@PostMapping("/register")
+	public Integer register(String userName, String password, String email, HttpSession session){
+		User user = accountService.getByUserName(userName);
 		if (user != null) {
 			return Constant.FAILED;
 		}
@@ -80,10 +80,24 @@ public class AccountController {
 		user.setIsActive(true);
 		user.setIsStaff(false);
 		user.setLastLogin(now);
-		user.setUsername(username);
+		user.setUsername(userName);
 		user.setPassword(Hasher.instance().encode(password));
 		accountService.createUser(user);
 		session.setAttribute(Constant.SESSION_USER_ID, user.getId());
 		return Constant.SUCCESS;
+	}
+	
+	@PostMapping("/changePassword")
+	public Integer changePassword(String userName, String password, String email) {
+		User user = accountService.getByUserName(userName);
+		if (user == null) {
+			return Constant.OTHER;
+		}
+		if (Hasher.instance().checkPassword(password, user.getPassword())) {
+			user.setPassword(Hasher.instance().encode(password));
+			accountService.updateUser(user);
+			return Constant.SUCCESS;
+		}
+		return Constant.FAILED;
 	}
 }

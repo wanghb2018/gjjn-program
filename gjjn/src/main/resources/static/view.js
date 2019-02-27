@@ -7,6 +7,20 @@ $(function(){
 	$.get('allGameMap', function(data){
 		allMap = data;
 	});
+	$('.select_jn').on('click',function(){
+		$('.select_jn').removeClass('cjjs_jnimg_xuanzhong');
+		$('.select_jn').addClass('cjjs_jnimg');
+		$(this).addClass('cjjs_jnimg_xuanzhong');
+		var idstr = $(this).attr('id');
+		$('#selectedId').val(idstr);
+		if(idstr == 'jnimg1'){
+			$('#jnworld').html('本森级驱逐舰拉菲听候您的吩咐……指挥官，这个耳朵不是真的，请不要再盯着看了……');
+		}else if(idstr == 'jnimg2'){
+			$('#jnworld').html('我是标枪，指挥官指挥官，请多指教啦～欸嘿嘿，因为在意的女生突然自己加入到手下来，不知所措了？');
+		}else{
+			$('#jnworld').html('我还以为你从来都不会选我呢。');
+		}
+	});
 });
 
 function register(){
@@ -32,7 +46,7 @@ function register(){
 	}
 	mui.post('register',
 	{
-		'username':username,
+		'userName':username,
 		'password':password,
 		'email':email
 	},function(data){
@@ -64,7 +78,7 @@ function login(type){
 			return;
 		}
 		mui.post('login',{
-			'username':username,
+			'userName':username,
 			'password':password
 		},function(data){
 			if(data.hr==0){				
@@ -115,6 +129,45 @@ function logout(){
 				$('#login').show();	
 			}	
 		},'json');
+}
+
+function changepasswd(){
+	var username = $('#cpd_username').val().trim();
+	var password = $('#cpd_password').val().trim();
+	var password1 = $('#cpd_password1').val().trim();
+	var email = $('#cpd_Email').val().trim();
+	if(username.length<5||username.length>20){
+		mui.toast('帐号必须为5-20位字符，不含特殊字符！');
+		return;
+	}
+	if(email==''||!/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(email)){
+		mui.toast('邮箱格式都输不对，看来是不想修改密码啦！');
+		return;
+	}
+	if(password.length<5  || password.length>20){
+		mui.toast('密码必须为5-20位字符，不含特殊字符！');
+		return;
+	}
+	if(password != password1){
+		mui.toast('认真点，两次密码都不一致啦，是不是撸多了？');
+		return;
+	}
+	mui.post(domain+'changePassword/',
+	{
+		'userName':username,
+		'password':password,
+		'email':email
+	},function(data){
+		if(data==0){			
+			$('#changepasswdview').hide();
+			$('#login').show();
+		}else if(data==1){
+			mui.toast('该帐号不存在！');
+		}else if(dat==-1){
+			mui.toast('邮箱不正确喔！');
+		}
+	},'json');
+	
 }
 
 function Button_div_login(type){
