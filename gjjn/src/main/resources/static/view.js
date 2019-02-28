@@ -53,12 +53,7 @@ function register(){
 		if(data==0){
 			mui.toast("注册成功！");	
 			$('#reg').hide();
- 		// 	$('#login_username').val(username);
- 		// 	$('#login_password').val(password);
-			// $('#login').show();
 			$('#cjrole').show();
-		
-
 		}else if(data==-1){
 			mui.toast('该帐号已存在！');
 		}
@@ -86,11 +81,9 @@ function login(type){
 				if(data.data!=null){
 					$('#zhop').hide();
 					$('#mainview').show();
-					renderRoleData(data.data);
-					// getRoleData();
+					renderRoleDuiwuWithData(data.data);
 					// showjnlist();
 					// showsplist();
-					// showalert();	
 				}else{
 					$('#login').hide();
 					$('#cjrole').show();
@@ -106,11 +99,9 @@ function login(type){
 				if(data.data!=null){
 					$('#zhop').hide();
 					$('#mainview').show();
-					renderRoleData(data.data);
-					// getRoleData();
+					renderRoleDuiwuWithData(data.data);
 					// showjnlist();
 					// showsplist();
-					// showalert();
 				}else{
 					$('#cjrole').show();
 				}
@@ -208,6 +199,23 @@ function createrole(){
 	});
 }
 
+function renderRoleDuiwu(){
+	renderRoleDuiwuWithData(null);
+}
+
+function renderRoleDuiwuWithData(data){
+	if (data){
+		renderRoleData(data);
+	} else {
+		$.get('getRoleInfo',function(data){
+			renderRoleData(data);
+		});
+	}
+	$.get('getDuiwuInfo',function(data){
+		renderduiwu(data);
+	});
+}
+
 function renderRoleData(data){
 	if(data){
 		$('#rolename').html(data.rolename);
@@ -226,4 +234,14 @@ function renderRoleData(data){
 		$('#roleguajitime').html(data.guajitime);
 	}
 	
+}
+
+function renderduiwu(dw){
+	var liststr = "";
+	for(var i=0;i<dw.myJNs.length;i++){
+		liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.jns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.jns[i].color+"'>"+dw.jns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJNs[i].level+"</font><font style='margin-left: 5px;' color='white'>战斗力："+dw.myJNs[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJNs[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJNs[i].id+")'>查看</button></div></li>";
+	}
+	$('#rolezdl').html(dw.zdl);
+	$('#mydwlist').empty();
+	$('#mydwlist').html(liststr);
 }

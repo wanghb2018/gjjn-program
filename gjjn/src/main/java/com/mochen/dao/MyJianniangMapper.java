@@ -2,6 +2,8 @@ package com.mochen.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.mochen.model.MyJianniang;
 
 public interface MyJianniangMapper {
@@ -19,5 +21,5 @@ public interface MyJianniangMapper {
     
     List<MyJianniang> getByIdList(List<Integer> ids);
     
-    void batchSave(List<MyJianniang> myJns);
+    void batchSave(@Param("myJns")List<MyJianniang> myJns);
 }

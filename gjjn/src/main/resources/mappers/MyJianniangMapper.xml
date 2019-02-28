@@ -32,7 +32,7 @@
     <include refid="Base_Column_List" />
     from work_myjianniang
     where id in 
-    <foreach collection="ids" item="id" open="(" separator="," close=")">
+    <foreach collection="list" item="id" open="(" separator="," close=")">
     	#{id,jdbcType=INTEGER}
     </foreach>
   </select>
@@ -192,17 +192,31 @@
     update work_myjianniang
     set gongji = #{gongji,jdbcType=INTEGER},
       fangyu = #{fangyu,jdbcType=INTEGER},
-      xueliang = #{xueliang,jdbcType=INTEGER},
-      sudu = #{sudu,jdbcType=INTEGER},
-      baoji = #{baoji,jdbcType=INTEGER},
-      duobi = #{duobi,jdbcType=INTEGER},
-      star = #{star,jdbcType=INTEGER},
-      level = #{level,jdbcType=INTEGER},
-      iswar = #{iswar,jdbcType=INTEGER},
-      zdl = #{zdl,jdbcType=INTEGER},
-      jingyan = #{jingyan,jdbcType=INTEGER},
-      jn_id = #{jnId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER}
+	  xueliang = #{xueliang,jdbcType=INTEGER},
+	  sudu = #{sudu,jdbcType=INTEGER},
+	  baoji = #{baoji,jdbcType=INTEGER},
+	  duobi = #{duobi,jdbcType=INTEGER},
+	  star = #{star,jdbcType=INTEGER},
+	  level = #{level,jdbcType=INTEGER},
+	  iswar = #{iswar,jdbcType=INTEGER},
+	  zdl = #{zdl,jdbcType=INTEGER},
+	  jingyan = #{jingyan,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchSave" parameterType="java.util.List">
+  	<foreach collection="myJns" item="i">
+	  	update work_myjianniang
+	    set gongji = #{i.gongji,jdbcType=INTEGER},
+	      fangyu = #{i.fangyu,jdbcType=INTEGER},
+	      xueliang = #{i.xueliang,jdbcType=INTEGER},
+	      sudu = #{i.sudu,jdbcType=INTEGER},
+	      baoji = #{i.baoji,jdbcType=INTEGER},
+	      duobi = #{i.duobi,jdbcType=INTEGER},
+	      star = #{i.star,jdbcType=INTEGER},
+	      level = #{i.level,jdbcType=INTEGER},
+	      zdl = #{i.zdl,jdbcType=INTEGER},
+	      jingyan = #{i.jingyan,jdbcType=INTEGER}
+	    where id = #{i.id,jdbcType=INTEGER};
+  	</foreach>
   </update>
 </mapper>

@@ -49,26 +49,26 @@ public class MyJianniang {
 	}
 
 	public void calShuxing(Jianniang jn, Keyan keyan, double jxRate) {
-		double gjRate = 1.1 * keyan.getGjdj() * keyan.getGjdj();
-		double fyRate = 1.1 * keyan.getFydj() * keyan.getFydj();
-		double xlRate = 1.1 * keyan.getXldj() * keyan.getXldj();
-		double sdRate = 1.1 * keyan.getSddj() * keyan.getSddj();
+		double gjRate = Math.pow(1.1, keyan.getGjdj());
+		double fyRate = Math.pow(1.1, keyan.getFydj());
+		double xlRate = Math.pow(1.1, keyan.getXldj());
+		double sdRate = Math.pow(1.1, keyan.getSddj());
 		double bjRate = 2 * keyan.getBjdj();
 		double dbRate = 2 * keyan.getDbdj();
 		double lvRate = 1 + (0.11 + 0.02 * jn.getPinji()) * (this.level - 1);
 		double r = lvRate * jxRate;
-		this.gongji =  (int) (jn.getGongji() * gjRate * r);
+		this.gongji = (int) (jn.getGongji() * gjRate * r);
 		this.fangyu = (int) (jn.getFangyu() * fyRate * r);
 		this.xueliang = (int) (jn.getXueliang() * xlRate * r);
 		this.sudu = (int) (jn.getSudu() * sdRate * r);
 		this.baoji = (int) (jn.getBaoji() + bjRate);
 		this.duobi = (int) (jn.getDuobi() + dbRate);
-		calJNZdl();
+		calJNZdl(this.star - jn.getStar());
 	}
 
-	public void calJNZdl() {
+	public void calJNZdl(Integer starDiff) {
 		this.zdl = (int) ((this.gongji * (1 + (this.baoji * 0.5 + this.duobi) / 100) + this.fangyu + this.xueliang
-				+ this.sudu * 0.6) * (1 + 1 * this.star));
+				+ this.sudu * 0.6) * (1 + starDiff));
 	}
 
 	public Integer getId() {

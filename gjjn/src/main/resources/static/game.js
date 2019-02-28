@@ -58,16 +58,6 @@ function getRoleDataWithoutMap(){
 	});
 }
 
-function renderduiwu(dw){
-	var l = dw.dwlist;
-	var liststr = "";
-	for(var i=0;i<l.length;i++){
-		liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ l[i].tx+"'><div class='mui-media-body'><font color='"+l[i].color+"'>"+l[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+l[i].lv+"</font><font style='margin-left: 5px;' color='white'>战斗力："+l[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+l[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+l[i].id+")'>查看</button></div></li>";
-	}
-	$('#rolezdl').html(dw.totalzdl);
-	$('#mydwlist').empty();
-	$('#mydwlist').html(liststr);
-}
 function rendermap(index,id,jy){
 	var mapstr = "";
 	for(var i=0;i<index;i++){

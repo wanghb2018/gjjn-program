@@ -2,6 +2,8 @@ package com.mochen.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +48,7 @@ public class BusinessController {
 
 	@PostMapping("/createRole")
 	public Role createRole(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, String jnImgId,
-			String roleName) {
+			String roleName, HttpSession session) {
 		JianniangWithBLOBs jn = jianniangService.getById(InitialJN.getIdByImg(jnImgId));
 		Role role = new Role();
 		role.setUserId(userId);
@@ -60,7 +62,13 @@ public class BusinessController {
 		duiwuService.create(duiwu);
 		Keyan keyan = new Keyan(role.getId());
 		accountService.createKeyan(keyan);
+		session.setAttribute(Constant.SESSION_ROLE_ID, role.getId());
 		return role;
+	}
+	
+	@GetMapping("/getRoleInfo")
+	public Role getRoleInfo(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+		return accountService.getByUserId(userId);
 	}
 
 	@GetMapping("/getDuiwuInfo")

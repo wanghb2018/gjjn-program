@@ -21,7 +21,7 @@ public class JianniangService {
 
 	public MyJianniang addMyJN(Integer roleId, JianniangWithBLOBs jn, Integer isWar) {
 		MyJianniang myJN = new MyJianniang(roleId, jn, isWar);
-		myJN.calJNZdl();
+		myJN.calJNZdl(0);
 		myJianniangMapper.insert(myJN);
 		return myJN;
 	}

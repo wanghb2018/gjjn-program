@@ -53,12 +53,16 @@ public class DuiwuService {
 		}
 		Keyan keyan = keyanMapper.getByRoleId(role.getId());
 		Junxian junxian = junxianMapper.selectByPrimaryKey(role.getJunxianId());
-		double jxRate = junxian.getPowerrate() / 100 + 1;
+		double jxRate = (double)junxian.getPowerrate() / 100 + 1;
 		for (int i = 0; i< myJns.size();i++) {
 			myJns.get(i).calShuxing(jns.get(i), keyan, jxRate);
 		}
-		
-		return new DuiwuData(myJns, jns);
+		myJianniangMapper.batchSave(myJns);
+		DuiwuData data = new DuiwuData(myJns, jns);
+		duiwu.setCount(myJns.size());
+		duiwu.setTotalzdl(data.getZdl());
+		duiwuMapper.updateByPrimaryKey(duiwu);
+		return data;
 
 	}
 
