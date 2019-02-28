@@ -16,7 +16,7 @@ import com.mochen.dao.JunxianMapper;
 import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.MyJianniangMapper;
 import com.mochen.model.Duiwu;
-import com.mochen.model.JianniangWithBLOBs;
+import com.mochen.model.Jianniang;
 import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
@@ -47,7 +47,7 @@ public class DuiwuService {
 			return null;
 		}
 		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
-		List<JianniangWithBLOBs> jns = new ArrayList<>();
+		List<Jianniang> jns = new ArrayList<>();
 		for (MyJianniang myJn : myJns) {
 			jns.add(jianniangMapper.selectByPrimaryKey(myJn.getJnId()));
 		}
@@ -57,8 +57,8 @@ public class DuiwuService {
 		for (int i = 0; i< myJns.size();i++) {
 			myJns.get(i).calShuxing(jns.get(i), keyan, jxRate);
 		}
-		myJianniangMapper.batchSave(myJns);
-		DuiwuData data = new DuiwuData(myJns, jns);
+		myJianniangMapper.batchUpdate(myJns);
+		DuiwuData data = new DuiwuData(myJns);
 		duiwu.setCount(myJns.size());
 		duiwu.setTotalzdl(data.getZdl());
 		duiwuMapper.updateByPrimaryKey(duiwu);

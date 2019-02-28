@@ -19,6 +19,10 @@ public class Jianniang {
 
     private Integer duobi;
 
+    private String touxiang;
+
+    private String lihui;
+
     private Integer star;
 
     private String color;
@@ -95,6 +99,22 @@ public class Jianniang {
 
     public void setDuobi(Integer duobi) {
         this.duobi = duobi;
+    }
+
+    public String getTouxiang() {
+        return touxiang;
+    }
+
+    public void setTouxiang(String touxiang) {
+        this.touxiang = touxiang == null ? null : touxiang.trim();
+    }
+
+    public String getLihui() {
+        return lihui;
+    }
+
+    public void setLihui(String lihui) {
+        this.lihui = lihui == null ? null : lihui.trim();
     }
 
     public Integer getStar() {

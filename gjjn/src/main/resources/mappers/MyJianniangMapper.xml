@@ -16,10 +16,15 @@
     <result column="jingyan" jdbcType="INTEGER" property="jingyan" />
     <result column="jn_id" jdbcType="INTEGER" property="jnId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pinji" jdbcType="INTEGER" property="pinji" />
+    <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
+    <result column="lihui" jdbcType="VARCHAR" property="lihui" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
   </resultMap>
   <sql id="Base_Column_List">
     id, gongji, fangyu, xueliang, sudu, baoji, duobi, star, level, iswar, zdl, jingyan, 
-    jn_id, role_id
+    jn_id, role_id, name, pinji, touxiang, lihui, color
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,11 +32,18 @@
     from work_myjianniang
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getUserJns" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_myjianniang
+    where role_id = #{roleId,jdbcType=INTEGER}
+    order by iswar desc, pinji desc, level desc, jn_id asc
+  </select>
   <select id="getByIdList" parameterType="java.util.List" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from work_myjianniang
-    where id in 
+    where id in
     <foreach collection="list" item="id" open="(" separator="," close=")">
     	#{id,jdbcType=INTEGER}
     </foreach>
@@ -40,19 +52,23 @@
     delete from work_myjianniang
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.mochen.model.MyJianniang">
     insert into work_myjianniang (id, gongji, fangyu, 
       xueliang, sudu, baoji, 
       duobi, star, level, 
       iswar, zdl, jingyan, 
-      jn_id, role_id)
+      jn_id, role_id, name, 
+      pinji, touxiang, lihui, 
+      color)
     values (#{id,jdbcType=INTEGER}, #{gongji,jdbcType=INTEGER}, #{fangyu,jdbcType=INTEGER}, 
       #{xueliang,jdbcType=INTEGER}, #{sudu,jdbcType=INTEGER}, #{baoji,jdbcType=INTEGER}, 
       #{duobi,jdbcType=INTEGER}, #{star,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
       #{iswar,jdbcType=INTEGER}, #{zdl,jdbcType=INTEGER}, #{jingyan,jdbcType=INTEGER}, 
-      #{jnId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
+      #{jnId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{pinji,jdbcType=INTEGER}, #{touxiang,jdbcType=VARCHAR}, #{lihui,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang">
     insert into work_myjianniang
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -96,6 +112,21 @@
       </if>
       <if test="roleId != null">
         role_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pinji != null">
+        pinji,
+      </if>
+      <if test="touxiang != null">
+        touxiang,
+      </if>
+      <if test="lihui != null">
+        lihui,
+      </if>
+      <if test="color != null">
+        color,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -141,6 +172,21 @@
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="lihui != null">
+        #{lihui,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.MyJianniang">
@@ -185,6 +231,21 @@
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        pinji = #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        touxiang = #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="lihui != null">
+        lihui = #{lihui,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -192,19 +253,26 @@
     update work_myjianniang
     set gongji = #{gongji,jdbcType=INTEGER},
       fangyu = #{fangyu,jdbcType=INTEGER},
-	  xueliang = #{xueliang,jdbcType=INTEGER},
-	  sudu = #{sudu,jdbcType=INTEGER},
-	  baoji = #{baoji,jdbcType=INTEGER},
-	  duobi = #{duobi,jdbcType=INTEGER},
-	  star = #{star,jdbcType=INTEGER},
-	  level = #{level,jdbcType=INTEGER},
-	  iswar = #{iswar,jdbcType=INTEGER},
-	  zdl = #{zdl,jdbcType=INTEGER},
-	  jingyan = #{jingyan,jdbcType=INTEGER}
+      xueliang = #{xueliang,jdbcType=INTEGER},
+      sudu = #{sudu,jdbcType=INTEGER},
+      baoji = #{baoji,jdbcType=INTEGER},
+      duobi = #{duobi,jdbcType=INTEGER},
+      star = #{star,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      iswar = #{iswar,jdbcType=INTEGER},
+      zdl = #{zdl,jdbcType=INTEGER},
+      jingyan = #{jingyan,jdbcType=INTEGER},
+      jn_id = #{jnId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      pinji = #{pinji,jdbcType=INTEGER},
+      touxiang = #{touxiang,jdbcType=VARCHAR},
+      lihui = #{lihui,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="batchSave" parameterType="java.util.List">
-  	<foreach collection="myJns" item="i">
+  <update id="batchUpdate" parameterType="java.util.List">
+  	<foreach collection="list" item="i">
 	  	update work_myjianniang
 	    set gongji = #{i.gongji,jdbcType=INTEGER},
 	      fangyu = #{i.fangyu,jdbcType=INTEGER},

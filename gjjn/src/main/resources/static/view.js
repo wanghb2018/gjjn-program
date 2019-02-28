@@ -233,15 +233,27 @@ function renderRoleData(data){
 		$('#rolesj').html(allRoleSJ[data.level-1].needjy);			
 		$('#roleguajitime').html(data.guajitime);
 	}
-	
 }
 
 function renderduiwu(dw){
 	var liststr = "";
-	for(var i=0;i<dw.myJNs.length;i++){
-		liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.jns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.jns[i].color+"'>"+dw.jns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJNs[i].level+"</font><font style='margin-left: 5px;' color='white'>战斗力："+dw.myJNs[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJNs[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJNs[i].id+")'>查看</button></div></li>";
+	for(var i=0;i<dw.myJns.length;i++){
+		liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.myJns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.myJns[i].color+"'>"+dw.myJns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJns[i].level+"</font><font style='margin-left: 5px;' color='white'>战斗力："+dw.myJns[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJns[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJns[i].id+")'>查看</button></div></li>";
 	}
 	$('#rolezdl').html(dw.zdl);
 	$('#mydwlist').empty();
 	$('#mydwlist').html(liststr);
+}
+
+function showjnlist(){
+	$.get('showJnList',function(data){
+		if(data){
+			var jnliststr = "";
+			for(var i=0;i<data.length;i++){
+				jnliststr = jnliststr + "<img src='"+data[i].touxiang+"' class='jntxlist' style='border: 3px "+data[i].color+" solid' onclick='showjninfo2("+data[i].id+")'/> ";
+			}
+			$('#jnlistdiv').empty();
+			$('#jnlistdiv').html(jnliststr);
+		}
+	});
 }

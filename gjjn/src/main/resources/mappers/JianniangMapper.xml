@@ -11,25 +11,19 @@
     <result column="sudu" jdbcType="INTEGER" property="sudu" />
     <result column="baoji" jdbcType="INTEGER" property="baoji" />
     <result column="duobi" jdbcType="INTEGER" property="duobi" />
+    <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
+    <result column="lihui" jdbcType="VARCHAR" property="lihui" />
     <result column="star" jdbcType="INTEGER" property="star" />
     <result column="color" jdbcType="VARCHAR" property="color" />
     <result column="spnum" jdbcType="INTEGER" property="spnum" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mochen.model.JianniangWithBLOBs">
-    <result column="touxiang" jdbcType="LONGVARCHAR" property="touxiang" />
-    <result column="lihui" jdbcType="LONGVARCHAR" property="lihui" />
-  </resultMap>
   <sql id="Base_Column_List">
-    id, name, pinji, gongji, fangyu, xueliang, sudu, baoji, duobi, star, color, spnum
+    id, name, pinji, gongji, fangyu, xueliang, sudu, baoji, duobi, touxiang, lihui, star, 
+    color, spnum
   </sql>
-  <sql id="Blob_Column_List">
-    touxiang, lihui
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from work_jianniang
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -37,19 +31,19 @@
     delete from work_jianniang
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mochen.model.JianniangWithBLOBs">
+  <insert id="insert" parameterType="com.mochen.model.Jianniang">
     insert into work_jianniang (id, name, pinji, 
       gongji, fangyu, xueliang, 
       sudu, baoji, duobi, 
-      star, color, spnum, 
-      touxiang, lihui)
+      touxiang, lihui, star, 
+      color, spnum)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinji,jdbcType=INTEGER}, 
       #{gongji,jdbcType=INTEGER}, #{fangyu,jdbcType=INTEGER}, #{xueliang,jdbcType=INTEGER}, 
       #{sudu,jdbcType=INTEGER}, #{baoji,jdbcType=INTEGER}, #{duobi,jdbcType=INTEGER}, 
-      #{star,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, #{spnum,jdbcType=INTEGER}, 
-      #{touxiang,jdbcType=LONGVARCHAR}, #{lihui,jdbcType=LONGVARCHAR})
+      #{touxiang,jdbcType=VARCHAR}, #{lihui,jdbcType=VARCHAR}, #{star,jdbcType=INTEGER}, 
+      #{color,jdbcType=VARCHAR}, #{spnum,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.mochen.model.JianniangWithBLOBs">
+  <insert id="insertSelective" parameterType="com.mochen.model.Jianniang">
     insert into work_jianniang
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -79,6 +73,12 @@
       <if test="duobi != null">
         duobi,
       </if>
+      <if test="touxiang != null">
+        touxiang,
+      </if>
+      <if test="lihui != null">
+        lihui,
+      </if>
       <if test="star != null">
         star,
       </if>
@@ -87,12 +87,6 @@
       </if>
       <if test="spnum != null">
         spnum,
-      </if>
-      <if test="touxiang != null">
-        touxiang,
-      </if>
-      <if test="lihui != null">
-        lihui,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -123,6 +117,12 @@
       <if test="duobi != null">
         #{duobi,jdbcType=INTEGER},
       </if>
+      <if test="touxiang != null">
+        #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="lihui != null">
+        #{lihui,jdbcType=VARCHAR},
+      </if>
       <if test="star != null">
         #{star,jdbcType=INTEGER},
       </if>
@@ -132,15 +132,9 @@
       <if test="spnum != null">
         #{spnum,jdbcType=INTEGER},
       </if>
-      <if test="touxiang != null">
-        #{touxiang,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="lihui != null">
-        #{lihui,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.JianniangWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.mochen.model.Jianniang">
     update work_jianniang
     <set>
       <if test="name != null">
@@ -167,6 +161,12 @@
       <if test="duobi != null">
         duobi = #{duobi,jdbcType=INTEGER},
       </if>
+      <if test="touxiang != null">
+        touxiang = #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="lihui != null">
+        lihui = #{lihui,jdbcType=VARCHAR},
+      </if>
       <if test="star != null">
         star = #{star,jdbcType=INTEGER},
       </if>
@@ -176,30 +176,7 @@
       <if test="spnum != null">
         spnum = #{spnum,jdbcType=INTEGER},
       </if>
-      <if test="touxiang != null">
-        touxiang = #{touxiang,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="lihui != null">
-        lihui = #{lihui,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mochen.model.JianniangWithBLOBs">
-    update work_jianniang
-    set name = #{name,jdbcType=VARCHAR},
-      pinji = #{pinji,jdbcType=INTEGER},
-      gongji = #{gongji,jdbcType=INTEGER},
-      fangyu = #{fangyu,jdbcType=INTEGER},
-      xueliang = #{xueliang,jdbcType=INTEGER},
-      sudu = #{sudu,jdbcType=INTEGER},
-      baoji = #{baoji,jdbcType=INTEGER},
-      duobi = #{duobi,jdbcType=INTEGER},
-      star = #{star,jdbcType=INTEGER},
-      color = #{color,jdbcType=VARCHAR},
-      spnum = #{spnum,jdbcType=INTEGER},
-      touxiang = #{touxiang,jdbcType=LONGVARCHAR},
-      lihui = #{lihui,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.mochen.model.Jianniang">
@@ -212,6 +189,8 @@
       sudu = #{sudu,jdbcType=INTEGER},
       baoji = #{baoji,jdbcType=INTEGER},
       duobi = #{duobi,jdbcType=INTEGER},
+      touxiang = #{touxiang,jdbcType=VARCHAR},
+      lihui = #{lihui,jdbcType=VARCHAR},
       star = #{star,jdbcType=INTEGER},
       color = #{color,jdbcType=VARCHAR},
       spnum = #{spnum,jdbcType=INTEGER}

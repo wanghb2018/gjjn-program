@@ -138,28 +138,6 @@ function showjninfo2(id){
 	});
 }
 
-function jninfo_back(){
-	$('#jiannianginfo').hide();
-	$('#jianduisx').show();
-}
-function jninfo_back2(){
-	$('#jiannianginfo2').hide();
-	$('#jnlistdiv').show();
-}
-
-function showjnlist(){
-	mui.post(domain+'showjnlist/',function(data){
-		if(data){
-			var jnliststr = "";
-			for(var i=0;i<data.jnlist.length;i++){
-				jnliststr = jnliststr + "<img src='"+data.jnlist[i].tx+"' class='jntxlist' style='border: 3px "+data.jnlist[i].color+" solid' onclick='showjninfo2("+data.jnlist[i].id+")'/> ";
-			}
-			$('#jnlistdiv').empty();
-			$('#jnlistdiv').html(jnliststr);
-		}
-	});
-}
-
 function showsplist(){
 	mui.post(domain+'showsplist/',function(data){
 		if(data){	

@@ -17,23 +17,32 @@ public class MyJianniang {
 
 	private Integer star;
 
-	private Integer level;
+	private Integer level = 1;
 
 	private Integer iswar;
 
 	private Integer zdl;
 
-	private Integer jingyan;
+	private Integer jingyan = 0;
 
 	private Integer jnId;
 
 	private Integer roleId;
 
-	public MyJianniang() {
+	private String name;
 
+	private Integer pinji;
+
+	private String touxiang;
+
+	private String lihui;
+
+	private String color;
+
+	public MyJianniang() {
 	}
 
-	public MyJianniang(Integer roleId, JianniangWithBLOBs jn, Integer isWar) {
+	public MyJianniang(Integer roleId, Jianniang jn, Integer iswar) {
 		this.gongji = jn.getGongji();
 		this.fangyu = jn.getFangyu();
 		this.xueliang = jn.getXueliang();
@@ -41,11 +50,14 @@ public class MyJianniang {
 		this.baoji = jn.getBaoji();
 		this.duobi = jn.getDuobi();
 		this.star = jn.getStar();
-		this.level = 1;
-		this.jingyan = 0;
-		this.iswar = isWar;
+		this.iswar = iswar;
 		this.jnId = jn.getId();
 		this.roleId = roleId;
+		this.name = jn.getName();
+		this.pinji = jn.getPinji();
+		this.touxiang = jn.getTouxiang();
+		this.lihui = jn.getLihui();
+		this.color = jn.getColor();
 	}
 
 	public void calShuxing(Jianniang jn, Keyan keyan, double jxRate) {
@@ -181,5 +193,45 @@ public class MyJianniang {
 
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name == null ? null : name.trim();
+	}
+
+	public Integer getPinji() {
+		return pinji;
+	}
+
+	public void setPinji(Integer pinji) {
+		this.pinji = pinji;
+	}
+
+	public String getTouxiang() {
+		return touxiang;
+	}
+
+	public void setTouxiang(String touxiang) {
+		this.touxiang = touxiang == null ? null : touxiang.trim();
+	}
+
+	public String getLihui() {
+		return lihui;
+	}
+
+	public void setLihui(String lihui) {
+		this.lihui = lihui == null ? null : lihui.trim();
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color == null ? null : color.trim();
 	}
 }

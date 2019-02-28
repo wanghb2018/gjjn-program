@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.mochen.model.Duiwu;
 import com.mochen.model.GameMap;
-import com.mochen.model.JianniangWithBLOBs;
+import com.mochen.model.Jianniang;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.Role;
@@ -49,14 +49,14 @@ public class BusinessController {
 	@PostMapping("/createRole")
 	public Role createRole(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, String jnImgId,
 			String roleName, HttpSession session) {
-		JianniangWithBLOBs jn = jianniangService.getById(InitialJN.getIdByImg(jnImgId));
+		Jianniang jn = jianniangService.getById(InitialJN.getIdByImg(jnImgId));
 		Role role = new Role();
 		role.setUserId(userId);
 		role.setRolename(roleName);
 		role.setTouxiang(jn.getTouxiang());
 		accountService.createRole(role);
 		MyJianniang myjn = jianniangService.addMyJN(role.getId(), jn, 1);
-		JianniangWithBLOBs afu = jianniangService.getById(262); // 登录送阿芙
+		Jianniang afu = jianniangService.getById(262); // 登录送阿芙
 		jianniangService.addMyJN(role.getId(), afu);
 		Duiwu duiwu = new Duiwu(role.getId(), myjn);
 		duiwuService.create(duiwu);
@@ -76,5 +76,9 @@ public class BusinessController {
 		Role role = accountService.getByUserId(userId);
 		return duiwuService.reCalJNZdl(role);
 	}
-
+	
+	@GetMapping("/showJnList")
+	public List<MyJianniang> showJnList(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId){
+		return jianniangService.getUserJns(roleId);
+	}
 }

@@ -4,11 +4,15 @@
   <resultMap id="BaseResultMap" type="com.mochen.model.Suipian">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="jnsp_id" jdbcType="INTEGER" property="jnspId" />
+    <result column="jn_id" jdbcType="INTEGER" property="jnId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pinji" jdbcType="INTEGER" property="pinji" />
+    <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, num, jnsp_id, role_id
+    id, num, jn_id, role_id, name, pinji, touxiang, color
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,10 +25,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.mochen.model.Suipian">
-    insert into work_suipian (id, num, jnsp_id, 
-      role_id)
-    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{jnspId,jdbcType=INTEGER}, 
-      #{roleId,jdbcType=INTEGER})
+    insert into work_suipian (id, num, jn_id, 
+      role_id, name, pinji, 
+      touxiang, color)
+    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{jnId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinji,jdbcType=INTEGER}, 
+      #{touxiang,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.mochen.model.Suipian">
     insert into work_suipian
@@ -35,11 +41,23 @@
       <if test="num != null">
         num,
       </if>
-      <if test="jnspId != null">
-        jnsp_id,
+      <if test="jnId != null">
+        jn_id,
       </if>
       <if test="roleId != null">
         role_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pinji != null">
+        pinji,
+      </if>
+      <if test="touxiang != null">
+        touxiang,
+      </if>
+      <if test="color != null">
+        color,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -49,11 +67,23 @@
       <if test="num != null">
         #{num,jdbcType=INTEGER},
       </if>
-      <if test="jnspId != null">
-        #{jnspId,jdbcType=INTEGER},
+      <if test="jnId != null">
+        #{jnId,jdbcType=INTEGER},
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -63,11 +93,23 @@
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
       </if>
-      <if test="jnspId != null">
-        jnsp_id = #{jnspId,jdbcType=INTEGER},
+      <if test="jnId != null">
+        jn_id = #{jnId,jdbcType=INTEGER},
       </if>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pinji != null">
+        pinji = #{pinji,jdbcType=INTEGER},
+      </if>
+      <if test="touxiang != null">
+        touxiang = #{touxiang,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null">
+        color = #{color,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -75,8 +117,12 @@
   <update id="updateByPrimaryKey" parameterType="com.mochen.model.Suipian">
     update work_suipian
     set num = #{num,jdbcType=INTEGER},
-      jnsp_id = #{jnspId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER}
+      jn_id = #{jnId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      pinji = #{pinji,jdbcType=INTEGER},
+      touxiang = #{touxiang,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

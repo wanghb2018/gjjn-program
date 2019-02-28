@@ -380,21 +380,6 @@ def jnxiuxi(req):
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
 
-def showjnlist(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context= {}
-	role = req.user.role_user.first()
-	myjns = Myjianniang.objects.filter(role=role).order_by('-iswar','-jianniang__pinji','-level','jianniang__id')
-	jnlist = []
-	for item in myjns:
-		d = {}
-		d['tx'] = item.jianniang.touxiang
-		d['id'] = item.id
-		d['color'] = item.jianniang.color
-		jnlist.append(d)
-	context['jnlist'] = jnlist
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def showsplist(req):
 	insertlog(req,sys._getframe().f_code.co_name)
 	context= {}
