@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import com.mochen.model.Suipian;
 
 public interface SuipianMapper {
@@ -14,4 +16,8 @@ public interface SuipianMapper {
     int updateByPrimaryKeySelective(Suipian record);
 
     int updateByPrimaryKey(Suipian record);
+    
+    List<Suipian> getAllUserSps(Integer roleId);
+    
+    void batchSave(List<Suipian> sps);
 }

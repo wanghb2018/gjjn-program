@@ -3,7 +3,7 @@ package com.mochen.model;
 public class Suipian {
     private Integer id;
 
-    private Integer num;
+    private Integer num = 0;
 
     private Integer jnId;
 
@@ -16,6 +16,8 @@ public class Suipian {
     private String touxiang;
 
     private String color;
+
+    private Integer spnum;
 
     public Integer getId() {
         return id;
@@ -79,5 +81,13 @@ public class Suipian {
 
     public void setColor(String color) {
         this.color = color == null ? null : color.trim();
+    }
+
+    public Integer getSpnum() {
+        return spnum;
+    }
+
+    public void setSpnum(Integer spnum) {
+        this.spnum = spnum;
     }
 }

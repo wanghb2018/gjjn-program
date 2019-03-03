@@ -87,3 +87,36 @@ ADD INDEX `work_myjianniang_level`(`level`) USING BTREE;
 ALTER TABLE `gjjn`.`work_suipian` 
 ADD INDEX `work_suipian_num`(`num`) USING BTREE,
 ADD INDEX `work_suipian_pinji`(`pinji`) USING BTREE;
+
+ALTER TABLE `gjjn`.`work_suipian` 
+ADD COLUMN `spnum` int(11) NULL AFTER `color`;
+
+update work_suipian s inner join work_jianniang j on s.jn_id = j.id
+set s.spnum = j.spnum;
+
+update work_jianniang set pinji = 9 where id = 1;
+update work_jianniang set pinji = 8 where id = 2;
+
+update work_suipian set pinji = 9 where jn_id = 1;
+update work_suipian set pinji = 8 where jn_id = 2;
+
+-- 手动修复啊
+delete b.* from work_suipian a ,work_suipian b
+where a.id != b.id and a.role_id = b.role_id and a.jn_id = b.jn_id;
+
+ALTER TABLE `gjjn`.`work_suipian` 
+ADD UNIQUE INDEX `union`(`jn_id`, `role_id`) USING BTREE;
+
+-- work_myjianniang记得修复
+
+insert into work_suipian (num,jn_id,role_id,name,pinji,touxiang,color,spnum)
+(select 0,1,r.id,'泛用型布里',9,'http://p0.qhimg.com/t017856449a5a277e5e.jpg','violet',75 from work_role r)
+on DUPLICATE key update spnum= spnum;
+
+insert into work_suipian (num,jn_id,role_id,name,pinji,touxiang,color,spnum)
+(select 0,2,r.id,'试作型布里MKII',8,'http://p4.qhimg.com/t01ec7743170cae9e68.jpg','gold',100 from work_role r)
+on DUPLICATE key update spnum= spnum;
+
+ALTER TABLE `gjjn`.`work_suipian` 
+ADD INDEX `pinji`(`pinji`) USING BTREE,
+ADD INDEX `num`(`num`) USING BTREE;

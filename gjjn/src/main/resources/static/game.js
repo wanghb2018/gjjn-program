@@ -1,5 +1,5 @@
 var domain = "../";
-var guajiid = '';
+
 $(function(){
 
 	$("input[name='phbtype']").change(function(){
@@ -8,153 +8,6 @@ $(function(){
 })
 
 
-
-function getRoleData(){
-	mui.post(domain+'getroledata/','',function(data){
-		if(data.role){
-			$('#rolename').html(data.role.rolename);
-			$('#rolelevel').html("Lv."+data.role.level);
-			$('#roletouxiang').attr('src',data.role.touxiang);
-			$('#zs_num').html(data.role.zuanshi);
-			$('#wz_num').html(data.role.wuzi);
-			$('#roleid').html(data.role.id);
-			$('#rolejunxian').html(data.role.junxian);
-			$('#roleshiyou').html(data.role.shiyou);
-			$('#rolemofang').html(data.role.mofang);
-			$('#rolekeyandian').html(data.role.keyandian);
-			$('#roleexp').html(data.role.exp);
-			$('#roleexprate').html(data.role.exprate);
-			$('#rolesj').html(data.role.sjjy);			
-			$('#roleguajitime').html(data.role.guajitime);
-			renderduiwu(data.duiwu);
-			maps = data.maps;
-			guajiid = data.role.guajimap;
-			rendermap(data.role.openmap,guajiid,data.role.guajijy);
-			$('#mainview').show();
-		}
-	});
-}
-function getRoleDataWithoutMap(){
-	mui.post(domain+'getroledata/','',function(data){
-		if(data.role){
-			$('#rolename').html(data.role.rolename);
-			$('#rolelevel').html("Lv."+data.role.level);
-			$('#roletouxiang').attr('src',data.role.touxiang);
-			$('#zs_num').html(data.role.zuanshi);
-			$('#wz_num').html(data.role.wuzi);
-			$('#roleid').html(data.role.id);
-			$('#rolejunxian').html(data.role.junxian);
-			$('#roleshiyou').html(data.role.shiyou);
-			$('#rolemofang').html(data.role.mofang);
-			$('#rolekeyandian').html(data.role.keyandian);
-			$('#roleexp').html(data.role.exp);
-			$('#roleexprate').html(data.role.exprate);
-			$('#rolesj').html(data.role.sjjy);			
-			$('#roleguajitime').html(data.role.guajitime);
-			renderduiwu(data.duiwu);
-			maps = data.maps;
-			guajiid = data.role.guajimap;
-		}
-	});
-}
-
-function rendermap(index,id,jy){
-	var mapstr = "";
-	for(var i=0;i<index;i++){
-		mapstr = mapstr + "<li class='mui-table-view-cell' id='mapid_"+maps[i].id+"'><div style='float: left;'><div><font color='#FFCC00'>"+maps[i].place+"-"+maps[i].point+" "+maps[i].label+"</font><p class='myp mui-ellipsis'>推荐战力：<span>"+maps[i].zdl+"</span></p></div></div><div style='float: right;'><button id='mapbtn"+maps[i].id+"' type='button' class='mui-btn gjbtn' onclick='mapguaji("+maps[i].id+")'>挂机</button> <button id='mapbtnboss"+maps[i].id+"' type='button' class='mui-btn' onclick='mapboss("+maps[i].id+")'>BOSS</button></div></li>";
-	}
-	$('#mapul').empty();
-	$('#mapul').html(mapstr);
-	if(id){
-		$("#mapbtn"+id).addClass('mychujibutton');
-		$("#mapbtn"+id).text("结算");
-	}
-	$('#roleguajijy').html(jy);
-}
-function testdzd(){
-	mui.get(domain+'testdzd/',"",function(data){
-			if(data.dzd=='false'){
-				mui.alert('您的账号已在别处登录！','警告',function(){
-					$('#welcome').hide();
-					$('#login').show();
-				},'div');	
-			}	
-		},'json');
-}
-
-function jninfoview(id){
-	mui.post(domain+'getjninfobyid/',{
-		'id':id
-	},function(data){
-		if(data.result=='success'){
-			$('#jninfo_touxiang').attr('src',data.jninfo.tx);
-			$('#jninfo_name').html("<font color='"+data.jninfo.color+"'>"+data.jninfo.name+"</font>");
-			$('#jninfo_zdl').html(data.jninfo.zdl);
-			$('#jninfo_id').html(data.jninfo.lv);
-			$('#jninfo_star').html(data.jninfo.star);
-			$('#jninfo_gj').html(data.jninfo.gj);
-			$('#jninfo_fy').html(data.jninfo.fy);
-			$('#jninfo_xl').html(data.jninfo.xl);
-			$('#jninfo_sd').html(data.jninfo.sd);
-			$('#jninfo_bj').html(data.jninfo.bj);
-			$('#jninfo_db').html(data.jninfo.db);
-			$('#jninfo_jy').html(data.jninfo.jy);
-			$('#jninfo_sj').html(data.jninfo.sj);
-			$('#jninfo_lh').attr('src',data.jninfo.lh);
-			$('#jianduisx').hide();
-			$('#jiannianginfo').show();
-			$('#jninfohideid').val(data.jninfo.id);
-		}
-	});
-}
-
-function showjninfo2(id){
-	mui.post(domain+'getjninfobyid/',{
-		'id':id
-	},function(data){
-		if(data.result=='success'){
-			$('#jninfo_touxiang2').attr('src',data.jninfo.tx);
-			$('#jninfo_name2').html("<font color='"+data.jninfo.color+"'>"+data.jninfo.name+"</font>");
-			$('#jninfo_zdl2').html(data.jninfo.zdl);
-			$('#jninfo_id2').html(data.jninfo.lv);
-			$('#jninfo_star2').html(data.jninfo.star);
-			$('#jninfo_gj2').html(data.jninfo.gj);
-			$('#jninfo_fy2').html(data.jninfo.fy);
-			$('#jninfo_xl2').html(data.jninfo.xl);
-			$('#jninfo_sd2').html(data.jninfo.sd);
-			$('#jninfo_bj2').html(data.jninfo.bj);
-			$('#jninfo_db2').html(data.jninfo.db);
-			$('#jninfo_jy2').html(data.jninfo.jy);
-			$('#jninfo_sj2').html(data.jninfo.sj);
-			$('#jninfo_lh2').attr('src',data.jninfo.lh);
-			if(data.jninfo.iswar == 1)
-				$('#jninfo_shangzhen2').hide();
-			else
-				$('#jninfo_shangzhen2').show();
-			$('#jnlistdiv').hide();
-			$('#jiannianginfo2').show();
-			$('#jninfohideid').val(data.jninfo.id);
-		}
-	});
-}
-
-function showsplist(){
-	mui.post(domain+'showsplist/',function(data){
-		if(data){	
-			$('#zbl').html(data.zbl);
-			$('#jbl').html(data.jbl);
-			var spliststr = "";
-			for(var i=0;i<data.splist.length;i++){
-				spliststr = spliststr + "<li id='splistid"+data.splist[i].id+"' class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data.splist[i].tx+"'><div class='mui-media-body'><font color='"+data.splist[i].color+"'>"+data.splist[i].name+"</font><p class='myp mui-ellipsis'>数量：<span>"+data.splist[i].num+"</span>/<span>"+data.splist[i].neednum+"</span></p></div></div><div style='float: right;'><div id='numbox"+data.splist[i].id+"' class='mui-numbox' data-numbox-step='1' data-numbox-min='0' data-numbox-max='"+data.splist[i].num+"'><button class='mui-btn mui-numbox-btn-minus' type='button'>-</button><input class='mui-numbox-input' type='number' /><button class='mui-btn mui-numbox-btn-plus' type='button'>+</button></div> <button type='button' class='imglibutton mui-btn' onclick='salesuipian("+data.splist[i].id+","+data.splist[i].pinji+")'>出售</button> <button type='button' class='imglibutton mui-btn' onclick='jnhecheng("+data.splist[i].id+","+data.splist[i].neednum+")'>合成</button></div></li>";
-			}
-			if(spliststr!=""){				
-				$('#splistul').empty();
-				$('#splistul').html(spliststr);
-				mui('.mui-numbox').numbox();
-			}
-		}
-	});
-}
 
 function salesuipian(id,pinji){
 	var num=mui('#numbox'+id).numbox().getValue();
@@ -398,12 +251,6 @@ function mapboss(id){
 	});
 }
 
-function gotomap(){
-	if(guajiid){
-		location.href = "#mapid_"+guajiid;
-		window.scrollBy(0, -95);
-	}
-}
 
 function win(a,b){
 	mui.toast("敬请期待！");

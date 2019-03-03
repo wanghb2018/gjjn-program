@@ -1,63 +1,4 @@
-def getroledata(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context={}
-	r = req.user.role_user.first()
-	if r:
-		role = {}
-		role['rolename'] = r.rolename
-		role['level'] = r.level
-		role['junxian'] = r.junxian.label
-		role['id'] = r.id
-		role['shiyou'] = r.shiyou
-		role['mofang'] = r.mofang
-		role['keyandian'] = r.keyandian
-		role['zuanshi'] = r.zuanshi
-		role['wuzi'] = r.wuzi
-		role['exp'] = r.exp
-		role['touxiang'] = r.touxiang
-		rolejy = Rolesj.objects.filter(id=r.level).first()
-		role['exprate'] = '%.2f'%(r.exp*100/rolejy.needjy) + '%'
-		role['sjjy'] = rolejy.needjy
-		role['guajimap'] = r.guajimap_id
-		if r.guajitime:
-			role['guajitime'] = datetime.datetime.strftime(r.guajitime,'%Y-%m-%d %H:%M:%S')
-		else:
-			role['guajitime'] = ''
-		role['openmap'] = r.openmap_id
-		role['guajijy'] = r.openmap.jnjy
-		context['role'] = role
-		mapdata = Map.objects.all()
-		maps = []
-		for item in mapdata:
-			d = {}
-			d['id'] = item.id
-			d['label'] = item.label
-			d['place'] = item.place
-			d['point'] = item.point
-			d['zdl'] = item.zdl
-			maps.append(d)
-		context['maps'] = maps
-		dw = Duiwu.objects.filter(role=r).first()
-		duiwu = {}
-		duiwu['totalzdl'] = dw.totalzdl		
-		dwlist = []
-		if dw.one:
-			dwlist.append(duiwujntodict(dw.one))
-		if dw.two:
-			dwlist.append(duiwujntodict(dw.two))
-		if dw.three:
-			dwlist.append(duiwujntodict(dw.three))
-		if dw.four:
-			dwlist.append(duiwujntodict(dw.four))
-		if dw.five:
-			dwlist.append(duiwujntodict(dw.five))
-		if dw.six:
-			dwlist.append(duiwujntodict(dw.six))
-		duiwu['dwlist'] = dwlist
-		context['duiwu'] = duiwu
-	else:
-		context['rolestatus'] = 'notexist'
-	return HttpResponse(json.dumps(context), content_type="application/json")
+
 
 def rolejinjie(req):
 	insertlog(req,sys._getframe().f_code.co_name)
@@ -213,54 +154,6 @@ def getlosejn(req):
 	context['jns'] = jns
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-def checkdanzhongduan(id,token):
-	flag = True
-	if token != DanZhongDuan.objects.filter(pk=id).first().token:
-		flag = False
-	return flag
-
-def getjninfobyid(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context= {}
-	id = req.POST.get('id')
-	role = req.user.role_user.first()
-	myjn = Myjianniang.objects.filter(role_id=role.id).filter(id=id).first()
-	jxrate = role.junxian.powerrate/100+1
-	keyan = Keyan.objects.filter(role=role).first()
-	gjrate = 1.1**keyan.gjdj
-	fyrate = 1.1**keyan.fydj
-	xlrate = 1.1**keyan.xldj
-	sdrate = 1.1**keyan.sddj
-	bjrate = 2*keyan.bjdj
-	dbrate = 2*keyan.dbdj
-	if myjn:
-		context['result'] = 'success'
-		jninfo={}
-		jn = myjn.jianniang
-		lvrate = 1+(0.11+0.02*jn.pinji)*(myjn.level-1)
-		jninfo['id'] = myjn.id
-		jninfo['lv'] = myjn.level
-		jninfo['tx'] = jn.touxiang
-		jninfo['name'] = jn.name
-		jninfo['color'] = jn.color
-		jninfo['no'] = jn.id
-		jninfo['star'] = myjn.mystar
-		jninfo['gj'] = int(jn.gongji*lvrate*jxrate*gjrate)
-		jninfo['fy'] = int(jn.fangyu*lvrate*jxrate*fyrate)
-		jninfo['xl'] = int(jn.xueliang*lvrate*jxrate*xlrate)
-		jninfo['sd'] = int(jn.sudu*lvrate*jxrate*sdrate)
-		jninfo['bj'] = jn.baoji+bjrate
-		jninfo['db'] = jn.duobi+dbrate
-		jninfo['zdl'] = caljnzdl(jninfo['gj'],jninfo['fy'],jninfo['xl'],jninfo['sd'],jninfo['bj'],jninfo['db'],myjn.mystar-jn.star)
-		jninfo['jy'] = myjn.jingyan
-		jninfo['sj'] = Jnsj.objects.filter(id=myjn.level).first().needjy
-		jninfo['lh'] = jn.lihui
-		jninfo['iswar'] = myjn.iswar
-		context['jninfo'] = jninfo
-	else:
-		context['result'] = 'notexist'
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def shangzhen(req):
 	insertlog(req,sys._getframe().f_code.co_name)
 	context= {}
@@ -379,32 +272,6 @@ def jnxiuxi(req):
 			context['result'] = 'success'
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-
-def showsplist(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context= {}
-	context['zbl'] = 0
-	context['jbl'] = 0
-	splist = []
-	role = req.user.role_user.first()
-	sps = Suipian.objects.filter(role=role).filter(num__gt=0).order_by('-jnsp__pinji','-num','jnsp__id')
-	for item in sps:
-		if item.jnsp.id == 1:
-			context['zbl'] = item.num
-		elif item.jnsp.id == 2:
-			context['jbl'] = item.num
-		else:
-			d={}
-			d['id'] = item.id
-			d['num'] = item.num
-			d['tx'] = item.jnsp.touxiang
-			d['name'] = item.jnsp.name
-			d['color'] = item.jnsp.color
-			d['neednum'] = item.jnsp.spnum
-			d['pinji'] = item.jnsp.pinji
-			splist.append(d)
-	context['splist'] = splist
-	return HttpResponse(json.dumps(context), content_type="application/json")
 
 def getkeyandata(req):
 	insertlog(req,sys._getframe().f_code.co_name)

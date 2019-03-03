@@ -25,7 +25,7 @@ public class Role {
 
     private Integer djsx = 10;
 
-    private Integer guajimapId;
+    private Integer guajimapId = 1;
 
     private Integer junxianId = 1;
 
