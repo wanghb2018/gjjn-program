@@ -214,7 +214,7 @@ function mapguaji(id){
 	mui.get('mapJiesuan',{'id':id},function(data){
 		if(data.hr==0){
 			$('#roleguajitime').html(formatDate(data.data.guajitime));
-			var sec = data.sec;
+			var sec = data.data.sec;
 			day = parseInt(sec/86400);
 			hour =parseInt(sec%86400/3600);
 			min = parseInt(sec%86400%3600/60);
