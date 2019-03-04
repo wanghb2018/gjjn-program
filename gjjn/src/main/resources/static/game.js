@@ -183,48 +183,7 @@ function jnxiuxi(id){
 	});
 }
 
-function mapguaji(id){
-	guajiid = id;
-	$('.gjbtn').removeClass('mychujibutton');
-	$('.gjbtn').text("挂机");
-	$("#mapbtn"+id).addClass('mychujibutton');
-	$("#mapbtn"+id).text("结算");
-	$("#mapbtn"+id).attr("disabled",true); 
-	mui.post(domain+'mapguaji/',{'id':id},function(data){
-		if(data.result=='success'){
-			$('#roleguajitime').html(data.guajitime);
-			var sec = data.sec;
-			day = parseInt(sec/86400);
-			hour =parseInt(sec%86400/3600);
-			min = parseInt(sec%86400%3600/60);
-			second = sec-86400*day-hour*3600-min*60;
-			var time = "";
-			if(day>0)
-				time = time + day + "天";
-			if(hour>0)
-				time = time + hour + "小时";
-			if(min>0)
-				time = time + min + "分钟";
-			if(second>0)
-				time = time + second + "秒";
-			var str = "<font color='white'>挂机时间"+time+"</font><br /><font color='green'>获得经验："+data.jy+"<font><br/><font color='gold'>获得物资"+data.wz+"</font><br/>";
-			if(data.obtsp){
-				console.log(data.obtsp);
-				for(var i =0 ;i<data.obtsp.length;i++){
-					str = str + "<font color='"+data.obtsp[i].color+"'>"+data.obtsp[i].name+"碎片"+data.obtsp[i].num+"个、</font>";
-				}
-			}
-			mui.toast(str,{ duration:'long', type:'div' });
-			getRoleDataWithoutMap();
-		}else if(date.result=='start'){
-			$('#roleguajitime').html(data.guajitime);
-			mui.toast("开始挂机");
-		}else if(data.result == 'short'){
-			mui.toast("时间过短");
-		}
-		$("#mapbtn"+id).attr("disabled",false); 
-	});
-}
+
 
 function mapboss(id){
 	$.post(domain+'mapboss/',{'id':id},function(data){

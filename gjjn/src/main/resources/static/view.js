@@ -204,6 +204,46 @@ function createrole(){
 	});
 }
 
+function mapguaji(id){
+	guajiid = id;
+	$('.gjbtn').removeClass('mychujibutton');
+	$('.gjbtn').text("挂机");
+	$("#mapbtn"+id).addClass('mychujibutton');
+	$("#mapbtn"+id).text("结算");
+	$("#mapbtn"+id).attr("disabled",true); 
+	mui.get('mapJiesuan',{'id':id},function(data){
+		if(data.hr==0){
+			$('#roleguajitime').html(formatDate(data.data.guajitime));
+			var sec = data.sec;
+			day = parseInt(sec/86400);
+			hour =parseInt(sec%86400/3600);
+			min = parseInt(sec%86400%3600/60);
+			second = sec-86400*day-hour*3600-min*60;
+			var time = "";
+			if(day>0)
+				time = time + day + "天";
+			if(hour>0)
+				time = time + hour + "小时";
+			if(min>0)
+				time = time + min + "分钟";
+			if(second>0)
+				time = time + second + "秒";
+			var str = "<font color='white'>挂机时间"+time+"</font><br /><font color='green'>获得经验："+data.data.jy+"<font><br/><font color='gold'>获得物资"+data.data.wz+"</font><br/>";
+			if(data.data.sps){
+				console.log(data.data.sps);
+				for(var i =0 ;i<data.data.sps.length;i++){
+					str = str + "<font color='"+data.data.sps[i].color+"'>"+data.data.sps[i].name+"碎片"+data.data.sps[i].num+"个、</font>";
+				}
+			}
+			mui.toast(str,{ duration:'long', type:'div' });
+			renderRoleDuiwu();
+		}else if(data.hr == -1){
+			mui.toast("时间过短");
+		}
+		$("#mapbtn"+id).attr("disabled",false); 
+	});
+}
+
 function renderRoleDuiwu(){
 	renderRoleDuiwuWithData(null);
 }

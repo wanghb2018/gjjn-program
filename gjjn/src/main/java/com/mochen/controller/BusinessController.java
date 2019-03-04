@@ -1,8 +1,12 @@
 package com.mochen.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,10 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.mochen.controller.uidata.GenericResult;
+import com.mochen.controller.uidata.MapGuajiData;
 import com.mochen.controller.uidata.MyJnInfoUIData;
 import com.mochen.model.Duiwu;
 import com.mochen.model.GameMap;
 import com.mochen.model.Jianniang;
+import com.mochen.model.JianniangMaps;
 import com.mochen.model.JianniangSJ;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
@@ -52,8 +59,8 @@ public class BusinessController {
 	}
 
 	@PostMapping("/createRole")
-	public Role createRole(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, String jnImgId,
-			String roleName, HttpSession session) {
+	public Role createRole(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, String jnImgId, String roleName,
+			HttpSession session) {
 		Jianniang jn = jianniangService.getById(InitialJN.getIdByImg(jnImgId));
 		Role role = new Role();
 		role.setUserId(userId);
@@ -72,9 +79,9 @@ public class BusinessController {
 		jianniangService.spBatchSave(initBl(role.getId()));
 		return role;
 	}
-	
+
 	@GetMapping("/getRoleInfo")
-	public Role getRoleInfo(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+	public Role getRoleInfo(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
 		return accountService.getByUserId(userId);
 	}
 
@@ -83,29 +90,78 @@ public class BusinessController {
 		Role role = accountService.getByUserId(userId);
 		return duiwuService.reCalJNZdl(role);
 	}
-	
+
 	@GetMapping("/showJnList")
-	public List<MyJianniang> showJnList(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId){
+	public List<MyJianniang> showJnList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
 		return jianniangService.getUserJns(roleId);
 	}
-	
+
 	@GetMapping("/showSpList")
-	public List<Suipian> showSpList(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId){
+	public List<Suipian> showSpList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
 		return jianniangService.getUserSps(roleId);
 	}
-	
+
 	@GetMapping("/showJnInfo")
-	public MyJnInfoUIData showJnInfo(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId, Integer jnId) {
+	public MyJnInfoUIData showJnInfo(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer jnId) {
 		MyJianniang myJn = jianniangService.getMyJnById(jnId);
 		JianniangSJ jnSj = jianniangService.getJnsjById(myJn.getLevel());
 		return new MyJnInfoUIData(myJn, jnSj);
 	}
-	
+
 	@GetMapping("/mapJiesuan")
-	public void mapJiesuan(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId) {
-		
+	public GenericResult<MapGuajiData> mapJiesuan(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId,
+			Integer id) {
+		GenericResult<MapGuajiData> result = new GenericResult<>();
+		Role role = accountService.getByUserId(userId);
+		Date now = new Date();
+		int guajiSecond = (int) ((now.getTime() - role.getGuajitime().getTime()) / 1000);
+		int rewardCount = guajiSecond / 5;
+		if (rewardCount == 0) {
+			result.setHr(Constant.FAILED);
+			return result;
+		}
+		List<Suipian> sps = new ArrayList<Suipian>();
+
+		int c = 0;
+		Random random = new Random();
+		for (int i = 0; i < rewardCount; i++) {
+			if (random.nextInt(300) == 250) {
+				c++;
+			}
+		}
+		if (c > 0) {
+			List<JianniangMaps> jnMaps = gameMapService.getByMapId(role.getGuajimapId());
+			int length = jnMaps.size();
+			int circle = c / length;
+			int yu = c % length;
+			Map<Integer, Integer> jnCount = jnMaps.stream()
+					.collect(Collectors.toMap(JianniangMaps::getJnId, e -> circle));
+			for (int j = 0; j < yu; j++) {
+				int index = random.nextInt(length);
+				int jnId = jnMaps.get(index).getJnId();
+				jnCount.put(jnId, jnCount.get(jnId) + 1);
+			}
+			for (Map.Entry<Integer, Integer> entry : jnCount.entrySet()) {
+				Jianniang jn = jianniangService.getById(entry.getKey());
+				sps.add(new Suipian(role.getId(), jn, entry.getValue()));
+			}
+			if (!sps.isEmpty()) {
+				jianniangService.spBatchSave(sps);
+			}
+		}
+
+		GameMap gameMap = gameMapService.getGameMapById(role.getGuajimapId());
+		int wz = gameMap.getWz() * rewardCount;
+		int jy = gameMap.getJnjy() * rewardCount;
+		duiwuService.duiwuAddJy(role, jy);
+		role.setGuajimapId(id);
+		role.setGuajitime(now);
+		role.setWuzi(role.getWuzi()+wz);
+		accountService.updateRole(role);
+		result.setData(new MapGuajiData(sps, jy, wz, guajiSecond, now));
+		return result;
 	}
-	
+
 	private List<Suipian> initBl(Integer roleId) {
 		Suipian zbl = new Suipian();
 		zbl.setJnId(1);
@@ -123,6 +179,6 @@ public class BusinessController {
 		jbl.setTouxiang("http://p4.qhimg.com/t01ec7743170cae9e68.jpg");
 		jbl.setColor("gold");
 		jbl.setSpnum(100);
-		return Arrays.asList(zbl,jbl);
+		return Arrays.asList(zbl, jbl);
 	}
 }

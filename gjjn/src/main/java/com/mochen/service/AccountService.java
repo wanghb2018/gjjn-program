@@ -67,4 +67,8 @@ public class AccountService {
 	public void createKeyan(Keyan keyan) {
 		keyanMapper.insert(keyan);
 	}
+	
+	public void updateRole(Role role) {
+		roleMapper.updateByPrimaryKey(role);
+	}
 }

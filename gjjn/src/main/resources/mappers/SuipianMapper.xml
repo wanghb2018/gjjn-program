@@ -40,14 +40,14 @@
       )
   </insert>
   <insert id="batchSave" parameterType="java.util.List">
-  	insert into work_suipian (id, num, jn_id, 
+  	insert into work_suipian (num, jn_id, 
       role_id, name, pinji, 
       touxiang, color, spnum)
     values
   	<foreach collection="list" item="i" separator=",">
-  		(#{id,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{jnId,jdbcType=INTEGER}, 
-      #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinji,jdbcType=INTEGER}, 
-      #{touxiang,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{spnum,jdbcType=INTEGER})
+  		(#{i.num,jdbcType=INTEGER}, #{i.jnId,jdbcType=INTEGER}, 
+      #{i.roleId,jdbcType=INTEGER}, #{i.name,jdbcType=VARCHAR}, #{i.pinji,jdbcType=INTEGER}, 
+      #{i.touxiang,jdbcType=VARCHAR}, #{i.color,jdbcType=VARCHAR}, #{i.spnum,jdbcType=INTEGER})
   	</foreach>
      ON DUPLICATE KEY UPDATE num = num + values(num)
   </insert>

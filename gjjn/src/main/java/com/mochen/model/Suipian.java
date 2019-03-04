@@ -18,6 +18,19 @@ public class Suipian {
     private String color;
 
     private Integer spnum;
+    
+    public Suipian() {}
+    
+    public Suipian(Integer roleId, Jianniang jn, Integer num) {
+    	this.num = num;
+    	this.jnId = jn.getId();
+    	this.roleId = roleId;
+    	this.name = jn.getName();
+    	this.pinji = jn.getPinji();
+    	this.touxiang = jn.getTouxiang();
+    	this.color = jn.getColor();
+    	this.spnum = jn.getSpnum();
+    }
 
     public Integer getId() {
         return id;
