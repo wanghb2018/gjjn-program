@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.mochen.controller.uidata.GenericResult;
+import com.mochen.controller.uidata.MapBossData;
 import com.mochen.controller.uidata.MapGuajiData;
 import com.mochen.controller.uidata.MyJnInfoUIData;
 import com.mochen.model.Duiwu;
@@ -156,9 +157,49 @@ public class BusinessController {
 		duiwuService.duiwuAddJy(role, jy);
 		role.setGuajimapId(id);
 		role.setGuajitime(now);
-		role.setWuzi(role.getWuzi()+wz);
+		role.setWuzi(role.getWuzi() + wz);
 		accountService.updateRole(role);
 		result.setData(new MapGuajiData(sps, jy, wz, guajiSecond, now));
+		return result;
+	}
+
+	@GetMapping("/mapBoss")
+	public GenericResult<MapBossData> mapBoss(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, Integer id) {
+		GenericResult<MapBossData> result = new GenericResult<>();
+		Role role = accountService.getByUserId(userId);
+		GameMap map = gameMapService.getGameMapById(id);
+		Duiwu duiwu = duiwuService.getDuiwuByRoleId(role.getId());
+		if(role.getShiyou() < duiwu.getCount()) {
+			result.setHr(-2);
+			return result;
+		}
+		Random random = new Random();
+		if ((double) (random.nextInt(200) + 900) / 1000 * duiwu.getTotalzdl() <= map.getZdl()) {
+			result.setHr(Constant.FAILED);
+			return result;
+		}
+		boolean flag = false;
+		if (map.getId() == role.getOpenmapId() && map.getId() < 48) {
+			result.setHr(Constant.OTHER);
+			flag = true;
+		}
+		MapBossData data = new MapBossData();
+		data.setGuajiId(role.getGuajimapId());
+		data.setOpenId(role.getOpenmapId());
+		data.setWz(map.getWz() * 10 * duiwu.getCount());
+		data.setJnjy(map.getJnjy() * 10 * duiwu.getCount());
+		data.setZhgjy(map.getZhgjy() * duiwu.getCount());
+		List<JianniangMaps> jnList = gameMapService.getByMapId(role.getGuajimapId());
+		List<Suipian> sps = new ArrayList<>();
+		random.ints(0, jnList.size()).limit(duiwu.getCount()).forEach(e -> {
+			Jianniang jn = jianniangService.getById(jnList.get(e).getJnId());
+			sps.add(new Suipian(role.getId(), jn, 1));
+		});
+		data.setSps(sps);
+		jianniangService.spBatchSave(sps);
+		duiwuService.duiwuAddJy(role, data.getJnjy());
+		accountService.roleAddJy(role, data.getZhgjy(), data.getWz(), duiwu.getCount(), flag);
+		result.setData(data);
 		return result;
 	}
 

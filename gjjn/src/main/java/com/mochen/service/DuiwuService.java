@@ -43,6 +43,10 @@ public class DuiwuService {
 	public void create(Duiwu duiwu) {
 		duiwuMapper.insertSelective(duiwu);
 	}
+	
+	public Duiwu getDuiwuByRoleId(Integer roleId) {
+		return duiwuMapper.getByRoleId(roleId);
+	}
 
 	public DuiwuData reCalJNZdl(Role role) {
 		Duiwu duiwu = duiwuMapper.getByRoleId(role.getId());

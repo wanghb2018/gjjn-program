@@ -230,7 +230,6 @@ function mapguaji(id){
 				time = time + second + "秒";
 			var str = "<font color='white'>挂机时间"+time+"</font><br /><font color='green'>获得经验："+data.data.jy+"<font><br/><font color='gold'>获得物资"+data.data.wz+"</font><br/>";
 			if(data.data.sps){
-				console.log(data.data.sps);
 				for(var i =0 ;i<data.data.sps.length;i++){
 					str = str + "<font color='"+data.data.sps[i].color+"'>"+data.data.sps[i].name+"碎片"+data.data.sps[i].num+"个、</font>";
 				}
@@ -241,6 +240,27 @@ function mapguaji(id){
 			mui.toast("时间过短");
 		}
 		$("#mapbtn"+id).attr("disabled",false); 
+	});
+}
+
+function mapboss(id){
+	$.get('mapBoss',{'id':id},function(data){
+		if (data.hr == 0 || data.hr == 1){
+			if (data.hr == 1){
+				rendermap(data.data.openId,data.data.guajiId);
+			}
+			var str = "<font color='yellow'>挑战成功！</font><br/><font color='white'>恭喜您获得以下奖励：</font><br/><font color='yellow'>指挥官经验："+data.data.zhgjy+"</font><br/><font color='green;'>舰娘经验："+data.data.jnjy+"</font><br/><font color='gold'>物资："+data.data.wz+"</font>";
+			if(data.data.sps){
+				for(var i =0 ;i<data.data.sps.length;i++){
+					str = str + "<br/><font color='"+data.data.sps[i].color+"'>"+data.data.sps[i].name+"碎片："+data.data.sps[i].num+"个</font>";
+				}
+			}
+			mui.toast(str,{ duration:'short', type:'div' });
+		} else if (data.hr == -1){
+			mui.toast("胜败乃兵家常事，大虾请提升战力后再来！");
+		}else{
+			mui.toast("哥哥，没油了！");
+		}
 	});
 }
 
@@ -257,7 +277,9 @@ function renderRoleDuiwuWithData(data){
 		});
 	}
 	$.get('getDuiwuInfo',function(data){
-		renderduiwu(data);
+		if (data){
+			renderduiwu(data);
+		}
 	});
 }
 

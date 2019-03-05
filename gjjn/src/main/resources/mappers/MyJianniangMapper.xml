@@ -52,7 +52,7 @@
     delete from work_myjianniang
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mochen.model.MyJianniang">
+  <insert id="insert" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
     insert into work_myjianniang (id, gongji, fangyu, 
       xueliang, sudu, baoji, 
       duobi, star, level, 
@@ -68,7 +68,7 @@
       #{pinji,jdbcType=INTEGER}, #{touxiang,jdbcType=VARCHAR}, #{lihui,jdbcType=VARCHAR}, 
       #{color,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang">
+  <insert id="insertSelective" parameterType="com.mochen.model.MyJianniang" useGeneratedKeys="true" keyProperty="id">
     insert into work_myjianniang
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

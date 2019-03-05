@@ -279,4 +279,15 @@
       openmap_id = #{openmapId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="mapBossUpdate" >
+    update work_role
+    set level = #{level,jdbcType=INTEGER},
+      exp = #{exp,jdbcType=INTEGER},
+      <if test="isOpen">
+      	openmap_id = openmap_id+1,
+      </if>
+      shiyou = shiyou - #{count,jdbcType=INTEGER},
+      wuzi = wuzi + #{wz,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

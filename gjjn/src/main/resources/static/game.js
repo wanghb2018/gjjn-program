@@ -183,34 +183,6 @@ function jnxiuxi(id){
 	});
 }
 
-
-
-function mapboss(id){
-	$.post(domain+'mapboss/',{'id':id},function(data){
-		if(data.result=="success"){
-			if(data.status=='1'){
-				rendermap(data.openid,data.guajiid,data.guajijy);
-			}
-			var str = "<font color='yellow'>挑战成功！</font><br/><font color='white'>恭喜您获得以下奖励：</font><br/><font color='yellow'>指挥官经验："+data.zhgjy+"</font><br/><font color='green;'>舰娘经验："+data.jnjy+"</font><br/><font color='gold'>物资："+data.wz+"</font>";
-			if(data.obtsp){
-				for(var i =0 ;i<data.obtsp.length;i++){
-					str = str + "<br/><font color='"+data.obtsp[i].color+"'>"+data.obtsp[i].name+"碎片："+data.obtsp[i].num+"个</font>";
-				}
-			}
-			mui.toast(str,{ duration:'long', type:'div' });
-			$("#rolelevel").html("Lv."+data.zhgdengji);
-			$("#wz_num").html(data.zhgwuzi);
-		}else if (data.result=="default"){
-			mui.toast("胜败乃兵家常事，大虾请提升战力后再来！");
-		}else if (data.result=="none"){
-			mui.toast("哥哥，没油了！");
-		}else{
-			mui.toast("你没有挑战这关的权限！");
-		}
-	});
-}
-
-
 function win(a,b){
 	mui.toast("敬请期待！");
 }

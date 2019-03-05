@@ -677,62 +677,6 @@ def buymofang(req):
 			context['wuzi'] = role.wuzi
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-def mapboss(req):
-	context={}
-	role = req.user.role_user.first()
-	id = req.POST.get('id')
-	bossmap = Map.objects.filter(id=id).first()
-	context['openid'] = role.openmap_id
-	context['guajijy'] = role.openmap.jnjy
-	if role.guajimap:
-		context['guajiid'] = role.guajimap.id
-	else:
-		context['guajiid'] = ''
-	if bossmap.id > role.openmap_id+1:
-		context['result'] = 'refause'
-	else:
-		if bossmap.id < role.openmap_id+1:
-			context['status'] = '0'			
-		dw = Duiwu.objects.filter(role=role).first()
-		if role.shiyou >= dw.count:
-			if dw.totalzdl*random.randint(9,11)/10 > bossmap.zdl:
-				context['result'] = 'success'
-				if bossmap.id == role.openmap_id:
-					context['status'] = '1'
-				wz = bossmap.wz*10*dw.count
-				jnjy = bossmap.jnjy*10*dw.count
-				jns = bossmap.jianniang_set.order_by('?')[:dw.count]
-				obtlist = addsuipianbylist(role.id,jns)
-				zhjy = bossmap.zhgjy * dw.count
-				context['obtsp'] = obtlist
-				context['wz'] = wz
-				context['jnjy'] = jnjy
-				context['zhgjy'] = zhjy
-				context['kyd'] = 1
-				role.wuzi += wz
-				role.exp += zhjy
-				if role.openmap_id == bossmap.id and bossmap.id!=48:
-					role.openmap_id = bossmap.id + 1
-				context['openid'] = role.openmap_id
-				context['guajijy'] = role.openmap.jnjy
-				role.keyandian += dw.count
-				role.shiyou -= dw.count
-				if role.level<role.djsx:
-					needjy = Rolesj.objects.filter(id=role.level).first().needjy
-					if role.exp>=needjy:
-						role.exp -= needjy
-						role.level += 1
-				role.save()
-				context['zhgdengji'] = role.level
-				context['zhgwuzi'] = role.wuzi
-				dwaddjy(role,jnjy)
-			else:
-				context['result'] = 'default'
-
-		else:
-			context['result'] = 'none'
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def salezbl(req):
 	context={}
 	role = req.user.role_user.first()
