@@ -276,10 +276,12 @@ function renderRoleDuiwuWithData(data){
 			renderRoleData(data);
 		});
 	}
+	getAndRenderDuiwu()
+}
+
+function getAndRenderDuiwu(){
 	$.get('getDuiwuInfo',function(data){
-		if (data){
-			renderduiwu(data);
-		}
+		renderduiwu(data);
 	});
 }
 
@@ -304,8 +306,10 @@ function renderRoleData(data){
 
 function renderduiwu(dw){
 	var liststr = "";
-	for(var i=0;i<dw.myJns.length;i++){
-		liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.myJns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.myJns[i].color+"'>"+dw.myJns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJns[i].level+"</font><font style='margin-left: 5px;' color='white'>战斗力："+dw.myJns[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJns[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJns[i].id+")'>查看</button></div></li>";
+	if (dw.myJns){
+		for(var i=0;i<dw.myJns.length;i++){
+			liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.myJns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.myJns[i].color+"'>"+dw.myJns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJns[i].level+"</font><font style='margin-left: 5px;' color='white'>战斗力："+dw.myJns[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJns[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJns[i].id+")'>查看</button></div></li>";
+		}
 	}
 	$('#rolezdl').html(dw.zdl);
 	$('#mydwlist').empty();
@@ -340,7 +344,7 @@ function showjnlist(){
 }
 
 function showsplist(){
-	mui.get('showSpList/',function(data){
+	mui.get('showSpList',function(data){
 		if(data){	
 			$('#zbl').html(data[0].num);
 			$('#jbl').html(data[1].num);
@@ -353,6 +357,28 @@ function showsplist(){
 				$('#splistul').html(spliststr);
 				mui('.mui-numbox').numbox();
 			}
+		}
+	});
+}
+
+function shangzhen(){
+	mui.get("shangzhen",{'id':$('#jninfohideid').val()},function(data){
+		if(data==0){	
+			getAndRenderDuiwu();
+			mui.toast("上阵成功！");
+		}else if(data==-1){
+			mui.toast("舰队人数已满6人！");
+		}else if(data==1){
+			mui.toast("该舰娘已在队伍中！");
+		}
+	});
+}
+
+function jnxiuxi(id){
+	mui.get('xiuxi',{'id':id},function(data){
+		if(data==0){
+			getAndRenderDuiwu();
+			mui.toast("操作成功！");
 		}
 	});
 }

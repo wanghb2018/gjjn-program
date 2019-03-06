@@ -24,6 +24,7 @@ import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.Role;
 import com.mochen.service.data.DuiwuData;
+import com.mochen.utils.Constant;
 
 @Service
 public class DuiwuService {
@@ -52,7 +53,7 @@ public class DuiwuService {
 		Duiwu duiwu = duiwuMapper.getByRoleId(role.getId());
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		if (CollectionUtils.isEmpty(myJnIds)) {
-			return null;
+			return new DuiwuData();
 		}
 		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
 		List<Jianniang> jns = new ArrayList<>();
@@ -98,6 +99,62 @@ public class DuiwuService {
 		}
 		myJianniangMapper.batchUpdate(myJns);
 	}
-
+	
+	public Integer shangzhen(Integer roleId, Integer myJnId) {
+		Duiwu duiwu = duiwuMapper.getByRoleId(roleId);
+		if (duiwu.getCount() == 6) {
+			return Constant.FAILED;
+		}
+		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
+		if (myJnIds.contains(myJnId)) {
+			return Constant.OTHER;
+		}
+		myJnIds.add(myJnId);
+		jnListToDuiwu(myJnIds, duiwu);
+		duiwuMapper.updateByPrimaryKey(duiwu);
+		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
+		jn.setIswar(1);
+		myJianniangMapper.updateByPrimaryKey(jn);
+		return Constant.SUCCESS;
+	}
+	
+	public Integer xiuxi(Integer roleId, Integer myJnId) {
+		Duiwu duiwu = duiwuMapper.getByRoleId(roleId);
+		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
+		myJnIds.remove(myJnId);
+		jnListToDuiwu(myJnIds, duiwu);
+		duiwuMapper.updateByPrimaryKey(duiwu);
+		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
+		jn.setIswar(0);
+		myJianniangMapper.updateByPrimaryKey(jn);
+		return Constant.SUCCESS;
+	}
+	
+	private void jnListToDuiwu(List<Integer> jnIds, Duiwu duiwu) {
+		duiwu.setOneId(null);
+		duiwu.setTwoId(null);
+		duiwu.setThreeId(null);
+		duiwu.setFourId(null);
+		duiwu.setFiveId(null);
+		duiwu.setSixId(null);
+		duiwu.setCount(jnIds.size());
+		switch (jnIds.size()) {
+		case 6:
+			duiwu.setSixId(jnIds.get(5));
+		case 5:
+			duiwu.setFiveId(jnIds.get(4));
+		case 4:
+			duiwu.setFourId(jnIds.get(3));
+		case 3:
+			duiwu.setThreeId(jnIds.get(2));
+		case 2:
+			duiwu.setTwoId(jnIds.get(1));
+		case 1:
+			duiwu.setOneId(jnIds.get(0));
+			break;
+		default:
+			break;
+		}
+	}
 
 }

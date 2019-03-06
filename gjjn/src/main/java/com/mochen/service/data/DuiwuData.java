@@ -6,7 +6,7 @@ import com.mochen.model.MyJianniang;
 
 public class DuiwuData {
 	private List<MyJianniang> myJns;
-	private Integer zdl;
+	private Integer zdl = 0;
 
 	public DuiwuData() {
 	}

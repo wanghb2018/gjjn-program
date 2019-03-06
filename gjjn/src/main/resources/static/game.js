@@ -161,27 +161,6 @@ function jnshengxing(index){
 	
 }
 
-function shangzhen(){
-	mui.post(domain+"shangzhen/",{'id':$('#jninfohideid').val()},function(data){
-		if(data.result=='success'){	
-			getRoleDataWithoutMap();
-			mui.toast("上阵成功！");
-		}else if(data.result=='full'){
-			mui.toast("舰队人数已满6人！");
-		}else if(data.result=='exist'){
-			mui.toast("该舰娘已在队伍中！");
-		}
-	});
-}
-
-function jnxiuxi(id){
-	mui.post(domain+'jnxiuxi/',{'id':id},function(data){
-		if(data.result=='success'){
-			getRoleDataWithoutMap();
-			mui.toast("操作成功！");
-		}
-	});
-}
 
 function win(a,b){
 	mui.toast("敬请期待！");

@@ -185,7 +185,7 @@ public class BusinessController {
 		}
 		MapBossData data = new MapBossData();
 		data.setGuajiId(role.getGuajimapId());
-		data.setOpenId(role.getOpenmapId());
+		data.setOpenId(role.getOpenmapId() + 1);
 		data.setWz(map.getWz() * 10 * duiwu.getCount());
 		data.setJnjy(map.getJnjy() * 10 * duiwu.getCount());
 		data.setZhgjy(map.getZhgjy() * duiwu.getCount());
@@ -201,6 +201,16 @@ public class BusinessController {
 		accountService.roleAddJy(role, data.getZhgjy(), data.getWz(), duiwu.getCount(), flag);
 		result.setData(data);
 		return result;
+	}
+	
+	@GetMapping("/shangzhen")
+	public Integer shangzhen(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId, Integer id) {
+		return duiwuService.shangzhen(roleId, id);
+	}
+	
+	@GetMapping("/xiuxi")
+	public Integer xiuxi(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId, Integer id) {
+		return duiwuService.xiuxi(roleId, id);
 	}
 
 	private List<Suipian> initBl(Integer roleId) {
