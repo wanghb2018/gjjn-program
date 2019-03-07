@@ -1,12 +1,17 @@
 var allRoleSJ = null;
 var allMap = null;
+var allJunxian = null;
 var guajiid = null;
+var role = null;
 $(function(){
 	$.get('allRoleSJ', function(data){
 		allRoleSJ = data;
 	});
 	$.get('allGameMap', function(data){
 		allMap = data;
+	});
+	$.get('allJunxian', function(data){
+		allJunxian = data;
 	});
 	$('.select_jn').on('click',function(){
 		$('.select_jn').removeClass('cjjs_jnimg_xuanzhong');
@@ -85,6 +90,7 @@ function login(type){
 					renderRoleDuiwuWithData(data.data);
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
+					role = data.data;
 					// showjnlist();
 					// showsplist();
 				}else{
@@ -105,6 +111,7 @@ function login(type){
 					renderRoleDuiwuWithData(data.data);
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
+					role = data.data;
 					// showjnlist();
 					// showsplist();
 				}else{
@@ -264,6 +271,26 @@ function mapboss(id){
 	});
 }
 
+function rolejinjie(){
+	if (role.level % 10 != 0){
+		mui.toast("整十级才能进阶！");
+		return;
+	}
+	mui.confirm("确定要消耗"+allRoleSJ[role.level-1].needwz+"物资进行进阶？","提示",["取消","确定"],function(e){
+		if (e.index == 1){
+			mui.get('jinjie',function(data){
+				if(data==0){
+					var str = "升阶成功！<br/>您的军衔已提升至<font color='gold'>"+allJunxian[role.junxianId].label+"</font><br/>并开放等级上限：<font color='green'>"+(role.djsx+10)+"级</font><br/>舰队全属性提升5%";
+					mui.toast(str,{ duration:'long', type:'div' });
+					renderRoleDuiwu();
+				}else if(data==1){
+					mui.toast("物资不足");
+				}
+			});
+		}
+	});
+}
+
 function renderRoleDuiwu(){
 	renderRoleDuiwuWithData(null);
 }
@@ -273,6 +300,7 @@ function renderRoleDuiwuWithData(data){
 		renderRoleData(data);
 	} else {
 		$.get('getRoleInfo',function(data){
+			role = data;
 			renderRoleData(data);
 		});
 	}
@@ -293,7 +321,7 @@ function renderRoleData(data){
 		$('#zs_num').html(data.zuanshi);
 		$('#wz_num').html(data.wuzi);
 		$('#roleid').html(data.id);
-		$('#rolejunxian').html(data.junxianId);
+		$('#rolejunxian').html(allJunxian[data.junxianId-1].label);
 		$('#roleshiyou').html(data.shiyou);
 		$('#rolemofang').html(data.mofang);
 		$('#rolekeyandian').html(data.keyandian);

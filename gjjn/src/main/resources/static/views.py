@@ -1,33 +1,3 @@
-
-
-def rolejinjie(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context= {}
-	role = req.user.role_user.first()
-	if role:
-		if role.junxian_id == 25:
-			context['result'] = 'full'
-			return HttpResponse(json.dumps(context), content_type="application/json")
-		if role.level%10!=0:
-			context['result'] = 'level'
-		else:
-			need = Rolesj.objects.filter(id=role.level).first()
-			if role.exp < need.needjy:
-				context['result'] = 'exp'
-			elif role.wuzi < need.needwz:
-				context['result'] = 'wuzi'
-			else:
-				role.exp -= need.needjy
-				role.wuzi -= need.needwz
-				role.djsx = role.level+10
-				role.level += 1
-				role.junxian_id += 1
-				role.save()
-				context['result'] = 'success'
-				context['junxian'] = role.junxian.label
-				context['djsx'] = role.djsx
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def keyansj(req):
 	insertlog(req,sys._getframe().f_code.co_name)
 	context= {}

@@ -19,15 +19,17 @@ public class GameMapService {
 	@Autowired
 	JianniangMapsMapper jianniangMapsMapper;
 
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'gameMap_'+#id")
 	public GameMap getGameMapById(Integer id) {
 		return gameMapMapper.selectByPrimaryKey(id);
 	}
-
+	
+	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_GAMEMAP)
 	public List<GameMap> getAllGameMap() {
 		return gameMapMapper.getAll();
 	}
 	
-	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniangmap_'+#p0")
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniangmap_'+#mapId")
 	public List<JianniangMaps> getByMapId(Integer mapId){
 		return jianniangMapsMapper.getByMapId(mapId);
 	}

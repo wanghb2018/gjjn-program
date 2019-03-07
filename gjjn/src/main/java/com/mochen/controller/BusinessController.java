@@ -25,6 +25,7 @@ import com.mochen.model.GameMap;
 import com.mochen.model.Jianniang;
 import com.mochen.model.JianniangMaps;
 import com.mochen.model.JianniangSJ;
+import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.Role;
@@ -57,6 +58,11 @@ public class BusinessController {
 	@GetMapping("/allGameMap")
 	public List<GameMap> getAllGameMap() {
 		return gameMapService.getAllGameMap();
+	}
+
+	@GetMapping("/allJunxian")
+	public List<Junxian> getAllJunxian() {
+		return duiwuService.getAllJunxian();
 	}
 
 	@PostMapping("/createRole")
@@ -169,7 +175,7 @@ public class BusinessController {
 		Role role = accountService.getByUserId(userId);
 		GameMap map = gameMapService.getGameMapById(id);
 		Duiwu duiwu = duiwuService.getDuiwuByRoleId(role.getId());
-		if(role.getShiyou() < duiwu.getCount()) {
+		if (role.getShiyou() < duiwu.getCount()) {
 			result.setHr(-2);
 			return result;
 		}
@@ -202,15 +208,32 @@ public class BusinessController {
 		result.setData(data);
 		return result;
 	}
-	
+
 	@GetMapping("/shangzhen")
-	public Integer shangzhen(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId, Integer id) {
+	public Integer shangzhen(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
 		return duiwuService.shangzhen(roleId, id);
 	}
-	
+
 	@GetMapping("/xiuxi")
-	public Integer xiuxi(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId, Integer id) {
+	public Integer xiuxi(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
 		return duiwuService.xiuxi(roleId, id);
+	}
+
+	@GetMapping("/jinjie")
+	public Integer jinjie(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		Role role = accountService.getByUserId(userId);
+		if (role.getLevel() % 10 != 0) {
+			return Constant.FAILED;
+		}
+		RoleSJ roleSj = accountService.getRoleSJById(role.getLevel());
+		if (role.getWuzi() < roleSj.getNeedwz()) {
+			return Constant.OTHER;
+		}
+		role.setWuzi(role.getWuzi() - roleSj.getNeedwz());
+		role.setDjsx(role.getDjsx() + 10);
+		role.setJunxianId(role.getJunxianId() + 1);
+		accountService.updateRole(role);
+		return Constant.SUCCESS;
 	}
 
 	private List<Suipian> initBl(Integer roleId) {

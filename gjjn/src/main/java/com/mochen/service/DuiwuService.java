@@ -48,6 +48,10 @@ public class DuiwuService {
 	public Duiwu getDuiwuByRoleId(Integer roleId) {
 		return duiwuMapper.getByRoleId(roleId);
 	}
+	
+	public List<Junxian> getAllJunxian(){
+		return junxianMapper.getAll();
+	}
 
 	public DuiwuData reCalJNZdl(Role role) {
 		Duiwu duiwu = duiwuMapper.getByRoleId(role.getId());

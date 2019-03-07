@@ -166,22 +166,6 @@ function win(a,b){
 	mui.toast("敬请期待！");
 }
 
-function rolejinjie(){
-	mui.post(domain+'rolejinjie/',function(data){
-		if(data.result=='success'){
-			var str = "升阶成功！<br/>您的军衔已提升至<font color='gold'>"+data.junxian+"</font><br/>并开放等级上限：<font color='green'>"+data.djsx+"级</font><br/>舰队全属性提升5%";
-			mui.toast(str,{ duration:'long', type:'div' });
-			getRoleData();
-		}else if(data.result=='level'){
-			mui.toast("等级未满整10级");
-		}else if(data.result == 'exp'){
-			mui.toast("经验不足");
-		}else if(data.result == 'wuzi'){
-			mui.toast("物资不足");
-		}
-	});
-}
-
 function keyansj(type){
 	mui.post(domain+'keyansj/',{'type':type},function(data){
 		if(data.result=="success"){

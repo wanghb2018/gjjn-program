@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.Cacheable;
 
 import com.mochen.model.Junxian;
@@ -18,4 +20,7 @@ public interface JunxianMapper {
 	int updateByPrimaryKeySelective(Junxian record);
 
 	int updateByPrimaryKey(Junxian record);
+
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'junxian_all'")
+	public List<Junxian> getAll();
 }
