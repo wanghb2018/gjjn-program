@@ -180,40 +180,6 @@ def qiandao(req):
 			context['result'] = 'refause'
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-def jnhecheng(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context={}
-	role = req.user.role_user.first()
-	id = req.POST.get('id')
-	if role:
-		sp = Suipian.objects.filter(role=role).filter(id=id).first()
-		jn = Myjianniang.objects.filter(role=role).filter(jianniang=sp.jnsp).first()
-		if jn:
-			context['result'] = 'exist'
-		else:
-			if sp:
-				neednum = sp.jnsp.spnum
-				if sp.num<neednum:
-					bl = ''
-					if sp.jnsp.pinji<3:
-						bl = Suipian.objects.filter(role=role).filter(jnsp__id=1).first()
-					else:
-						bl = Suipian.objects.filter(role=role).filter(jnsp__id=2).first()
-					if bl:
-						if bl.num+sp.num>=neednum:
-							bl.num = bl.num+sp.num-neednum
-							bl.save()
-							sp.num=0
-							sp.save()
-							addjn(role.id,sp.jnsp)
-							context['result'] = 'success'
-				else:
-					sp.num = sp.num-neednum
-					sp.save()
-					addjn(role.id,sp.jnsp)
-					context['result'] = 'success'
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def changetouxiang(req):
 	insertlog(req,sys._getframe().f_code.co_name)
 	context={}

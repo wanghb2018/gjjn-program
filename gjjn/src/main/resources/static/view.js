@@ -285,6 +285,8 @@ function rolejinjie(){
 					renderRoleDuiwu();
 				}else if(data==1){
 					mui.toast("物资不足");
+				} else {
+					mui.toast("等级或经验不足");
 				}
 			});
 		}
@@ -465,6 +467,24 @@ function showjninfo2(id){
 			$('#jninfohideid').val(data.jn.id);
 		}
 	});
+}
+
+function jnhecheng(id,neednum){
+	mui.confirm("是否使用"+neednum+"个碎片(不足则使用布里碎片)合成？","提示",["取消","确定"],function(e){
+		if(e.index==1){
+			mui.get('jnHecheng',{'id':id},function(data){
+				if(data==1){
+					mui.toast("对应舰娘已存在！");
+				}else if(data==0){
+					showsplist();
+					mui.toast("恭喜你合成成功！");
+				}else{
+					mui.toast("碎片不足！");
+				}
+			});
+		}
+	});
+	
 }
 
 function gotomap(){

@@ -2,6 +2,8 @@ package com.mochen.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.mochen.model.Suipian;
 
 public interface SuipianMapper {
@@ -20,4 +22,8 @@ public interface SuipianMapper {
     List<Suipian> getAllUserSps(Integer roleId);
     
     void batchSave(List<Suipian> sps);
+    
+    List<Suipian> getUserSps(@Param("id")Integer id, @Param("roleId")Integer roleId);
+    
+    void batchUpdate(List<Suipian> sps);
 }

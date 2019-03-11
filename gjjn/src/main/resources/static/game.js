@@ -112,25 +112,6 @@ function qiandao(){
 	});
 }
 
-function jnhecheng(id,neednum){
-	mui.confirm("是否使用"+neednum+"个碎片(不足则使用布里碎片)合成？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			mui.post(domain+'jnhecheng/',{'id':id},function(data){
-				if(data.result=='exist'){
-					mui.toast("对应舰娘已存在！");
-				}else if(data.result=='success'){
-					showjnlist();
-					showsplist();
-					mui.toast("恭喜你合成成功！");
-				}else{
-					mui.toast("碎片不足！");
-				}
-			});
-		}
-	});
-	
-}
-
 function changetouxiang(){
 	mui.post(domain+"changetouxiang/",{'id':$('#jninfohideid').val()},function(data){
 		if(data.result=='success'){

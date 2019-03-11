@@ -222,7 +222,7 @@ public class BusinessController {
 	@GetMapping("/jinjie")
 	public Integer jinjie(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
 		Role role = accountService.getByUserId(userId);
-		if (role.getLevel() % 10 != 0) {
+		if (role.getLevel() % 10 != 0 || !role.getLevel().equals(role.getDjsx())) {
 			return Constant.FAILED;
 		}
 		RoleSJ roleSj = accountService.getRoleSJById(role.getLevel());
@@ -233,6 +233,32 @@ public class BusinessController {
 		role.setDjsx(role.getDjsx() + 10);
 		role.setJunxianId(role.getJunxianId() + 1);
 		accountService.updateRole(role);
+		return Constant.SUCCESS;
+	}
+	
+	@GetMapping("/jnHecheng")
+	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
+		List<Suipian> sps = jianniangService.getUserSpsById(id, roleId);
+		Suipian sp = sps.get(2);
+		MyJianniang myJn = jianniangService.getByJnId(roleId, sp.getJnId());
+		if (myJn != null) {
+			return Constant.OTHER;
+		}
+		Jianniang jn = jianniangService.getById(sp.getJnId());
+		int index = sp.getPinji() < 3 ? 0 : 1;
+		int totalNum = sp.getNum() + sps.get(index).getNum();
+		if (totalNum < sp.getSpnum()) {
+			return Constant.FAILED;
+		}
+		if (sp.getNum() >= sp.getSpnum()) {
+			sps.get(2).setNum(sp.getNum() - sp.getSpnum());
+			jianniangService.addMyJN(roleId, jn);
+		} else {
+			sps.get(index).setNum(totalNum - sp.getSpnum());
+			sps.get(2).setNum(0);
+			jianniangService.addMyJN(roleId, jn);
+		}
+		jianniangService.spBatchUpdate(sps);
 		return Constant.SUCCESS;
 	}
 

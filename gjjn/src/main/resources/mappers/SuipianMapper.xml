@@ -25,6 +25,10 @@
     select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and jn_id &lt; 3 union  
 	select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and jn_id &gt; 2 and  num &gt; 0 order by pinji desc,num desc,jn_id asc;
   </select>
+  <select id="getUserSps" resultMap="BaseResultMap">
+    SELECT * FROM work_suipian where id = #{id,jdbcType=INTEGER} union 
+	SELECT * FROM work_suipian where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 ORDER BY jn_id asc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from work_suipian
     where id = #{id,jdbcType=INTEGER}
@@ -153,5 +157,12 @@
       color = #{color,jdbcType=VARCHAR},
       spnum = #{spnum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchUpdate">
+  	<foreach collection="list" item="i" separator=";">
+    update work_suipian
+    set num = #{i.num,jdbcType=INTEGER}
+    where id = #{i.id,jdbcType=INTEGER}
+  	</foreach>
   </update>
 </mapper>

@@ -52,11 +52,23 @@ public class JianniangService {
 		suipianMapper.batchSave(sps);
 	}
 	
+	public void spBatchUpdate(List<Suipian> sps) {
+		suipianMapper.batchUpdate(sps);
+	}
+	
 	public MyJianniang getMyJnById(Integer id) {
 		return myJianniangMapper.selectByPrimaryKey(id);
 	}
 	
 	public JianniangSJ getJnsjById(Integer id) {
 		return jianniangSJMapper.selectByPrimaryKey(id);
+	}
+	
+	public List<Suipian> getUserSpsById(Integer id, Integer roleId) {
+		return suipianMapper.getUserSps(id, roleId);
+	}
+	
+	public MyJianniang getByJnId(Integer roleId, Integer jnId) {
+		return myJianniangMapper.getByJnId(roleId, jnId);
 	}
 }
