@@ -8,61 +8,6 @@ $(function(){
 })
 
 
-
-function salesuipian(id,pinji){
-	var num=mui('#numbox'+id).numbox().getValue();
-	if (num >0){
-		mui.confirm("确定要出售"+num+"个碎片换取魔方？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			mui.post(domain+'salesuipian/',{
-			'id':id,
-			'num':num
-			},function(data){
-			if(data.result=='success'){
-			var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
-			mui.toast(str,{ duration:'long', type:'div' });
-			}
-			showsplist();
-			$("#rolemofang").html(data.mofang);
-		});
-		}
-	});
-
-		
-	}else{
-		if(pinji>3){
-			mui.confirm("确定要全部出售该碎片？","提示",["取消","确定"],function(e){
-				if(e.index==1){
-					mui.post(domain+'salesuipian/',{
-					'id':id,
-					'num':-1
-					},function(data){
-					if(data.result=='success'){
-					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-					}
-					$("#splistid"+id).hide();
-					$("#rolemofang").html(data.mofang);
-						});
-					}
-			});
-		}else{
-			mui.post(domain+'salesuipian/',{
-					'id':id,
-					'num':-1
-					},function(data){
-					if(data.result=='success'){
-					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-					}
-					$("#splistid"+id).hide();
-					$("#rolemofang").html(data.mofang);
-						});
-		}
-		
-	}
-}
-
 function openkeyanview(){
 	mui.post(domain+"getkeyandata/",function(data){
 		if(data){

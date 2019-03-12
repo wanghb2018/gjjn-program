@@ -261,6 +261,26 @@ public class BusinessController {
 		jianniangService.spBatchUpdate(sps);
 		return Constant.SUCCESS;
 	}
+	
+	@GetMapping("/saleSuipian")
+	public Integer saleSuipian(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, Integer id, Integer num) {
+		Suipian sp = jianniangService.getSpById(id);
+		Role role = accountService.getByUserId(userId);
+		int mfNum = 0;
+		if (num > 0) {
+			if (sp.getNum() > num) {
+				sp.setNum(sp.getNum() - num);
+				mfNum = num * (sp.getPinji() + 1);
+			}
+		} else if (num == -1) {
+			mfNum = sp.getNum() * (sp.getPinji() + 1);
+			sp.setNum(0);
+		}
+		jianniangService.spBatchUpdate(Arrays.asList(sp));
+		role.setMofang(role.getMofang()+mfNum);
+		accountService.updateRole(role);
+		return mfNum;
+	}
 
 	private List<Suipian> initBl(Integer roleId) {
 		Suipian zbl = new Suipian();

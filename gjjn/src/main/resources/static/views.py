@@ -309,32 +309,6 @@ def jnshengxing(req):
 				return HttpResponse(json.dumps(context), content_type="application/json")
 	return HttpResponse(json.dumps(context), content_type="application/json")
 
-def salesuipian(req):
-	context={}
-	role = req.user.role_user.first()
-	id = req.POST.get('id')
-	num=int(req.POST.get('num'))
-	sp = Suipian.objects.filter(id=id).first()
-	if num >=0:
-		if sp.num>=num:
-			sp.num -= num
-			mfnum = (sp.jnsp.pinji+1)*num
-			role.mofang += mfnum
-			sp.save()
-			role.save()
-			context['result'] = 'success'
-			context['num'] = mfnum
-	else:
-		mfnum = (sp.jnsp.pinji+1)*sp.num
-		context['result'] = 'success'
-		context['num'] = mfnum
-		context['mofang'] = role.mofang
-		sp.num = 0
-		role.mofang += mfnum
-		sp.save()
-		role.save()
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 def jianzao(req):
 	context={}
 	role = req.user.role_user.first()
