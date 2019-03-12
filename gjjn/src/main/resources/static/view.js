@@ -572,3 +572,56 @@ function formatDate(time){
                 sec;
     return newTime;         
 }
+
+function salesuipianexist(){
+	mui.confirm("确定要出售所有已拥有舰娘的碎片换取魔方？","提示",["取消","确定"],function(e){
+		if(e.index==1){
+			$('#btn_exist').attr('disabled',true);
+			mui.get("saleSuipianExist",function(data){
+				if(data>0){
+					var str = "<font color='gold'>获得魔方"+data+"个</font>";
+					mui.toast(str,{ duration:'long', type:'div' });
+				}else{
+					var str = "<font color='red'>没有要出售的碎片</font>";
+					mui.toast(str,{ duration:'long', type:'div' });
+				}
+				$('#btn_exist').attr('disabled',false);
+			})
+		}
+	});
+}
+
+function salesuipianfull(){
+	mui.confirm("确定要出售所有满破舰娘的碎片换取魔方？","提示",["取消","确定"],function(e){
+		if(e.index==1){
+			$('#btn_full').attr('disabled',true);
+			mui.get("saleSuipianFull",function(data){
+				if(data>0){
+					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
+					mui.toast(str,{ duration:'long', type:'div' });
+				} else{
+					var str = "<font color='red'>没有要出售的碎片</font>";
+					mui.toast(str,{ duration:'long', type:'div' });
+				}
+				$('#btn_full').attr('disabled',false);
+			})
+		}
+	});
+}
+
+function qiandao(){
+	mui.get('qiandao',function(data){
+		if(data.hr==0){
+			var str = "<font color='yellow'>签到成功！</font><br/><font color='white'>恭喜您获得以下奖励：</font><br/><font color='red'>钻石："+data.data.zuanshi+"个</font><br/><font color='green;'>魔方："+data.data.mofang+"个</font><br/><font color='white'>石油："+data.data.shiyou+"点</font>";
+			if(data.data.sps){
+				for(var i =0 ;i<data.data.sps.length;i++){
+					str = str + "<br/><font color='"+data.data.sps[i].color+"'>"+data.data.sps[i].name+"碎片："+data.data.sps[i].num+"个</font>";
+				}
+			}
+			$('#zs_num').html(parseInt($('#zs_num').html()) + data.data.zuanshi);
+			mui.toast(str,{ duration:'long', type:'div' });
+		}else{
+			mui.toast("今日已签到！");
+		}
+	});
+}

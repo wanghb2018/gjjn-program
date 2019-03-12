@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.Cacheable;
 
 import com.mochen.model.Jianniang;
@@ -18,4 +20,7 @@ public interface JianniangMapper {
     int updateByPrimaryKeySelective(Jianniang record);
 
     int updateByPrimaryKey(Jianniang record);
+    
+    @Cacheable(value=Constant.CACHE_YEAR,key=Constant.CACHE_ALL_JIANNIANG)
+    List<Jianniang> getAll();
 }

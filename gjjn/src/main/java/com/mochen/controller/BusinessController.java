@@ -1,7 +1,9 @@
 package com.mochen.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import com.mochen.controller.uidata.GenericResult;
 import com.mochen.controller.uidata.MapBossData;
 import com.mochen.controller.uidata.MapGuajiData;
 import com.mochen.controller.uidata.MyJnInfoUIData;
+import com.mochen.controller.uidata.QiandaoData;
 import com.mochen.model.Duiwu;
 import com.mochen.model.GameMap;
 import com.mochen.model.Jianniang;
@@ -235,7 +238,7 @@ public class BusinessController {
 		accountService.updateRole(role);
 		return Constant.SUCCESS;
 	}
-	
+
 	@GetMapping("/jnHecheng")
 	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
 		List<Suipian> sps = jianniangService.getUserSpsById(id, roleId);
@@ -261,7 +264,7 @@ public class BusinessController {
 		jianniangService.spBatchUpdate(sps);
 		return Constant.SUCCESS;
 	}
-	
+
 	@GetMapping("/saleSuipian")
 	public Integer saleSuipian(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, Integer id, Integer num) {
 		Suipian sp = jianniangService.getSpById(id);
@@ -277,9 +280,70 @@ public class BusinessController {
 			sp.setNum(0);
 		}
 		jianniangService.spBatchUpdate(Arrays.asList(sp));
-		role.setMofang(role.getMofang()+mfNum);
+		role.setMofang(role.getMofang() + mfNum);
 		accountService.updateRole(role);
 		return mfNum;
+	}
+
+	@GetMapping("/saleSuipianExist")
+	public Integer saleSuipianExist(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
+		return jianniangService.saleSuipianExist(roleId);
+	}
+
+	@GetMapping("/saleSuipianFull")
+	public Integer saleSuipianFull(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
+		return jianniangService.saleSuipianFull(roleId);
+	}
+
+	@GetMapping("/qiandao")
+	public GenericResult<QiandaoData> qiandao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		GenericResult<QiandaoData> result = new GenericResult<>();
+		Role role = accountService.getByUserId(userId);
+		boolean flag = true;
+		Date now = new Date();
+		if (role.getQdsj() != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String str1 = sdf.format(role.getQdsj());
+			String str2 = sdf.format(now);
+			if (str1.equals(str2)) {
+				flag = false;
+			}
+		}
+		if (flag == false) {
+			result.setHr(Constant.FAILED);
+			return result;
+		}
+		QiandaoData data = new QiandaoData();
+		data.setShiyou(500 + role.getQdts() * 10);
+		data.setMofang(100 + role.getQdts() * 3);
+		data.setZuanshi(50 + role.getQdts());
+		List<Suipian> sps = addSuipian(role);
+		data.setSps(sps);
+		jianniangService.spBatchSave(sps);
+		role.setQdts(role.getQdts() + 1);
+		role.setQdsj(now);
+		role.setShiyou(role.getShiyou() + data.getShiyou());
+		role.setMofang(role.getMofang() + data.getMofang());
+		role.setZuanshi(role.getZuanshi() + data.getZuanshi());
+		accountService.updateRole(role);
+		result.setData(data);
+		return result;
+	}
+
+	private List<Suipian> addSuipian(Role role) {
+		int count = 3;
+		if (count < role.getQdts() / 4) {
+			count = role.getQdts() / 4;
+			if (count > 16) {
+				count = 16;
+			}
+		}
+		List<Jianniang> allJns = jianniangService.getAllJn();
+		Collections.shuffle(allJns);
+		Random random = new Random();
+		return allJns.stream().limit(count)
+				.map(e -> new Suipian(role.getId(), e, random.nextInt(role.getQdts() + 1) + 1))
+				.collect(Collectors.toList());
 	}
 
 	private List<Suipian> initBl(Integer roleId) {

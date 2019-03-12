@@ -26,4 +26,8 @@ public interface SuipianMapper {
     List<Suipian> getUserSps(@Param("id")Integer id, @Param("roleId")Integer roleId);
     
     void batchUpdate(List<Suipian> sps);
+    
+    Integer saleSuipianExist(Integer roleId);
+    
+    Integer saleSuipianFull(Integer roleId);
 }

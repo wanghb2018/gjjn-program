@@ -27,6 +27,11 @@
     from work_jianniang
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_jianniang
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from work_jianniang
     where id = #{id,jdbcType=INTEGER}

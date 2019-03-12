@@ -38,24 +38,6 @@ function keyan_back(){
 	$('#keyanview').hide();
 	$('#jianduisx').show();
 }
-function qiandao(){
-	mui.post(domain+'qiandao/',function(data){
-		if(data.result=='success'){
-			var str = "<font color='yellow'>签到成功！</font><br/><font color='white'>恭喜您获得以下奖励：</font><br/><font color='red'>钻石："+data.getzs+"个</font><br/><font color='green;'>魔方："+data.getmf+"个</font><br/><font color='white'>石油："+data.getsy+"点</font>";
-			if(data.obtsp){
-				for(var i =0 ;i<data.obtsp.length;i++){
-					str = str + "<br/><font color='"+data.obtsp[i].color+"'>"+data.obtsp[i].name+"碎片："+data.obtsp[i].num+"个</font>";
-				}
-			}
-			$('#zs_num').html(data.zuanshi);
-			$('#rolemofang').html(data.mofang);
-			$('#roleshiyou').html(data.shiyou);
-			mui.toast(str,{ duration:'long', type:'div' });
-		}else{
-			mui.toast("今日已签到！");
-		}
-	});
-}
 
 function changetouxiang(){
 	mui.post(domain+"changetouxiang/",{'id':$('#jninfohideid').val()},function(data){
@@ -257,38 +239,3 @@ function salezbl(){
 	});
 }
 
-function salesuipianfull(){
-	mui.confirm("确定要出售所有满破舰娘的碎片换取魔方？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			$('#btn_full').attr('disabled',true);
-			mui.get(domain+"salesuipianfull/",function(data){
-				if(data.num>0){
-					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-				} else{
-					var str = "<font color='red'>没有要出售的碎片</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-				}
-				$('#btn_full').attr('disabled',false);
-			})
-		}
-	});
-}
-
-function salesuipianexist(){
-	mui.confirm("确定要出售所有已拥有舰娘的碎片换取魔方？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			$('#btn_exist').attr('disabled',true);
-			mui.get(domain+"salesuipianexist/",function(data){
-				if(data.num>0){
-					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-				}else{
-					var str = "<font color='red'>没有要出售的碎片</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-				}
-				$('#btn_exist').attr('disabled',false);
-			})
-		}
-	});
-}

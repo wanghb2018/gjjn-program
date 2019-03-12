@@ -150,35 +150,6 @@ def getkeyandata(req):
 	context['bjwz'] = keyansj[context['bjdj']].needwz
 	context['dbwz'] = keyansj[context['dbdj']].needwz
 	return HttpResponse(json.dumps(context), content_type="application/json")
-	
-def qiandao(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context={}
-	role = req.user.role_user.first()
-	if role:
-		now = datetime.datetime.now().replace(tzinfo=utc)
-		qdsj = role.qdsj.replace(tzinfo=utc)
-		key = now.day-qdsj.day
-		if now.month != qdsj.month:
-			key = 1
-		if key != 0:
-			role.qdts = role.qdts+1
-			role.qdsj = now
-			role.shiyou = role.shiyou + 500 + role.qdts*10
-			role.mofang = role.mofang + 100 + role.qdts*3
-			role.zuanshi = role.zuanshi + 50 + role.qdts
-			role.save()
-			context['result'] = 'success'
-			context['obtsp'] = addsuipian(role)
-			context['shiyou'] = role.shiyou
-			context['mofang'] = role.mofang
-			context['zuanshi'] = role.zuanshi
-			context['getzs'] = 50 + role.qdts
-			context['getmf'] = 100 + role.qdts*3
-			context['getsy'] = 500 + role.qdts*10
-		else:
-			context['result'] = 'refause'
-	return HttpResponse(json.dumps(context), content_type="application/json")
 
 def changetouxiang(req):
 	insertlog(req,sys._getframe().f_code.co_name)
@@ -192,31 +163,6 @@ def changetouxiang(req):
 		context['result'] = 'success'
 		context['tx'] = role.touxiang
 	return HttpResponse(json.dumps(context), content_type="application/json")
-
-
-def updatedwshuxing(role):
-	dw = Duiwu.objects.filter(role=role).first()
-	zdl = 0
-	if dw.one:		
-		caljnshuzhi(role,dw.one)
-		zdl += dw.one.zdl
-	if dw.two:		
-		caljnshuzhi(role,dw.two)
-		zdl += dw.two.zdl
-	if dw.three:
-		caljnshuzhi(role,dw.three)
-		zdl += dw.three.zdl
-	if dw.four:
-		caljnshuzhi(role,dw.four)
-		zdl += dw.four.zdl
-	if dw.five:
-		caljnshuzhi(role,dw.five)
-		zdl += dw.five.zdl
-	if dw.six:
-		caljnshuzhi(role,dw.six)
-		zdl += dw.six.zdl
-	dw.totalzdl = zdl
-	dw.save()
 
 
 def jnshengxing(req):
@@ -498,30 +444,6 @@ def getAllJN(req):
 	return render(req,'alljn.html',{'jn':jn})
 
 
-#随机增加碎片
-def addsuipian(role):
-	obtlist = []
-	count = 3
-	if count < int(role.qdts/4):
-		count = int(role.qdts/4)
-	if count > 16:
-		count = 16
-	jns = Jianniang.objects.order_by('?')[:count]
-	for item in jns:
-		num = random.randint(1,role.qdts)
-		sp = Suipian.objects.filter(role_id=role.id).filter(jnsp=item).first()
-		if sp:
-			sp.num=sp.num+num
-			sp.save()
-		else:
-			Suipian(role_id=role.id,jnsp=item,num=num).save()
-		d= {}
-		d['name'] = item.name
-		d['color'] = item.color
-		d['num'] = num
-		obtlist.append(d)
-	return obtlist
-
 #通过列表增加碎片
 def addsuipianbylist(roleid,jns):
 	obtlist = []
@@ -593,48 +515,3 @@ def getphbinfo(req):
 			jnphb.append(d)
 		context['jnphb'] = jnphb
 		return HttpResponse(json.dumps(context), content_type="application/json")
-
-def salesuipianexist(req):
-	context={}
-	role = req.user.role_user.first()
-	num = 0
-	sps = Suipian.objects.filter(num__gt = 0).filter(jnsp__id__gt=2).filter(role=role).filter(jnsp__pinji__lt=6)
-	if len(sps) == 0:
-		context['num'] = num
-		return HttpResponse(json.dumps(context), content_type="application/json")
-	myjns = Myjianniang.objects.filter(role=role).filter(jianniang__pinji__lt=6)
-	jns = []
-	for myjn in myjns:
-		jns.append(myjn.jianniang)
-	for sp in sps:
-		if sp.jnsp in jns:
-			num = num+sp.num*(sp.jnsp.pinji+1)
-			sp.num = 0
-			sp.save()
-	role.mofang += num
-	role.save()
-	context['num'] = num
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
-def salesuipianfull(req):
-	context={}
-	role = req.user.role_user.first()
-	num = 0
-	sps = Suipian.objects.filter(num__gt = 0).filter(jnsp__id__gt=2).filter(role=role).filter(jnsp__pinji__lt=6)
-	if len(sps) == 0:
-		context['num'] = num
-		return HttpResponse(json.dumps(context), content_type="application/json")
-	myjns = Myjianniang.objects.filter(role=role).filter(jianniang__pinji__lt=6)
-	jns = []
-	for myjn in myjns:
-		if myjn.mystar - myjn.jianniang.star == 3:
-			jns.append(myjn.jianniang)
-	for sp in sps:
-		if sp.jnsp in jns:
-			num = num+sp.num*(sp.jnsp.pinji+1)
-			sp.num = 0
-			sp.save()
-	role.mofang += num
-	role.save()
-	context['num'] = num
-	return HttpResponse(json.dumps(context), content_type="application/json")
