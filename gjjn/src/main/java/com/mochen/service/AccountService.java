@@ -11,6 +11,7 @@ import com.mochen.dao.RoleMapper;
 import com.mochen.dao.RoleSJMapper;
 import com.mochen.dao.UserMapper;
 import com.mochen.model.Keyan;
+import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.User;
@@ -83,5 +84,25 @@ public class AccountService {
 			}
 		}
 		roleMapper.mapBossUpdate(role.getId(), level, exp, count, wz, flag);
+	}
+	
+	public void jianzaoUpdate(Integer id, Integer wuzi, Integer mofang) {
+		roleMapper.jianzaoUpdate(id, wuzi, mofang);
+	}
+	
+	public List<PhbInfo> djPhb(){
+		return roleMapper.djPhb();
+	}
+	
+	public List<PhbInfo> zdlPhb(){
+		return roleMapper.zdlPhb();
+	}
+	
+	public List<PhbInfo> tjPhb(){
+		return roleMapper.tjPhb();
+	}
+	
+	public List<PhbInfo> jnPhb(){
+		return roleMapper.jnPhb();
 	}
 }

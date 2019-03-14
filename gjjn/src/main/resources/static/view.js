@@ -27,6 +27,9 @@ $(function(){
 			$('#jnworld').html('我还以为你从来都不会选我呢。');
 		}
 	});
+	$("input[name='phbtype']").change(function(){
+	getphbinfo($("input[name='phbtype']:checked").val());
+	});
 });
 
 function register(){
@@ -622,6 +625,68 @@ function qiandao(){
 			mui.toast(str,{ duration:'long', type:'div' });
 		}else{
 			mui.toast("今日已签到！");
+		}
+	});
+}
+
+function jianzao(){
+	mui.get("jianzao",function(data){
+				if(data.hr==0){
+					var str = "建造成功！<br/><font color='"+data.data.color+"'>"+data.data.name+"碎片："+data.data.num+"个</font>";				
+					mui.toast(str,{ duration:'long', type:'div' });
+					$('#wz_num').html(parseInt($('#wz_num').html()) - 1000);
+				}else if(data.hr==1){
+					mui.toast("物资不足!");
+				}else if(data.hr==-1){
+					mui.toast("魔方不足");
+				}
+			});
+}
+function gjjianzao(){
+	mui.get("gjJianzao",function(data){
+				if(data.hr==0){
+					var str = "建造成功！<br/><font color='"+data.data.color+"'>"+data.data.name+"碎片："+data.data.num+"个</font>";				
+					mui.toast(str,{ duration:'long', type:'div' });
+					$('#wz_num').html(parseInt($('#wz_num').html()) - 3000);
+				}else if(data.hr==1){
+					mui.toast("物资不足!");
+				}else if(data.hr==-1){
+					mui.toast("魔方不足");
+				}
+			});
+}
+function paihangbang(){
+	$('#menus').hide();
+	$('#phb').show();
+	getphbinfo($("input[name='phbtype']:checked").val());
+}
+function back_phb(){
+	$('#phb').hide();$('#menus').show();
+}
+function getphbinfo(type){
+	mui.get('phb',{'type':type},function(data){
+		if(data){
+			var str="";
+			if(type == 'a'){
+				for(var i = 0 ;i<data.length;i++){
+					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 Lv."+data[i].num+"</p></div></div></li>";
+				}
+			}else if(type == 'b'){
+				for(var i = 0 ;i<data.length;i++){
+					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 战斗力："+data[i].num+"</p></div></div></li>";
+				}
+			}else if(type == 'c'){
+				for(var i = 0 ;i<data.length;i++){
+					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 图鉴数："+data[i].num+"个</p></div></div></li>";
+				}
+			}
+			else if(type == 'd'){
+				for(var i = 0 ;i<data.length;i++){
+					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].tx+"'><div class='mui-media-body'><font color='"+data[i].color+"'>"+data[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 <font color='cyan'>战斗力："+data[i].num+"</font>  <font color='gold'>"+data[i].label+"</font></p></div></div></li>";
+				}
+			}
+			$('#phbul').empty();
+			$('#phbul').html(str);
 		}
 	});
 }

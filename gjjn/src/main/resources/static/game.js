@@ -1,13 +1,3 @@
-var domain = "../";
-
-$(function(){
-
-	$("input[name='phbtype']").change(function(){
-	getphbinfo($("input[name='phbtype']:checked").val());
-	});
-})
-
-
 function openkeyanview(){
 	mui.post(domain+"getkeyandata/",function(data){
 		if(data){
@@ -89,60 +79,6 @@ function keyansj(type){
 	});
 }
 
-function jianzao(){
-	mui.post(domain+"jianzao/",function(data){
-				if(data.result=='success'){
-					var str = "建造成功！<br/><font color='"+data.color+"'>"+data.name+"碎片："+data.num+"个</font>";				
-					mui.toast(str,{ duration:'long', type:'div' });
-					$('#rolemofang').html(data.rolemofang);
-					$('#wz_num').html(data.rolewuzi);
-				}else if(data.result=='wuzi'){
-					mui.toast("物资不足!");
-				}else if(data.result=='mofang'){
-					mui.toast("魔方不足");
-				}
-			});
-}
-function gjjianzao(){
-	mui.post(domain+"gjjianzao/",function(data){
-				if(data.result=='success'){
-					var str = "建造成功！<br/><font color='"+data.color+"'>"+data.name+"碎片："+data.num+"个</font>";				
-					mui.toast(str,{ duration:'long', type:'div' });
-					$('#rolemofang').html(data.rolemofang);
-					$('#wz_num').html(data.rolewuzi);
-				}else if(data.result=='wuzi'){
-					mui.toast("物资不足!");
-				}else if(data.result=='mofang'){
-					mui.toast("魔方不足");
-				}
-			});
-}
-
-function xianshijianzao(){
-	mui.post(domain+"xianshijianzao/",function(data){
-				if(data.result=='success'){
-					var str = "建造成功！<br/><font color='"+data.color+"'>"+data.name+"碎片："+data.num+"个</font>";				
-					mui.toast(str,{ duration:'long', type:'div' });
-					$('#rolemofang').html(data.rolemofang);
-					$('#wz_num').html(data.rolewuzi);
-				}else if(data.result=='wuzi'){
-					mui.toast("物资不足!");
-				}else if(data.result=='mofang'){
-					mui.toast("魔方不足");
-				}
-			});
-}
-
-function paihangbang(){
-	$('#menus').hide();
-	$('#phb').show();
-	getphbinfo($("input[name='phbtype']:checked").val());
-}
-
-function back_phb(){
-	$('#phb').hide();$('#menus').show();
-}
-
 function getlosejn(){
 	$('#menus').hide();
 	$('#losejn').show();
@@ -163,34 +99,6 @@ function getlosejn(){
 
 function back_losejn(){
 	$('#losejn').hide();$('#menus').show();
-}
-
-function getphbinfo(type){
-	mui.post(domain+'getphbinfo/',{'type':type},function(data){
-		if(data){
-			var str="";
-			if(data.djphb){
-				for(var i = 0 ;i<data.djphb.length;i++){
-					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data.djphb[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data.djphb[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 Lv."+data.djphb[i].lv+"</p></div></div></li>";
-				}
-			}else if(data.zlphb){
-				for(var i = 0 ;i<data.zlphb.length;i++){
-					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data.zlphb[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data.zlphb[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 战斗力："+data.zlphb[i].zdl+"</p></div></div></li>";
-				}
-			}else if(data.tjphb){
-				for(var i = 0 ;i<data.tjphb.length;i++){
-					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data.tjphb[i].tx+"'><div class='mui-media-body'><font color='gold'>"+data.tjphb[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 图鉴数："+data.tjphb[i].tjs+"个</p></div></div></li>";
-				}
-			}
-			else if(data.jnphb){
-				for(var i = 0 ;i<data.jnphb.length;i++){
-					str = str + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data.jnphb[i].tx+"'><div class='mui-media-body'><font color='"+data.jnphb[i].color+"'>"+data.jnphb[i].name+"</font><p class='myp mui-ellipsis'>第"+(i+1)+"名 <font color='cyan'>战斗力："+data.jnphb[i].zdl+"</font>  <font color='gold'>"+data.jnphb[i].rolename+"</font></p></div></div></li>";
-				}
-			}
-			$('#phbul').empty();
-			$('#phbul').html(str);
-		}
-	});
 }
 
 function zuanshisd(){

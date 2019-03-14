@@ -31,6 +31,7 @@ import com.mochen.model.JianniangSJ;
 import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
+import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.Suipian;
@@ -328,6 +329,84 @@ public class BusinessController {
 		accountService.updateRole(role);
 		result.setData(data);
 		return result;
+	}
+
+	@GetMapping("/jianzao")
+	public GenericResult<Suipian> jianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		GenericResult<Suipian> result = new GenericResult<>();
+		Role role = accountService.getByUserId(userId);
+		if (role.getMofang() < 100) {
+			result.setHr(Constant.FAILED);
+		}
+		if (role.getWuzi() < 1000) {
+			result.setHr(Constant.OTHER);
+		}
+		Random random = new Random();
+		int num = 50 - (int) Math.pow(random.nextInt(900), 0.5);
+		int rate = random.nextInt(100) + 1;
+		List<Jianniang> jns = null;
+		if (rate <= 30) {
+			jns = jianniangService.getAllJnByPinji(0);
+		} else if (rate <= 65) {
+			jns = jianniangService.getAllJnByPinji(1);
+		} else if (rate <= 85) {
+			jns = jianniangService.getAllJnByPinji(2);
+		} else {
+			jns = jianniangService.getAllJnByOverPinji(2);
+		}
+		accountService.jianzaoUpdate(role.getId(), 1000, 100);
+		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
+		jianniangService.spBatchSave(Arrays.asList(sp));
+		result.setData(sp);
+		return result;
+	}
+
+	@GetMapping("/gjJianzao")
+	public GenericResult<Suipian> gjJianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		GenericResult<Suipian> result = new GenericResult<>();
+		Role role = accountService.getByUserId(userId);
+		if (role.getMofang() < 268) {
+			result.setHr(Constant.FAILED);
+		}
+		if (role.getWuzi() < 3000) {
+			result.setHr(Constant.OTHER);
+		}
+		Random random = new Random();
+		int num = 100 - (int) Math.pow(random.nextInt(4900), 0.5);
+		int rate = random.nextInt(1000) + 1;
+		List<Jianniang> jns = null;
+		if (rate <= 630) {
+			jns = jianniangService.getAllJnByPinji(2);
+		} else if (rate <= 830) {
+			jns = jianniangService.getAllJnByPinji(3);
+		} else if (rate <= 930) {
+			jns = jianniangService.getAllJnByPinji(4);
+		} else if (rate <= 980) {
+			jns = jianniangService.getAllJnByPinji(5);
+		} else {
+			jns = jianniangService.getAllJnByOverPinji(5);
+		}
+		accountService.jianzaoUpdate(role.getId(), 3000, 268);
+		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
+		jianniangService.spBatchSave(Arrays.asList(sp));
+		result.setData(sp);
+		return result;
+	}
+
+	@GetMapping("/phb")
+	public List<PhbInfo> getPhb(String type) {
+		switch (type) {
+		case "a":
+			return accountService.djPhb();
+		case "b":
+			return accountService.zdlPhb();
+		case "c":
+			return accountService.tjPhb();
+		case "d":
+			return accountService.jnPhb();
+		default:
+			return null;
+		}
 	}
 
 	private List<Suipian> addSuipian(Role role) {

@@ -87,4 +87,12 @@ public class JianniangService {
 	public List<Jianniang> getAllJn() {
 		return jianniangMapper.getAll();
 	}
+	
+	public List<Jianniang> getAllJnByPinji(Integer pinji){
+		return jianniangMapper.getAllByPinji(pinji);
+	}
+	
+	public List<Jianniang> getAllJnByOverPinji(Integer pinji){
+		return jianniangMapper.getAllByOverPinji(pinji);
+	}
 }

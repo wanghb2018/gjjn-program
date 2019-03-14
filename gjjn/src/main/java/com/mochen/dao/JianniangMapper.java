@@ -23,4 +23,10 @@ public interface JianniangMapper {
     
     @Cacheable(value=Constant.CACHE_YEAR,key=Constant.CACHE_ALL_JIANNIANG)
     List<Jianniang> getAll();
+    
+    @Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_pinji'+#p0")
+    List<Jianniang> getAllByPinji(Integer pinji);
+    
+    @Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_over_pinji'+#p0")
+    List<Jianniang> getAllByOverPinji(Integer pinji);
 }

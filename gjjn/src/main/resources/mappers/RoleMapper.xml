@@ -291,4 +291,35 @@
       wuzi = wuzi + #{wz,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="jianzaoUpdate" >
+    update work_role
+    set wuzi = wuzi - #{wuzi,jdbcType=INTEGER},
+    mofang = mofang - #{mofang,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="phbMap" type="com.mochen.model.PhbInfo">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="tx" jdbcType="VARCHAR" property="tx" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+  </resultMap>
+  <select id="djPhb" resultMap="phbMap">
+  	select rolename name, touxiang tx, level num from work_role order by `level` desc limit 50
+  </select>
+  <select id="zdlPhb" resultMap="phbMap">
+  	select r.rolename name, r.touxiang tx, d.totalzdl num from work_role r
+	inner join work_duiwu d on r.id = d.role_id
+	order by d.totalzdl desc limit 50;
+  </select>
+  <select id="tjPhb" resultMap="phbMap">
+  	select r.rolename name, r.touxiang tx, count(*) num from work_role r
+	inner join work_myjianniang m on r.id = m.role_id
+	GROUP BY m.role_id order by num desc limit 50;
+  </select>
+  <select id="jnPhb" resultMap="phbMap">
+  	select m.name name, m.touxiang tx, m.zdl num, m.color color, r.rolename label from work_myjianniang m
+	inner join work_role r on m.role_id = r.id
+	order by m.zdl desc limit 100;
+  </select>
 </mapper>
