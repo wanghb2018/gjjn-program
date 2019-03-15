@@ -67,6 +67,10 @@ public class JianniangService {
 	public List<Suipian> getUserSpsById(Integer id, Integer roleId) {
 		return suipianMapper.getUserSps(id, roleId);
 	}
+	
+	public List<Suipian> getSpByJnId(Integer jnId, Integer roleId) {
+		return suipianMapper.getSpByJnId(jnId, roleId);
+	}
 
 	public MyJianniang getByJnId(Integer roleId, Integer jnId) {
 		return myJianniangMapper.getByJnId(roleId, jnId);

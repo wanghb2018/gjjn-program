@@ -464,6 +464,19 @@ public class BusinessController {
 		jianniangService.spBatchUpdate(bls);
 		return Constant.SUCCESS;
 	}
+	
+	@GetMapping("/jnShengxing")
+	public Integer jnShengxing(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
+		Role role = accountService.getByUserId(userId);
+		MyJianniang myJn = jianniangService.getByJnId(role.getId(), id);
+		Jianniang jn = jianniangService.getById(myJn.getJnId());
+		if (myJn.getStar() - jn.getStar() >= 3 && jn.getPinji() < 6) {
+			return Constant.OTHER;
+		}
+		List<Suipian> suipian = jianniangService.getSpByJnId(jn.getId(), role.getId());
+		
+		
+	}
 
 	private List<Suipian> addSuipian(Role role) {
 		int count = 3;
