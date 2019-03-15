@@ -109,22 +109,6 @@ def keyansj(req):
 			context['wuzi'] = role.wuzi
 		return HttpResponse(json.dumps(context), content_type="application/json")
 
-def getlosejn(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context= {}
-	role = req.user.role_user.first()
-	sql = "select * from work_jianniang where id not in (select jianniang_id from work_myjianniang where role_id = "+str(role.id)+" ) and id>2 ORDER BY pinji desc"
-	a = Jianniang.objects.raw(sql)
-	jns = []
-	for i in a:
-		d = {}
-		d['name'] = i.name
-		d['color'] = i.color
-		jns.append(d)
-	context['jns'] = jns
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
-
 def getkeyandata(req):
 	insertlog(req,sys._getframe().f_code.co_name)
 	context= {}
@@ -150,20 +134,6 @@ def getkeyandata(req):
 	context['bjwz'] = keyansj[context['bjdj']].needwz
 	context['dbwz'] = keyansj[context['dbdj']].needwz
 	return HttpResponse(json.dumps(context), content_type="application/json")
-
-def changetouxiang(req):
-	insertlog(req,sys._getframe().f_code.co_name)
-	context={}
-	role = req.user.role_user.first()
-	id = req.POST.get('id')
-	myjn = Myjianniang.objects.filter(role=role).filter(id=id).first()
-	if role and myjn:
-		role.touxiang = myjn.jianniang.touxiang
-		role.save()
-		context['result'] = 'success'
-		context['tx'] = role.touxiang
-	return HttpResponse(json.dumps(context), content_type="application/json")
-
 
 def jnshengxing(req):
 	insertlog(req,sys._getframe().f_code.co_name)

@@ -408,6 +408,20 @@ public class BusinessController {
 			return null;
 		}
 	}
+	
+	@GetMapping("/getLoseJn")
+	public List<Jianniang> getLoseJn(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId){
+		return jianniangService.getLoseJn(roleId);
+	}
+	
+	@GetMapping("/changeTouxiang")
+	public String changeTouxiang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
+		Role role = accountService.getByUserId(userId);
+		MyJianniang myJn = jianniangService.getByJnId(role.getId(), id);
+		role.setTouxiang(myJn.getTouxiang());
+		accountService.updateRole(role);
+		return role.getTouxiang();
+	}
 
 	private List<Suipian> addSuipian(Role role) {
 		int count = 3;

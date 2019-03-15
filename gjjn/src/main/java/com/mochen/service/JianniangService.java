@@ -95,4 +95,8 @@ public class JianniangService {
 	public List<Jianniang> getAllJnByOverPinji(Integer pinji){
 		return jianniangMapper.getAllByOverPinji(pinji);
 	}
+	
+	public List<Jianniang> getLoseJn(Integer roleId){
+		return jianniangMapper.getLoseJn(roleId);
+	}
 }

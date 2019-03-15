@@ -29,4 +29,6 @@ public interface JianniangMapper {
     
     @Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_over_pinji'+#p0")
     List<Jianniang> getAllByOverPinji(Integer pinji);
+    
+    List<Jianniang> getLoseJn(Integer roleId);
 }

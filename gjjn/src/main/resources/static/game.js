@@ -28,16 +28,6 @@ function keyan_back(){
 	$('#keyanview').hide();
 	$('#jianduisx').show();
 }
-
-function changetouxiang(){
-	mui.post(domain+"changetouxiang/",{'id':$('#jninfohideid').val()},function(data){
-		if(data.result=='success'){
-			$('#roletouxiang').attr('src',data.tx);
-			mui.toast("设置成功！");
-		}
-	});
-}
-
 function jnshengxing(index){
 	mui.confirm("是否使用对应舰娘碎片(不足则使用布里碎片)进行升星？","提示",["取消","确定"],function(e){
 		if(e.index==1){
@@ -77,28 +67,6 @@ function keyansj(type){
 			mui.toast("所需资源不足！");
 		}
 	});
-}
-
-function getlosejn(){
-	$('#menus').hide();
-	$('#losejn').show();
-	mui.post(domain+'getlosejn/',function(data){
-		if(data.jns){
-			var str = "";
-			if (data.jns.length>0){
-				for(var i = 0;i<data.jns.length;i++){
-				str = str + "<font color = "+data.jns[i].color+">"+data.jns[i].name+"</font><br/>";
-				}
-			}else{
-				str = "<font color='Gold'>恭喜您已解锁全部舰娘!</font>"
-			}
-			$('#losejnul').html(str);
-		}
-	})
-}
-
-function back_losejn(){
-	$('#losejn').hide();$('#menus').show();
 }
 
 function zuanshisd(){

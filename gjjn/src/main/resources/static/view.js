@@ -690,3 +690,31 @@ function getphbinfo(type){
 		}
 	});
 }
+function getlosejn(){
+	$('#menus').hide();
+	$('#losejn').show();
+	mui.get('getLoseJn',function(data){
+		if(data){
+			var str = "";
+			if (data.length>0){
+				for(var i = 0;i<data.length;i++){
+				str = str + "<font color = "+data[i].color+">"+data[i].name+"</font><br/>";
+				}
+			}else{
+				str = "<font color='Gold'>恭喜您已解锁全部舰娘!</font>"
+			}
+			$('#losejnul').html(str);
+		}
+	})
+}
+function back_losejn(){
+	$('#losejn').hide();$('#menus').show();
+}
+function changetouxiang(){
+	mui.post("changeTouxiang",{'id':$('#jninfohideid').val()},function(data){
+		if(data){
+			$('#roletouxiang').attr('src',data);
+			mui.toast("设置成功！");
+		}
+	});
+}
