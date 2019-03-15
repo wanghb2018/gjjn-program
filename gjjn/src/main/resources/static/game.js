@@ -69,49 +69,5 @@ function keyansj(type){
 	});
 }
 
-function zuanshisd(){
-	mui.get(domain+"zuanshisd/",function(data){
-		if(data.result=='success'){
-			mui.toast("购买成功！");
-			$('#zs_num').html(data.zuanshi);
-			$('#roleshiyou').html(data.shiyou);
-		}else{
-			mui.toast("砖石不足！");
-		}
-	});
-}
 
-function salemofang(){
-	mui.get(domain+"salemofang/",function(data){
-		if(data.result=='success'){
-			$('#rolemofang').html(data.mofang);
-			$('#wz_num').html(data.wuzi);
-			mui.toast("兑换成功！");
-		}else{
-			mui.toast("魔方不足！");
-		}
-	});
-}
-
-function buymofang(){
-	mui.get(domain+"buymofang/",function(data){
-		if(data.result=='success'){
-			$('#rolemofang').html(data.mofang);
-			$('#wz_num').html(data.wuzi);
-			mui.toast("购买成功！");
-		}else{
-			mui.toast("物资不足！");
-		}
-	});
-}
-
-function salezbl(){
-	mui.get(domain+"salezbl/",function(data){
-		if(data.result=='success'){
-			mui.toast("兑换成功！");
-		}else{
-			mui.toast("紫布里不足！");
-		}
-	});
-}
 

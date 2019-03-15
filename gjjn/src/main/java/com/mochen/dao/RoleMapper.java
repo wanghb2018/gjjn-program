@@ -41,4 +41,6 @@ public interface RoleMapper {
     
     @Cacheable(value=Constant.CACHE_HOUR, key="'jn_phb'")
     List<PhbInfo> jnPhb();
+    
+    void updateRoleByChangeDetail(@Param("id")Integer id, @Param("zuanshiChange")Integer zuanshi, @Param("shiyouChange")Integer shiyou, @Param("mofangChange")Integer mofang, @Param("wuziChange")Integer wuzi, @Param("keyandianChange")Integer keyandian);
 }

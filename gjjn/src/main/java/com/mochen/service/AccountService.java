@@ -105,4 +105,8 @@ public class AccountService {
 	public List<PhbInfo> jnPhb(){
 		return roleMapper.jnPhb();
 	}
+	
+	public void updateRoleByChangeDetail(Integer id, Integer zuanshi, Integer shiyou, Integer mofang, Integer wuzi, Integer keyandian) {
+		roleMapper.updateRoleByChangeDetail(id, zuanshi, shiyou, mofang, wuzi, keyandian);
+	}
 }

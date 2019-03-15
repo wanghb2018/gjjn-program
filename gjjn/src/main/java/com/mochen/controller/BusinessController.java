@@ -422,6 +422,48 @@ public class BusinessController {
 		accountService.updateRole(role);
 		return role.getTouxiang();
 	}
+	
+	@GetMapping("/zuanshisd")
+	public Integer zuanshisd(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+		Role role = accountService.getByUserId(userId);
+		if (role.getZuanshi() < 50) {
+			return Constant.FAILED;
+		}
+		accountService.updateRoleByChangeDetail(role.getId(), -50, 500, null, null, null);
+		return Constant.SUCCESS;
+	}
+	
+	@GetMapping("/saleMofang")
+	public Integer saleMofang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+		Role role = accountService.getByUserId(userId);
+		if (role.getMofang() < 1000) {
+			return Constant.FAILED;
+		}
+		accountService.updateRoleByChangeDetail(role.getId(), null, null, -1000, 160000, null);
+		return Constant.SUCCESS;
+	}
+	
+	@GetMapping("/buyMofang")
+	public Integer buyMofang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+		Role role = accountService.getByUserId(userId);
+		if (role.getWuzi() < 200000) {
+			return Constant.FAILED;
+		}
+		accountService.updateRoleByChangeDetail(role.getId(), null, null, 1000, -200000, null);
+		return Constant.SUCCESS;
+	}
+	
+	@GetMapping("/saleZbl")
+	public Integer saleZbl(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId) {
+		List<Suipian> bls = jianniangService.getRoleBl(roleId);
+		if (bls.get(0).getNum() < 20) {
+			return Constant.FAILED;
+		}
+		bls.get(0).setNum(bls.get(0).getNum() - 20);
+		bls.get(1).setNum(bls.get(1).getNum() + 1);
+		jianniangService.spBatchUpdate(bls);
+		return Constant.SUCCESS;
+	}
 
 	private List<Suipian> addSuipian(Role role) {
 		int count = 3;

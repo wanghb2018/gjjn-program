@@ -718,3 +718,42 @@ function changetouxiang(){
 		}
 	});
 }
+function zuanshisd(){
+	mui.get("zuanshisd",function(data){
+		if(data==0){
+			mui.toast("购买成功！");
+			$('#zs_num').html(parseInt($('#zs_num').html())-50);
+		}else{
+			mui.toast("砖石不足！");
+		}
+	});
+}
+function salemofang(){
+	mui.get("saleMofang",function(data){
+		if(data==0){
+			$('#wz_num').html(parseInt($('#wz_num').html())+160000);
+			mui.toast("兑换成功！");
+		}else{
+			mui.toast("魔方不足！");
+		}
+	});
+}
+function buymofang(){
+	mui.get("buyMofang",function(data){
+		if(data==0){
+			$('#wz_num').html(parseInt($('#wz_num').html())-200000);
+			mui.toast("购买成功！");
+		}else{
+			mui.toast("物资不足！");
+		}
+	});
+}
+function salezbl(){
+	mui.get("saleZbl",function(data){
+		if(data==0){
+			mui.toast("兑换成功！");
+		}else{
+			mui.toast("紫布里不足！");
+		}
+	});
+}

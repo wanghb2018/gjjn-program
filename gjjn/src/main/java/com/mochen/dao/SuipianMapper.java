@@ -30,4 +30,6 @@ public interface SuipianMapper {
     Integer saleSuipianExist(Integer roleId);
     
     Integer saleSuipianFull(Integer roleId);
+    
+    List<Suipian> getRoleBl(Integer roleId);
 }

@@ -99,4 +99,8 @@ public class JianniangService {
 	public List<Jianniang> getLoseJn(Integer roleId){
 		return jianniangMapper.getLoseJn(roleId);
 	}
+	
+	public List<Suipian> getRoleBl(Integer roleId) {
+		return suipianMapper.getRoleBl(roleId);
+	}
 }
