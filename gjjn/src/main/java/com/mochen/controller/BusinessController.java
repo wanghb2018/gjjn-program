@@ -31,6 +31,7 @@ import com.mochen.model.JianniangSJ;
 import com.mochen.model.JianniangSX;
 import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
+import com.mochen.model.KeyanSJ;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
@@ -68,6 +69,11 @@ public class BusinessController {
 	@GetMapping("/allJunxian")
 	public List<Junxian> getAllJunxian() {
 		return duiwuService.getAllJunxian();
+	}
+	
+	@GetMapping("/allKeyanSj")
+	public List<KeyanSJ> getAllKeyanSj(){
+		return gameMapService.getAllKeyanSJ();
 	}
 
 	@PostMapping("/createRole")
@@ -466,6 +472,19 @@ public class BusinessController {
 		return Constant.SUCCESS;
 	}
 	
+	@GetMapping("/dhZbl")
+	public Integer dhZbl(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId) {
+		Role role = accountService.getByUserId(userId);
+		if (role.getMofang() < 200) {
+			return Constant.FAILED;
+		}
+		accountService.updateRoleByChangeDetail(role.getId(), null, null, -200, null, null);
+		Jianniang zbl = jianniangService.getById(1);
+		Suipian sp = new Suipian(role.getId(), zbl, 1);
+		jianniangService.spBatchSave(Arrays.asList(sp));
+		return Constant.SUCCESS;
+	}
+	
 	@GetMapping("/jnShengxing")
 	public Integer jnShengxing(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);
@@ -479,6 +498,9 @@ public class BusinessController {
 			return Constant.FAILED;
 		}
 		List<Suipian> sps = jianniangService.getSpByJnId(jn.getId(), role.getId());
+		if (sps.size() < 3) {
+			return Constant.OTHER2;
+		}
 		int blId = sps.get(2).getPinji() < 3 ? 0 : 1;
 		Suipian jnsp = sps.get(2);
 		if (jnsp.getNum() >= jnsp.getSpnum()) {
@@ -496,6 +518,90 @@ public class BusinessController {
 		jianniangService.spBatchUpdate(sps);
 		role.setWuzi(role.getWuzi() - jnSx.getNeedwz());
 		accountService.updateRole(role);
+		return Constant.SUCCESS;
+	}
+	
+	@GetMapping("/keyanData")
+	public Keyan getKeyanData(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId) {
+		return accountService.getKeyanByRoleId(roleId);
+	}
+	
+	@GetMapping("/keyanSj")
+	public Integer keyanSj(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, String type) {
+		Role role = accountService.getByUserId(userId);
+		Keyan keyan = accountService.getKeyanByRoleId(role.getId());
+		KeyanSJ sj = null;
+		switch (type) {
+		case "gj":
+			if (keyan.getGjdj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getGjdj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setGjdj(keyan.getGjdj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		case "fy":
+			if (keyan.getFydj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getFydj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setFydj(keyan.getFydj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		case "xl":
+			if (keyan.getXldj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getXldj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setXldj(keyan.getXldj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		case "sd":
+			if (keyan.getSddj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getSddj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setSddj(keyan.getSddj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		case "bj":
+			if (keyan.getBjdj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getBjdj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setBjdj(keyan.getBjdj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		case "db":
+			if (keyan.getDbdj() >= 50) {
+				return Constant.OTHER;
+			}
+			sj = gameMapService.getKeyanSjById(keyan.getDbdj() + 1);
+			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
+				return Constant.FAILED;
+			}
+			keyan.setDbdj(keyan.getDbdj() + 1);
+			accountService.updateRoleByChangeDetail(role.getId(), null, null, null, -sj.getNeedwz(), -sj.getNeedjy());
+			break;
+		default:
+			return Constant.OTHER;
+		}
+		accountService.updateKeyan(keyan);
 		return Constant.SUCCESS;
 	}
 

@@ -109,4 +109,12 @@ public class AccountService {
 	public void updateRoleByChangeDetail(Integer id, Integer zuanshi, Integer shiyou, Integer mofang, Integer wuzi, Integer keyandian) {
 		roleMapper.updateRoleByChangeDetail(id, zuanshi, shiyou, mofang, wuzi, keyandian);
 	}
+	
+	public Keyan getKeyanByRoleId(Integer roleId) {
+		return keyanMapper.getByRoleId(roleId);
+	}
+	
+	public void updateKeyan(Keyan keyan) {
+		keyanMapper.updateByPrimaryKey(keyan);
+	}
 }

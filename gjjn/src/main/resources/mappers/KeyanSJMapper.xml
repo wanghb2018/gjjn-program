@@ -15,6 +15,11 @@
     from work_keyansj
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from work_keyansj
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from work_keyansj
     where id = #{id,jdbcType=INTEGER}

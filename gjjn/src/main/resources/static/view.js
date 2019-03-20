@@ -1,6 +1,7 @@
 var allRoleSJ = null;
 var allMap = null;
 var allJunxian = null;
+var allKeyanSJ = null;
 var guajiid = null;
 var role = null;
 $(function(){
@@ -12,6 +13,9 @@ $(function(){
 	});
 	$.get('allJunxian', function(data){
 		allJunxian = data;
+	});
+	$.get('allKeyanSj', function(data){
+		allKeyanSJ = data;
 	});
 	$('.select_jn').on('click',function(){
 		$('.select_jn').removeClass('cjjs_jnimg_xuanzhong');
@@ -94,8 +98,6 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
-					// showjnlist();
-					// showsplist();
 				}else{
 					$('#login').hide();
 					$('#cjrole').show();
@@ -115,8 +117,6 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
-					// showjnlist();
-					// showsplist();
 				}else{
 					$('#cjrole').show();
 				}
@@ -436,11 +436,9 @@ function showsplist(){
 			for(var i=2;i<data.length;i++){
 				spliststr = spliststr + "<li id='splistid"+data[i].id+"' class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].touxiang+"'><div class='mui-media-body'><font color='"+data[i].color+"'>"+data[i].name+"</font><p class='myp mui-ellipsis'>数量：<span>"+data[i].num+"</span>/<span>"+data[i].spnum+"</span></p></div></div><div style='float: right;'><div id='numbox"+data[i].id+"' class='mui-numbox' data-numbox-step='1' data-numbox-min='0' data-numbox-max='"+data[i].num+"'><button class='mui-btn mui-numbox-btn-minus' type='button'>-</button><input class='mui-numbox-input' type='number' /><button class='mui-btn mui-numbox-btn-plus' type='button'>+</button></div> <button type='button' class='imglibutton mui-btn' onclick='salesuipian("+data[i].id+","+data[i].pinji+")'>出售</button> <button type='button' class='imglibutton mui-btn' onclick='jnhecheng("+data[i].id+","+data[i].spnum+")'>合成</button></div></li>";
 			}
-			if(spliststr!=""){				
-				$('#splistul').empty();
-				$('#splistul').html(spliststr);
-				mui('.mui-numbox').numbox();
-			}
+			$('#splistul').empty();
+			$('#splistul').html(spliststr);
+			mui('.mui-numbox').numbox();
 		}
 	});
 }
@@ -754,6 +752,76 @@ function salezbl(){
 			mui.toast("兑换成功！");
 		}else{
 			mui.toast("紫布里不足！");
+		}
+	});
+}
+function dhzbl(){
+	mui.get("dhZbl",function(data){
+		if(data==0){
+			mui.toast("兑换成功！");
+		}else{
+			mui.toast("魔方不足！");
+		}
+	});
+}
+function jnshengxing(index){
+	mui.confirm("是否使用对应舰娘碎片(不足则使用布里碎片)进行升星？","提示",["取消","确定"],function(e){
+		if(e.index==1){
+			mui.get("jnShengxing",{'id':$('#jninfohideid').val()},function(data){
+				if(data==0){					
+					mui.toast("升星成功！");
+					renderRoleDuiwu();
+				}else if(data==-1){
+					mui.toast("物资不足!");
+				}else if(data.result=='defaultsp'){
+					mui.toast("碎片不足");
+				}else if(data==1){
+					mui.toast("已达到最大星级！");
+				}
+			});
+		}
+	});
+}
+function openkeyanview(){
+	mui.get("keyanData",function(data){
+		if(data){
+			$('#gjdj').html(data.gjdj); 
+			$('#fydj').html(data.fydj); 
+			$('#xldj').html(data.xldj); 
+			$('#sddj').html(data.sddj); 
+			$('#bjdj').html(data.bjdj); 
+			$('#dbdj').html(data.dbdj); 
+			$('#gjky').html(allKeyanSJ[data.gjdj].needjy);
+			$('#fyky').html(allKeyanSJ[data.fydj].needjy);
+			$('#xlky').html(allKeyanSJ[data.xldj].needjy);
+			$('#sdky').html(allKeyanSJ[data.sddj].needjy);
+			$('#bjky').html(allKeyanSJ[data.bjdj].needjy);
+			$('#dbky').html(allKeyanSJ[data.dbdj].needjy);
+			$('#gjwz').html(allKeyanSJ[data.gjdj].needwz);
+			$('#fywz').html(allKeyanSJ[data.fydj].needwz);
+			$('#xlwz').html(allKeyanSJ[data.xldj].needwz);
+			$('#sdwz').html(allKeyanSJ[data.sddj].needwz);
+			$('#bjwz').html(allKeyanSJ[data.bjdj].needwz);
+			$('#dbwz').html(allKeyanSJ[data.dbdj].needwz);
+			$('#jianduisx').hide();
+			$('#keyanview').show();
+		}
+	});	
+}
+function keyan_back(){
+	$('#keyanview').hide();
+	$('#jianduisx').show();
+}
+function keyansj(type){
+	mui.get('keyanSj',{'type':type},function(data){
+		if(data==0){
+			mui.toast("升级成功！");
+			openkeyanview();
+			renderRoleDuiwu();
+		}else if(data==1){
+			mui.toast("已达等级上限！");
+		}else{
+			mui.toast("所需资源不足！");
 		}
 	});
 }

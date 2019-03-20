@@ -324,6 +324,7 @@
   </select>
   <update id="updateRoleByChangeDetail">
   update work_role set
+  <trim suffixOverrides=",">
   	<if test="zuanshiChange != null">
   	 zuanshi = zuanshi + #{zuanshiChange},
   	</if>
@@ -339,6 +340,7 @@
   	<if test="wuziChange != null">
   		wuzi = wuzi + #{wuziChange},
   	</if>
+  	</trim>
   	where id = #{id}
   </update>
 </mapper>

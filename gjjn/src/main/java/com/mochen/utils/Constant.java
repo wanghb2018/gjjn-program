@@ -15,6 +15,7 @@ public class Constant {
 	public static final String CACHE_ALL_ROLESJ = "'all_rolesj'";
 	public static final String CACHE_ALL_GAMEMAP = "'all_gameMap'";
 	public static final String CACHE_ALL_JIANNIANG = "'all_jianniang'";
+	public static final String CACHE_ALL_KEYANSJ = "'all_keyansj'";
 
 	public enum InitialJN {
 		LAFEI("jnimg1", 19), BIAOQIANG("jnimg2", 101), Z23("jnimg3", 236);

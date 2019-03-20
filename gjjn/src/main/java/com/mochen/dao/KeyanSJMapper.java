@@ -1,5 +1,7 @@
 package com.mochen.dao;
 
+import java.util.List;
+
 import com.mochen.model.KeyanSJ;
 
 public interface KeyanSJMapper {
@@ -14,4 +16,6 @@ public interface KeyanSJMapper {
     int updateByPrimaryKeySelective(KeyanSJ record);
 
     int updateByPrimaryKey(KeyanSJ record);
+    
+    List<KeyanSJ> getAll();
 }
