@@ -10,6 +10,7 @@ public class Constant {
 	public static final int SUCCESS = 0;
 	public static final int FAILED = -1;
 	public static final int OTHER = 1;
+	public static final int OTHER2 = 2;
 
 	public static final String CACHE_ALL_ROLESJ = "'all_rolesj'";
 	public static final String CACHE_ALL_GAMEMAP = "'all_gameMap'";

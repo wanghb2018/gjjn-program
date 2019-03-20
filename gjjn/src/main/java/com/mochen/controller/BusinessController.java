@@ -28,6 +28,7 @@ import com.mochen.model.GameMap;
 import com.mochen.model.Jianniang;
 import com.mochen.model.JianniangMaps;
 import com.mochen.model.JianniangSJ;
+import com.mochen.model.JianniangSX;
 import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
@@ -473,9 +474,29 @@ public class BusinessController {
 		if (myJn.getStar() - jn.getStar() >= 3 && jn.getPinji() < 6) {
 			return Constant.OTHER;
 		}
-		List<Suipian> suipian = jianniangService.getSpByJnId(jn.getId(), role.getId());
-		
-		
+		JianniangSX jnSx = jianniangService.getJnSXbyId(myJn.getStar());
+		if (role.getWuzi() < jnSx.getNeedwz()) {
+			return Constant.FAILED;
+		}
+		List<Suipian> sps = jianniangService.getSpByJnId(jn.getId(), role.getId());
+		int blId = sps.get(2).getPinji() < 3 ? 0 : 1;
+		Suipian jnsp = sps.get(2);
+		if (jnsp.getNum() >= jnsp.getSpnum()) {
+			sps.get(2).setNum(jnsp.getNum() - jnsp.getSpnum());
+		} else {
+			if (jnsp.getNum() + sps.get(blId).getNum() < jnsp.getSpnum()) {
+				return Constant.OTHER2;
+			}
+			int remind = jnsp.getNum() + sps.get(blId).getNum() - jnsp.getSpnum();
+			sps.get(blId).setNum(remind);
+			sps.get(2).setNum(0);
+		}
+		myJn.calJNZdl(myJn.getStar() - jn.getStar() + 1);;
+		jianniangService.updateMyJn(myJn);
+		jianniangService.spBatchUpdate(sps);
+		role.setWuzi(role.getWuzi() - jnSx.getNeedwz());
+		accountService.updateRole(role);
+		return Constant.SUCCESS;
 	}
 
 	private List<Suipian> addSuipian(Role role) {

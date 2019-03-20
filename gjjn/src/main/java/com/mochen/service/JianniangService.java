@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.mochen.dao.JianniangMapper;
 import com.mochen.dao.JianniangSJMapper;
+import com.mochen.dao.JianniangSXMapper;
 import com.mochen.dao.MyJianniangMapper;
 import com.mochen.dao.SuipianMapper;
 import com.mochen.model.Jianniang;
 import com.mochen.model.JianniangSJ;
+import com.mochen.model.JianniangSX;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.Suipian;
 
@@ -24,6 +26,8 @@ public class JianniangService {
 	SuipianMapper suipianMapper;
 	@Autowired
 	JianniangSJMapper jianniangSJMapper;
+	@Autowired
+	JianniangSXMapper jianniangSXMapper;
 
 	public Jianniang getById(Integer id) {
 		return jianniangMapper.selectByPrimaryKey(id);
@@ -106,5 +110,13 @@ public class JianniangService {
 	
 	public List<Suipian> getRoleBl(Integer roleId) {
 		return suipianMapper.getRoleBl(roleId);
+	}
+	
+	public JianniangSX getJnSXbyId(Integer id) {
+		return jianniangSXMapper.selectByPrimaryKey(id);
+	}
+	
+	public void updateMyJn(MyJianniang myJn) {
+		myJianniangMapper.updateByPrimaryKey(myJn);
 	}
 }

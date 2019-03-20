@@ -36,7 +36,7 @@
 	SELECT * FROM work_suipian where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 ORDER BY jn_id asc
   </select>
   <select id="getSpByJnId" resultMap="BaseResultMap">
-    SELECT * FROM work_suipian where jn_id = #{jnId,jdbcType=INTEGER} union 
+    SELECT * FROM work_suipian where jn_id = #{jnId,jdbcType=INTEGER} and role_id = #{roleId,jdbcType=INTEGER} union 
 	SELECT * FROM work_suipian where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 ORDER BY jn_id asc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
