@@ -97,6 +97,8 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
+					showjnlist();
+					showsplist();
 				}else{
 					$('#login').hide();
 					$('#cjrole').show();
@@ -116,6 +118,8 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
+					showjnlist();
+					showsplist();
 				}else{
 					$('#cjrole').show();
 				}
