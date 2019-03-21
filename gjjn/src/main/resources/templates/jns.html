@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>舰娘图鉴</title>
+</head>
+<body>
+<div th:each="jn:${jns}">
+	<div style="float: left"><img th:src="${jn.touxiang}" width="112px" height="112px"><br>
+		<font th:if="${jn.pinji == 0}"><span th:text="${jn.name}"></span></font>
+		<font th:unless="${jn.pinji == 0}" th:color="${jn.color}"><span th:text="${jn.name}"></span></font><br>
+		编号：<span th:text="${jn.id}"></span><br>
+		品级：<span th:text="${jn.pinji}"></span><br>
+		攻击：<span th:text="${jn.gongji}"></span><br>
+		防御：<span th:text="${jn.fangyu}"></span><br>
+		血量：<span th:text="${jn.xueliang}"></span><br>
+		速度：<span th:text="${jn.sudu}"></span><br>
+		暴击：<span th:text="${jn.baoji}"></span><br>
+		躲避：<span th:text="${jn.duobi}"></span><br>
+	</div>
+	<div style="float: left"><img th:src="${jn.lihui}" width="320px" height="450px"></div>
+</div>
+</body>
+</html>

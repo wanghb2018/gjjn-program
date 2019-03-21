@@ -117,4 +117,8 @@ public class AccountService {
 	public void updateKeyan(Keyan keyan) {
 		keyanMapper.updateByPrimaryKey(keyan);
 	}
+	
+	public Role getRoleById(Integer id) {
+		return roleMapper.selectByPrimaryKey(id);
+	}
 }

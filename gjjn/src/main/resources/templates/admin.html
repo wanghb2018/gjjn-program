@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>管理面板</title>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+<div style="width: 100%;float: left;">
+	<div style="width: 50%;float: left;">
+		<div style="width: 30% float:center">
+			<h2>舰娘新增</h2>
+			<form id="jnaddForm">
+				编号：<input type="text" id="id" name="id"/><br/>
+				名称：<input type="text" id="name" name="name"/><br/>
+				品级：<select name="pinji" id="pinji">
+  						<option value ="0">0:white</option>
+					  	<option value ="1">1:cyan</option>
+					  	<option value="2">2:violet</option>
+					  	<option value="3">3:gold</option>
+					  	<option value="4">4:orange</option>
+					  	<option value="5">5:deeppink</option>
+					  	<option value="6">6:red</option>
+					</select><br/>
+				头像：<input type="text" id="touxiang" name="touxiang"/><br/>
+				立绘：<input type="text" id="lihui" name="lihui"/><br/>
+				<input type="hidden" name="color" id="color" value="white">
+			</form>
+			<button id="jn_submit">提交</button>
+		</div>
+	</div>
+	<div style="width: 50%;float: left;">
+		<h2>数据管理</h2>
+		用户：<input type="text" id="role_id"/><br/>
+		钻石：<input type="text" id="zuanshi" value="0"/><br/>
+		石油：<input type="text" id="shiyou" value="0"/><br/>
+		魔方：<input type="text" id="mofang" value="0"/><br/>
+		物资：<input type="text" id="wuzi" value="0"/><br/>
+		科研：<input type="text" id="keyan" value="0"/><br/>
+		<button id="role_submit">提交</button>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#pinji").change(function(){
+		var pj = $("#pinji").val();
+			var c = 'white';
+			switch(parseInt(pj)){
+			case 0:
+				c = 'white';
+				break;
+			case 1:
+				c = 'cyan';
+				break;
+			case 2:
+				c = 'violet';
+				break;	
+			case 3:
+				c = 'gold';
+				break;
+			case 4:
+				c = 'orange';
+				break;
+			case 5:
+				c = 'deeppink';
+				break;
+			case 6:
+				c = 'red';
+				break;
+			}
+			$("#color").val(c);
+	});
+	$("#role_submit").click(function(){
+		var param = {};
+		param.id = $("#role_id").val();
+		param.zuanshi = $("#zuanshi").val();
+		param.wuzi = $("#wuzi").val();
+		param.mofang = $("#mofang").val();
+		param.shiyou = $("#shiyou").val();
+		param.keyan = $("#keyan").val();
+		if (param.id == "" || param.zuanshi == "" || param.wuzi == "" || param.shiyou == "" || param.mofang == "" || param.keyan == ""){
+			alert("信息必须补充完整！");
+			return;
+		}
+		$.post('addData', param, function(data){
+			if (data == 0){
+				alert("success");
+			} else {
+				alert("failed");
+			}
+		});
+	});
+	$("#jn_submit").click(function(){
+		var param = {};
+		param.id = $("#id").val();
+		param.name = $("#name").val();
+		param.pinji = $("#pinji").val();
+		param.touxiang = $("#touxiang").val();
+		param.lihui = $("#lihui").val();
+		param.color = $("#color").val();
+		if (param.id == "" || param.name == "" || param.touxiang == "" || param.lihui == ""){
+			alert("信息必须补充完整！");
+			return;
+		}
+		$.post('addJn', param, function(data){
+			if (data == 0){
+				alert("success");
+			} else {
+				alert("failed");
+			}
+		});
+	});
+</script>
+</body>
+</html>

@@ -55,6 +55,7 @@ public class BusinessController {
 	JianniangService jianniangService;
 	@Autowired
 	DuiwuService duiwuService;
+	private Random random = new Random();
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
@@ -141,7 +142,6 @@ public class BusinessController {
 		List<Suipian> sps = new ArrayList<Suipian>();
 
 		int c = 0;
-		Random random = new Random();
 		for (int i = 0; i < rewardCount; i++) {
 			if (random.nextInt(300) == 250) {
 				c++;
@@ -190,7 +190,6 @@ public class BusinessController {
 			result.setHr(-2);
 			return result;
 		}
-		Random random = new Random();
 		if ((double) (random.nextInt(200) + 900) / 1000 * duiwu.getTotalzdl() <= map.getZdl()) {
 			result.setHr(Constant.FAILED);
 			return result;
@@ -348,7 +347,6 @@ public class BusinessController {
 		if (role.getWuzi() < 1000) {
 			result.setHr(Constant.OTHER);
 		}
-		Random random = new Random();
 		int num = 50 - (int) Math.pow(random.nextInt(900), 0.5);
 		int rate = random.nextInt(100) + 1;
 		List<Jianniang> jns = null;
@@ -378,7 +376,6 @@ public class BusinessController {
 		if (role.getWuzi() < 3000) {
 			result.setHr(Constant.OTHER);
 		}
-		Random random = new Random();
 		int num = 100 - (int) Math.pow(random.nextInt(4900), 0.5);
 		int rate = random.nextInt(1000) + 1;
 		List<Jianniang> jns = null;
@@ -488,7 +485,7 @@ public class BusinessController {
 	@GetMapping("/jnShengxing")
 	public Integer jnShengxing(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);
-		MyJianniang myJn = jianniangService.getByJnId(role.getId(), id);
+		MyJianniang myJn = jianniangService.getMyJnById(id);
 		Jianniang jn = jianniangService.getById(myJn.getJnId());
 		if (myJn.getStar() - jn.getStar() >= 3 && jn.getPinji() < 6) {
 			return Constant.OTHER;
@@ -615,7 +612,6 @@ public class BusinessController {
 		}
 		List<Jianniang> allJns = jianniangService.getAllJn();
 		Collections.shuffle(allJns);
-		Random random = new Random();
 		return allJns.stream().limit(count)
 				.map(e -> new Suipian(role.getId(), e, random.nextInt(role.getQdts() + 1) + 1))
 				.collect(Collectors.toList());

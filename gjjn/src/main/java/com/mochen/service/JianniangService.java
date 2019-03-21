@@ -3,6 +3,9 @@ package com.mochen.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.mochen.dao.JianniangMapper;
@@ -15,6 +18,7 @@ import com.mochen.model.JianniangSJ;
 import com.mochen.model.JianniangSX;
 import com.mochen.model.MyJianniang;
 import com.mochen.model.Suipian;
+import com.mochen.utils.Constant;
 
 @Service
 public class JianniangService {
@@ -32,6 +36,15 @@ public class JianniangService {
 	public Jianniang getById(Integer id) {
 		return jianniangMapper.selectByPrimaryKey(id);
 	}
+	
+	@Caching(put = { @CachePut(value = Constant.CACHE_YEAR, key = "'jianniang_'+#p0.id") }, evict = { @CacheEvict(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_JIANNIANG),
+			@CacheEvict(value = Constant.CACHE_YEAR, key = "'all_jianniang_pinji_'+#p0.pinji"), @CacheEvict(value = Constant.CACHE_YEAR, key = "'all_jianniang_over_pinji_2'"),
+			@CacheEvict(value = Constant.CACHE_YEAR, key = "'all_jianniang_over_pinji_5'") })
+	public Jianniang addNewJn(Jianniang jn) {
+		jianniangMapper.insert(jn);
+		return jn;
+	}
+	
 
 	public MyJianniang addMyJN(Integer roleId, Jianniang jn, Integer isWar) {
 		MyJianniang myJN = new MyJianniang(roleId, jn, isWar);
