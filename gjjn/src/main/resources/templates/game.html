@@ -503,32 +503,19 @@
 				
 				<!--菜单-->
 				<div id="caidanview" class="mui-control-content" style="padding-top: 5px;">
-					
 					<div id='menus'>
 						<button type="button" class="mui-btn mui-btn-block btnsys" onclick="qiandao()">每日签到<span class="tishi">每天24:00后可以进行签到</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="paihangbang()">排行榜<span class="tishi">实时排行榜</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="jianzao()">普通建造<span class="tishi">快速获取舰娘</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="gjjianzao()">高级建造<span class="tishi">高级建造保底紫皮</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="zuanshisd()">钻石商店<span class="tishi">50钻石购买500石油</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="getlosejn()">未获取的舰娘<span class="tishi">查看还有哪些未得到的舰娘</span></button>
-
 					<button id="btn_full" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianfull()">出售满破碎片<span class="tishi">粉色及以下满破舰娘的碎片</span></button>
-
 					<button id="btn_exist" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianexist()">一键出售碎片<span class="tishi">粉色及以下已拥有舰娘的碎片</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="dhzbl()">紫布里兑换<span class="tishi">200个魔方兑换一个紫布里</span></button>
-					
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salezbl()">金布里兑换<span class="tishi">20个紫布里兑换一个金布里</span></button>				
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salemofang()">魔方出售<span class="tishi">1000魔方兑换16W物资</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="buymofang()">魔方购买<span class="tishi">20W物资购买1000魔方</span></button>
-
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="game.shuaxin()">༺重载游戏༻</button>
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="logout()">༺退出游戏༻</button>
 					</div>
@@ -549,7 +536,6 @@
 					<ul class="mui-table-view" id="phbul">
 					</ul>
 					</div>
-
 					<!-- 缺少的图鉴 -->
 					<div id="losejn" style="display: none;">
 						<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
@@ -564,16 +550,5 @@
 				</div>
 				
 			</div>
-
-
-
-		<script type="text/javascript">
-			$(document).keyup(function(event){
-  				if(event.keyCode ==13&&!$('#login').is('.hidden')){
-    				login('post');
-    				return;
-  				}
-			});
-		</script>
 	</body>
 </html>

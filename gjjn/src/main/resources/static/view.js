@@ -35,7 +35,6 @@ $(function(){
 	getphbinfo($("input[name='phbtype']:checked").val());
 	});
 });
-
 function register(){
 	var username = $('#reg_username').val().trim();
 	var password = $('#reg_password').val().trim();
