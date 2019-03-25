@@ -498,6 +498,9 @@ public class BusinessController {
 		if (myJn.getStar() - jn.getStar() >= 3 && jn.getPinji() < 6) {
 			return Constant.OTHER;
 		}
+		if (myJn.getStar() >= 50) {
+			return Constant.OTHER;
+		}
 		JianniangSX jnSx = jianniangService.getJnSXbyId(myJn.getStar());
 		if (role.getWuzi() < jnSx.getNeedwz()) {
 			return Constant.FAILED;
