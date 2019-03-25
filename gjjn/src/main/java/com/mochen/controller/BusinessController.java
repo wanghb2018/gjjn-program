@@ -163,7 +163,9 @@ public class BusinessController {
 			}
 			for (Map.Entry<Integer, Integer> entry : jnCount.entrySet()) {
 				Jianniang jn = jianniangService.getById(entry.getKey());
-				sps.add(new Suipian(role.getId(), jn, entry.getValue()));
+				if (entry.getValue() > 0) {
+					sps.add(new Suipian(role.getId(), jn, entry.getValue()));
+				}
 			}
 			if (!sps.isEmpty()) {
 				jianniangService.spBatchSave(sps);
