@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>我的分支管理</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link href="http://dm.pooi.cc/qc/static/css/demo.css" rel="stylesheet" type="text/css" />   
+    <script src="http://dm.pooi.cc/qc/static/js/boot.js" type="text/javascript"></script>    
+    <style type="text/css">
+    .New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button
+    {
+        font-size:11px;color:#1B3F91;font-family:Verdana;  
+        margin-right:5px;
+    }
+	body{
+		text-align: center;
+	}
+    </style>        
+</head>
+<body>
+    <h1>我的分支</h1>
+	<button onclick="showWork()">当前</button>
+	<button onclick="showHistory()">历史</button>
+   <center>
+	   <div id="datagrid1" class="mini-datagrid" style="width:1200px;height:750px;"  allowResize="true"
+	   	url="/showWork"  idField="id" emptyText="数据为空，<a href='javascript:newRow()'>增加一条</a>" showEmptyText="true" showPager="false"
+	   >
+	   	<div property="columns">
+	   		<div name="action" width="70" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+	   		<div field="myBranch" width="70" headerAlign="center">我的分支
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>                          
+	   		<div field="code" width="60" headerAlign="center">编号
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   		<div field="desc" width="150" headerAlign="center">描述
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   		<div field="nowBranch" width="80" headerAlign="center">现在所在分支
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   		<div field="parentBranch" width="70" headerAlign="center">父分支
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   		<div field="version" width="60" headerAlign="center">上线版本
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   		<div field="remark" width="120" headerAlign="center">备注
+	   			<input property="editor" class="mini-textbox" style="width:100%;"/>
+	   		</div>
+	   	</div>
+	   </div>    
+   </center>
+    
+    <script type="text/javascript">
+        mini.parse();
+        
+        var grid = mini.get("datagrid1");
+        grid.load();
+        function showHistory(){
+			grid.setUrl("/showHistory");
+			grid.reload();
+		}
+		function showWork(){
+			grid.setUrl("/showWork");
+			grid.reload();
+		}
+		
+        function onActionRenderer(e) {
+            var record = e.record;
+            var uid = record._uid;
+            var rowIndex = e.rowIndex;
+
+            var s = '<a class="New_Button" href="javascript:newRow()">创建</a>'
+                    + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')" >编辑</a>'
+                    + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">完成</a>';
+
+            if (grid.isEditingRow(record)) {
+                s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">确定</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+            }
+            return s;
+        }
+
+        function newRow() {            
+            var row = {};
+            grid.addRow(row, 0);
+
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+        function editRow(row_uid) {
+            var row = grid.getRowByUID(row_uid);
+            if (row) {
+                grid.cancelEdit();
+                grid.beginEditRow(row);
+            }
+        }
+        function cancelRow(row_uid) {            
+            grid.reload();
+        }
+        function delRow(row_uid) {
+            var row = grid.getRowByUID(row_uid);
+            if (row) {
+                if (confirm("确定将此记录移入历史？")) {
+                    grid.loading("处理中，请稍后......");
+                    $.ajax({
+                        url: "complete?id=" + row.id,
+                        success: function (text) {
+                            grid.reload();
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+            }
+        }
+
+        function updateRow(row_uid) {
+            var row = grid.getRowByUID(row_uid);
+            
+            grid.commitEdit();
+            var rowData = grid.getChanges();
+            
+            grid.loading("保存中，请稍后......");
+            var json = mini.encode(rowData);
+            
+            $.ajax({
+                url: "saveWork",
+                data: { data: json },
+                success: function (text) {
+                    grid.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>
