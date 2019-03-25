@@ -43,4 +43,6 @@ public interface RoleMapper {
     List<PhbInfo> jnPhb();
     
     void updateRoleByChangeDetail(@Param("id")Integer id, @Param("zuanshiChange")Integer zuanshi, @Param("shiyouChange")Integer shiyou, @Param("mofangChange")Integer mofang, @Param("wuziChange")Integer wuzi, @Param("keyandianChange")Integer keyandian);
+    
+    int updateRoleShiyouByBoss(@Param("roleId")Integer roleId, @Param("count")Integer count);
 }

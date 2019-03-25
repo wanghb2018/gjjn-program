@@ -21,6 +21,6 @@ public interface JunxianMapper {
 
 	int updateByPrimaryKey(Junxian record);
 
-	@Cacheable(value = Constant.CACHE_YEAR, key = "'junxian_all'")
+	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_JUNXIAN)
 	public List<Junxian> getAll();
 }

@@ -97,8 +97,6 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
-					showjnlist();
-					showsplist();
 				}else{
 					$('#login').hide();
 					$('#cjrole').show();
@@ -118,8 +116,6 @@ function login(type){
 					rendermap(data.data.openmapId,data.data.guajimapId);
 					guajiid = data.data.guajimapId;
 					role = data.data;
-					showjnlist();
-					showsplist();
 				}else{
 					$('#cjrole').show();
 				}
@@ -248,6 +244,7 @@ function mapguaji(id){
 				}
 			}
 			mui.toast(str,{ duration:'long', type:'div' });
+			$('#wz_num').html(parseInt($('#wz_num').html()) + data.data.wz);
 			renderRoleDuiwu();
 		}else if(data.hr == -1){
 			mui.toast("时间过短");
@@ -269,6 +266,7 @@ function mapboss(id){
 				}
 			}
 			mui.toast(str,{ duration:'short', type:'div' });
+			$('#wz_num').html(parseInt($('#wz_num').html()) + data.data.wz);
 		} else if (data.hr == -1){
 			mui.toast("胜败乃兵家常事，大虾请提升战力后再来！");
 		}else{
@@ -350,7 +348,14 @@ function salesuipian(id,pinji){
 	}
 }
 
-function renderRoleDuiwu(){
+function renderRoleDuiwu(a){
+	if (a){
+		$("#jianduiview").show();
+		$("#jianniangview").hide();
+		$("#cangkuview").hide();
+		$("#chujiview").hide();
+		$("#caidanview").hide();
+	}
 	renderRoleDuiwuWithData(null);
 }
 
@@ -418,6 +423,11 @@ function rendermap(index,id){
 }
 
 function showjnlist(){
+	$("#jianduiview").hide();
+	$("#jianniangview").show();
+	$("#cangkuview").hide();
+	$("#chujiview").hide();
+	$("#caidanview").hide();
 	$.get('showJnList',function(data){
 		if(data){
 			var jnliststr = "";
@@ -430,7 +440,14 @@ function showjnlist(){
 	});
 }
 
-function showsplist(){
+function showsplist(a){
+	if (a){
+		$("#jianduiview").hide();
+		$("#jianniangview").hide();
+		$("#cangkuview").show();
+		$("#chujiview").hide();
+		$("#caidanview").hide();
+	}
 	mui.get('showSpList',function(data){
 		if(data){	
 			$('#zbl').html(data[0].num);
@@ -543,10 +560,23 @@ function jnhecheng(id,neednum){
 }
 
 function gotomap(){
+	$("#jianduiview").hide();
+	$("#jianniangview").hide();
+	$("#cangkuview").hide();
+	$("#chujiview").show();
+	$("#caidanview").hide();
 	if(guajiid){
 		location.href = "#mapid_"+guajiid;
 		window.scrollBy(0, -95);
 	}
+}
+
+function showcaidanview(){
+	$("#jianduiview").hide();
+	$("#jianniangview").hide();
+	$("#cangkuview").hide();
+	$("#chujiview").hide();
+	$("#caidanview").show();
 }
 
 function jninfo_back(){

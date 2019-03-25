@@ -30,7 +30,7 @@ public class AccountController {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
-		if (Hasher.instance().checkPassword(password, user.getPassword()) == false) {
+		if (!Hasher.instance().checkPassword(password, user.getPassword())) {
 			result.setHr(Constant.FAILED);
 			return result;
 		}

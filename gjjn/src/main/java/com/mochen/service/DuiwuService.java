@@ -84,8 +84,10 @@ public class DuiwuService {
 				duiwu.getFiveId(), duiwu.getSixId()).stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
-	public void duiwuAddJy(Role role, int jy) {
-		Duiwu duiwu = duiwuMapper.getByRoleId(role.getId());
+	public void duiwuAddJy(Role role, int jy, Duiwu duiwu) {
+		if (duiwu == null) {
+			duiwu = duiwuMapper.getByRoleId(role.getId());
+		}
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		if (CollectionUtils.isEmpty(myJnIds)) {
 			return;

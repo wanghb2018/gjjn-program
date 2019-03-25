@@ -74,8 +74,8 @@ public class AccountService {
 	}
 
 	public void roleAddJy(Role role, Integer jy, Integer wz, Integer count, Boolean flag) {
-		Integer exp = role.getExp() + jy;
-		Integer level = role.getLevel();
+		int exp = role.getExp() + jy;
+		int level = role.getLevel();
 		if (role.getLevel() < role.getDjsx()) {
 			RoleSJ roleSj = roleSJMapper.selectByPrimaryKey(role.getLevel());
 			if (exp >= roleSj.getNeedjy()) {
@@ -120,5 +120,9 @@ public class AccountService {
 	
 	public Role getRoleById(Integer id) {
 		return roleMapper.selectByPrimaryKey(id);
+	}
+	
+	public int updateRoleShiyouByBoss(Integer roleId, Integer count) {
+		return roleMapper.updateRoleShiyouByBoss(roleId, count);
 	}
 }

@@ -38,6 +38,7 @@ import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.Suipian;
 import com.mochen.service.AccountService;
+import com.mochen.service.AsyncJobService;
 import com.mochen.service.DuiwuService;
 import com.mochen.service.GameMapService;
 import com.mochen.service.JianniangService;
@@ -55,6 +56,8 @@ public class BusinessController {
 	JianniangService jianniangService;
 	@Autowired
 	DuiwuService duiwuService;
+	@Autowired
+	AsyncJobService asyncJobService;
 	private Random random = new Random();
 
 	@GetMapping("/allRoleSJ")
@@ -139,8 +142,7 @@ public class BusinessController {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
-		List<Suipian> sps = new ArrayList<Suipian>();
-
+		List<Suipian> sps = new ArrayList<>();
 		int c = 0;
 		for (int i = 0; i < rewardCount; i++) {
 			if (random.nextInt(300) == 250) {
@@ -171,7 +173,7 @@ public class BusinessController {
 		GameMap gameMap = gameMapService.getGameMapById(role.getGuajimapId());
 		int wz = gameMap.getWz() * rewardCount;
 		int jy = gameMap.getJnjy() * rewardCount;
-		duiwuService.duiwuAddJy(role, jy);
+		duiwuService.duiwuAddJy(role, jy, null);
 		role.setGuajimapId(id);
 		role.setGuajitime(now);
 		role.setWuzi(role.getWuzi() + wz);
@@ -194,8 +196,12 @@ public class BusinessController {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
+		if (accountService.updateRoleShiyouByBoss(role.getId(), duiwu.getCount()) == 0) {
+			result.setHr(-2);
+			return result;
+		}
 		boolean flag = false;
-		if (map.getId() == role.getOpenmapId() && map.getId() < 48) {
+		if (map.getId().equals(role.getOpenmapId()) && map.getId() < 48) {
 			result.setHr(Constant.OTHER);
 			flag = true;
 		}
@@ -212,10 +218,8 @@ public class BusinessController {
 			sps.add(new Suipian(role.getId(), jn, 1));
 		});
 		data.setSps(sps);
-		jianniangService.spBatchSave(sps);
-		duiwuService.duiwuAddJy(role, data.getJnjy());
-		accountService.roleAddJy(role, data.getZhgjy(), data.getWz(), duiwu.getCount(), flag);
 		result.setData(data);
+		asyncJobService.mapBossAsyncJob(sps, duiwu, data.getJnjy(), role, data.getZhgjy(), data.getWz(), flag);
 		return result;
 	}
 
@@ -316,7 +320,7 @@ public class BusinessController {
 				flag = false;
 			}
 		}
-		if (flag == false) {
+		if (!flag) {
 			result.setHr(Constant.FAILED);
 			return result;
 		}

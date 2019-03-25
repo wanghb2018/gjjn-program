@@ -286,7 +286,6 @@
       <if test="isOpen">
       	openmap_id = openmap_id+1,
       </if>
-      shiyou = shiyou - #{count,jdbcType=INTEGER},
       keyandian = keyandian + #{count,jdbcType=INTEGER},
       wuzi = wuzi + #{wz,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
@@ -342,5 +341,9 @@
   	</if>
   	</trim>
   	where id = #{id}
+  </update>
+  <update id="updateRoleShiyouByBoss">
+  	update work_role set shiyou = shiyou - #{count}
+  	where id = #{roleId} and shiyou &gt;= #{count};
   </update>
 </mapper>
