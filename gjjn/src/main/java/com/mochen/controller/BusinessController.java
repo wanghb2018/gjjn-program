@@ -518,7 +518,8 @@ public class BusinessController {
 			sps.get(blId).setNum(remind);
 			sps.get(2).setNum(0);
 		}
-		myJn.calJNZdl(myJn.getStar() - jn.getStar() + 1);;
+		myJn.setStar(myJn.getStar() + 1);
+		myJn.calJNZdl(myJn.getStar() - jn.getStar() + 1);
 		jianniangService.updateMyJn(myJn);
 		jianniangService.spBatchUpdate(sps);
 		role.setWuzi(role.getWuzi() - jnSx.getNeedwz());

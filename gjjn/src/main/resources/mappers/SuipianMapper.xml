@@ -176,16 +176,16 @@
   	</foreach>
   </update>
   <select id="saleSuipianExist" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-  	select ifnull(sum((pinji+1)*num), 0) from work_suipian where role_id = #{roleId,jdbcType=INTEGER} and num &gt; 0 and pinji &lt; 7 and jn_id in (select jn_id from work_myjianniang where role_id = #{roleId,jdbcType=INTEGER});
-  	update work_suipian set num = 0 where role_id = #{roleId,jdbcType=INTEGER} and pinji &lt; 7;
+  	select ifnull(sum((pinji+1)*num), 0) from work_suipian where role_id = #{roleId,jdbcType=INTEGER} and num &gt; 0 and pinji &lt; 6 and jn_id in (select jn_id from work_myjianniang where role_id = #{roleId,jdbcType=INTEGER});
+  	update work_suipian set num = 0 where role_id = #{roleId,jdbcType=INTEGER} and pinji &lt; 6;
   </select>
   <select id="saleSuipianFull" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-  	select ifnull(sum((pinji+1)*num), 0) from work_suipian where role_id = #{roleId,jdbcType=INTEGER} and num &gt; 0 and pinji &lt; 7 and jn_id in(
+  	select ifnull(sum((pinji+1)*num), 0) from work_suipian where role_id = #{roleId,jdbcType=INTEGER} and num &gt; 0 and pinji &lt; 6 and jn_id in(
 	select m.jn_id from work_myjianniang m
 	inner join work_jianniang j on m.jn_id = j.id
-	where m.role_id = #{roleId,jdbcType=INTEGER} and m.pinji &lt; 7 and m.star - j.star = 3);
+	where m.role_id = #{roleId,jdbcType=INTEGER} and m.pinji &lt; 6 and m.star - j.star = 3);
 	update work_suipian s
-	inner join work_myjianniang m on s.jn_id = m.jn_id and s.role_id = m.role_id and m.pinji &lt; 7
+	inner join work_myjianniang m on s.jn_id = m.jn_id and s.role_id = m.role_id and m.pinji &lt; 6
 	inner join work_jianniang j on m.jn_id = j.id and m.star -j.star = 3
 	set s.num = 0
 	where m.role_id = #{roleId,jdbcType=INTEGER};
