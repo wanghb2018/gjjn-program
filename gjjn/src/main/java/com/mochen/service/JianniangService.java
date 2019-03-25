@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class JianniangService {
 	@Autowired
 	JianniangSXMapper jianniangSXMapper;
 
+	@Cacheable(value=Constant.CACHE_YEAR,key="'jianniang_'+#id", unless="#result == null")
 	public Jianniang getById(Integer id) {
 		return jianniangMapper.selectByPrimaryKey(id);
 	}
@@ -76,6 +78,7 @@ public class JianniangService {
 		return myJianniangMapper.selectByPrimaryKey(id);
 	}
 
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'jnsj_'+#id")
 	public JianniangSJ getJnsjById(Integer id) {
 		return jianniangSJMapper.selectByPrimaryKey(id);
 	}
@@ -104,14 +107,17 @@ public class JianniangService {
 		return suipianMapper.saleSuipianFull(roleId);
 	}
 
+	@Cacheable(value=Constant.CACHE_YEAR,key=Constant.CACHE_ALL_JIANNIANG)
 	public List<Jianniang> getAllJn() {
 		return jianniangMapper.getAll();
 	}
 	
+	@Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_pinji_'+#pinji")
 	public List<Jianniang> getAllJnByPinji(Integer pinji){
 		return jianniangMapper.getAllByPinji(pinji);
 	}
 	
+	@Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_over_pinji_'+#pinji")
 	public List<Jianniang> getAllJnByOverPinji(Integer pinji){
 		return jianniangMapper.getAllByOverPinji(pinji);
 	}
@@ -124,6 +130,7 @@ public class JianniangService {
 		return suipianMapper.getRoleBl(roleId);
 	}
 	
+	@Cacheable(value= Constant.CACHE_YEAR, key= "'jnsx_'+#id")
 	public JianniangSX getJnSXbyId(Integer id) {
 		return jianniangSXMapper.selectByPrimaryKey(id);
 	}

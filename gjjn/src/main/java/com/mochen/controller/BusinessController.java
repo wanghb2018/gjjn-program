@@ -298,12 +298,16 @@ public class BusinessController {
 
 	@GetMapping("/saleSuipianExist")
 	public Integer saleSuipianExist(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
-		return jianniangService.saleSuipianExist(roleId);
+		int n = jianniangService.saleSuipianExist(roleId);
+		accountService.updateRoleByChangeDetail(roleId, null, null, n, null, null);
+		return n;
 	}
 
 	@GetMapping("/saleSuipianFull")
 	public Integer saleSuipianFull(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
-		return jianniangService.saleSuipianFull(roleId);
+		int n = jianniangService.saleSuipianFull(roleId);
+		accountService.updateRoleByChangeDetail(roleId, null, null, n, null, null);
+		return n;
 	}
 
 	@GetMapping("/qiandao")

@@ -631,7 +631,7 @@ function salesuipianfull(){
 			$('#btn_full').attr('disabled',true);
 			mui.get("saleSuipianFull",function(data){
 				if(data>0){
-					var str = "<font color='gold'>获得魔方"+data.num+"个</font>";
+					var str = "<font color='gold'>获得魔方"+data+"个</font>";
 					mui.toast(str,{ duration:'long', type:'div' });
 				} else{
 					var str = "<font color='red'>没有要出售的碎片</font>";

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.mochen.dao.DuiwuMapper;
-import com.mochen.dao.JianniangMapper;
-import com.mochen.dao.JianniangSJMapper;
 import com.mochen.dao.JunxianMapper;
 import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.MyJianniangMapper;
@@ -33,13 +31,11 @@ public class DuiwuService {
 	@Autowired
 	MyJianniangMapper myJianniangMapper;
 	@Autowired
-	JianniangMapper jianniangMapper;
+	JianniangService jianniangService;
 	@Autowired
 	JunxianMapper junxianMapper;
 	@Autowired
 	KeyanMapper keyanMapper;
-	@Autowired
-	JianniangSJMapper jianniangSJMapper;
 
 	public void create(Duiwu duiwu) {
 		duiwuMapper.insertSelective(duiwu);
@@ -62,7 +58,7 @@ public class DuiwuService {
 		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
 		List<Jianniang> jns = new ArrayList<>();
 		for (MyJianniang myJn : myJns) {
-			jns.add(jianniangMapper.selectByPrimaryKey(myJn.getJnId()));
+			jns.add(jianniangService.getById(myJn.getJnId()));
 		}
 		Keyan keyan = keyanMapper.getByRoleId(role.getId());
 		Junxian junxian = junxianMapper.selectByPrimaryKey(role.getJunxianId());
@@ -95,7 +91,7 @@ public class DuiwuService {
 		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
 		for (MyJianniang myJn : myJns) {
 			if (myJn.getLevel() < 100) {
-				JianniangSJ sj = jianniangSJMapper.selectByPrimaryKey(myJn.getLevel());
+				JianniangSJ sj = jianniangService.getJnsjById(myJn.getLevel());
 				myJn.setJingyan(myJn.getJingyan() + jy);
 				if (myJn.getJingyan() > sj.getNeedjy()) {
 					myJn.setLevel(myJn.getLevel()+1);
