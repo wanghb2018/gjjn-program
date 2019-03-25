@@ -4,17 +4,22 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.mochen.dao.DuiwuMapper;
 import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.RoleMapper;
 import com.mochen.dao.RoleSJMapper;
 import com.mochen.dao.UserMapper;
+import com.mochen.model.Duiwu;
 import com.mochen.model.Keyan;
 import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.User;
+import com.mochen.utils.Constant;
 
 @Service
 public class AccountService {
@@ -26,6 +31,8 @@ public class AccountService {
 	KeyanMapper keyanMapper;
 	@Autowired
 	RoleSJMapper roleSJMapper;
+	@Autowired
+	DuiwuMapper duiwuMapper;
 
 	public User getById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
@@ -124,5 +131,16 @@ public class AccountService {
 	
 	public int updateRoleShiyouByBoss(Integer roleId, Integer count) {
 		return roleMapper.updateRoleShiyouByBoss(roleId, count);
+	}
+	
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'duiwu_'+#roleId")
+	public Duiwu getDuiwuByRoleId(Integer roleId) {
+		return duiwuMapper.getByRoleId(roleId);
+	}
+	
+	@CachePut(value = Constant.CACHE_YEAR, key = "'duiwu_'+#duiwu.roleId")
+	public Duiwu updateDuiwu(Duiwu duiwu) {
+		duiwuMapper.updateByPrimaryKey(duiwu);
+		return duiwu;
 	}
 }

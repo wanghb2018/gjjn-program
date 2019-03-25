@@ -27,8 +27,6 @@ import com.mochen.utils.Constant;
 @Service
 public class DuiwuService {
 	@Autowired
-	DuiwuMapper duiwuMapper;
-	@Autowired
 	MyJianniangMapper myJianniangMapper;
 	@Autowired
 	JianniangService jianniangService;
@@ -36,13 +34,17 @@ public class DuiwuService {
 	JunxianMapper junxianMapper;
 	@Autowired
 	KeyanMapper keyanMapper;
+	@Autowired
+	AccountService accountService;
+	@Autowired
+	DuiwuMapper duiwuMapper;
 
 	public void create(Duiwu duiwu) {
 		duiwuMapper.insertSelective(duiwu);
 	}
 	
 	public Duiwu getDuiwuByRoleId(Integer roleId) {
-		return duiwuMapper.getByRoleId(roleId);
+		return accountService.getDuiwuByRoleId(roleId);
 	}
 	
 	public List<Junxian> getAllJunxian(){
@@ -50,7 +52,7 @@ public class DuiwuService {
 	}
 
 	public DuiwuData reCalJNZdl(Role role) {
-		Duiwu duiwu = duiwuMapper.getByRoleId(role.getId());
+		Duiwu duiwu = accountService.getDuiwuByRoleId(role.getId());
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		if (CollectionUtils.isEmpty(myJnIds)) {
 			return new DuiwuData();
@@ -70,7 +72,7 @@ public class DuiwuService {
 		DuiwuData data = new DuiwuData(myJns);
 		duiwu.setCount(myJns.size());
 		duiwu.setTotalzdl(data.getZdl());
-		duiwuMapper.updateByPrimaryKey(duiwu);
+		accountService.updateDuiwu(duiwu);
 		return data;
 
 	}
@@ -82,7 +84,7 @@ public class DuiwuService {
 	
 	public void duiwuAddJy(Role role, int jy, Duiwu duiwu) {
 		if (duiwu == null) {
-			duiwu = duiwuMapper.getByRoleId(role.getId());
+			duiwu = accountService.getDuiwuByRoleId(role.getId());
 		}
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		if (CollectionUtils.isEmpty(myJnIds)) {
@@ -103,7 +105,7 @@ public class DuiwuService {
 	}
 	
 	public Integer shangzhen(Integer roleId, Integer myJnId) {
-		Duiwu duiwu = duiwuMapper.getByRoleId(roleId);
+		Duiwu duiwu = accountService.getDuiwuByRoleId(roleId);
 		if (duiwu.getCount() == 6) {
 			return Constant.FAILED;
 		}
@@ -113,7 +115,7 @@ public class DuiwuService {
 		}
 		myJnIds.add(myJnId);
 		jnListToDuiwu(myJnIds, duiwu);
-		duiwuMapper.updateByPrimaryKey(duiwu);
+		accountService.updateDuiwu(duiwu);
 		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
 		jn.setIswar(1);
 		myJianniangMapper.updateByPrimaryKey(jn);
@@ -121,11 +123,11 @@ public class DuiwuService {
 	}
 	
 	public Integer xiuxi(Integer roleId, Integer myJnId) {
-		Duiwu duiwu = duiwuMapper.getByRoleId(roleId);
+		Duiwu duiwu = accountService.getDuiwuByRoleId(roleId);
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		myJnIds.remove(myJnId);
 		jnListToDuiwu(myJnIds, duiwu);
-		duiwuMapper.updateByPrimaryKey(duiwu);
+		accountService.updateDuiwu(duiwu);
 		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
 		jn.setIswar(0);
 		myJianniangMapper.updateByPrimaryKey(jn);
