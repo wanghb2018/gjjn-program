@@ -82,15 +82,16 @@ public class AccountService {
 
 	public void roleAddJy(Role role, Integer jy, Integer wz, Integer count, Boolean flag) {
 		int exp = role.getExp() + jy;
-		int level = role.getLevel();
+		boolean flag2 = false;
+		int needJy = 0;
 		if (role.getLevel() < role.getDjsx()) {
 			RoleSJ roleSj = roleSJMapper.selectByPrimaryKey(role.getLevel());
 			if (exp >= roleSj.getNeedjy()) {
-				exp -= roleSj.getNeedjy();
-				level++;
+				flag2 = true;
+				needJy = roleSj.getNeedjy();
 			}
 		}
-		roleMapper.mapBossUpdate(role.getId(), level, exp, count, wz, flag);
+		roleMapper.mapBossUpdate(role.getId(), flag2, jy, count, wz, flag, needJy);
 	}
 	
 	public void jianzaoUpdate(Integer id, Integer wuzi, Integer mofang) {

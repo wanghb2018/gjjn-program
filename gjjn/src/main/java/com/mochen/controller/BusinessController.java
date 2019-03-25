@@ -211,7 +211,7 @@ public class BusinessController {
 		data.setWz(map.getWz() * 10 * duiwu.getCount());
 		data.setJnjy(map.getJnjy() * 10 * duiwu.getCount());
 		data.setZhgjy(map.getZhgjy() * duiwu.getCount());
-		List<JianniangMaps> jnList = gameMapService.getByMapId(role.getGuajimapId());
+		List<JianniangMaps> jnList = gameMapService.getByMapId(id);
 		List<Suipian> sps = new ArrayList<>();
 		random.ints(0, jnList.size()).limit(duiwu.getCount()).forEach(e -> {
 			Jianniang jn = jianniangService.getById(jnList.get(e).getJnId());

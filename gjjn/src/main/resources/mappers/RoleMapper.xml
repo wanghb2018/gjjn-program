@@ -281,8 +281,11 @@
   </update>
   <update id="mapBossUpdate" >
     update work_role
-    set level = #{level,jdbcType=INTEGER},
-      exp = #{exp,jdbcType=INTEGER},
+    set 
+    <if test="isUp">
+    	level = level + 1,
+    </if>
+     exp = exp + #{exp,jdbcType=INTEGER} - #{needJy,jdbcType=INTEGER},
       <if test="isOpen">
       	openmap_id = openmap_id+1,
       </if>

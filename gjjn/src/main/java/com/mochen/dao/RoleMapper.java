@@ -26,7 +26,7 @@ public interface RoleMapper {
     
     Role getByUserId(Integer userId);
     
-    void mapBossUpdate(@Param("id")Integer id,@Param("level")Integer level,@Param("exp")Integer exp,@Param("count")Integer count,@Param("wz")Integer wz,@Param("isOpen")Boolean isOpen);
+    void mapBossUpdate(@Param("id")Integer id,@Param("isUp")Boolean isUp,@Param("exp")Integer exp,@Param("count")Integer count,@Param("wz")Integer wz,@Param("isOpen")Boolean isOpen, @Param("needJy")Integer needJy);
     
     void jianzaoUpdate(@Param("id")Integer id, @Param("wuzi")Integer wuzi, @Param("mofang")Integer mofang);
     
