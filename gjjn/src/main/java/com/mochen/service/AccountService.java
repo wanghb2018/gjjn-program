@@ -94,8 +94,8 @@ public class AccountService {
 		roleMapper.mapBossUpdate(role.getId(), flag2, jy, count, wz, flag, needJy);
 	}
 	
-	public void jianzaoUpdate(Integer id, Integer wuzi, Integer mofang) {
-		roleMapper.jianzaoUpdate(id, wuzi, mofang);
+	public int jianzaoUpdate(Integer id, Integer wuzi, Integer mofang) {
+		return roleMapper.jianzaoUpdate(id, wuzi, mofang);
 	}
 	
 	public List<PhbInfo> djPhb(){

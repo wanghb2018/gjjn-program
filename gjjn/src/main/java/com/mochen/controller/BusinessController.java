@@ -353,9 +353,16 @@ public class BusinessController {
 		Role role = accountService.getByUserId(userId);
 		if (role.getMofang() < 100) {
 			result.setHr(Constant.FAILED);
+			return result;
 		}
 		if (role.getWuzi() < 1000) {
 			result.setHr(Constant.OTHER);
+			return result;
+		}
+		int updateResult = accountService.jianzaoUpdate(role.getId(), 1000, 100);
+		if (updateResult == 0) {
+			result.setHr(Constant.OTHER);
+			return result;
 		}
 		int num = 50 - (int) Math.pow(random.nextInt(900), 0.5);
 		int rate = random.nextInt(100) + 1;
@@ -369,7 +376,6 @@ public class BusinessController {
 		} else {
 			jns = jianniangService.getAllJnByOverPinji(2);
 		}
-		accountService.jianzaoUpdate(role.getId(), 1000, 100);
 		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
 		result.setData(sp);
@@ -382,9 +388,16 @@ public class BusinessController {
 		Role role = accountService.getByUserId(userId);
 		if (role.getMofang() < 268) {
 			result.setHr(Constant.FAILED);
+			return result;
 		}
 		if (role.getWuzi() < 3000) {
 			result.setHr(Constant.OTHER);
+			return result;
+		}
+		int updateResult = accountService.jianzaoUpdate(role.getId(), 3000, 268);
+		if (updateResult == 0) {
+			result.setHr(Constant.OTHER);
+			return result;
 		}
 		int num = 100 - (int) Math.pow(random.nextInt(4900), 0.5);
 		int rate = random.nextInt(1000) + 1;
@@ -400,7 +413,6 @@ public class BusinessController {
 		} else {
 			jns = jianniangService.getAllJnByOverPinji(5);
 		}
-		accountService.jianzaoUpdate(role.getId(), 3000, 268);
 		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
 		result.setData(sp);

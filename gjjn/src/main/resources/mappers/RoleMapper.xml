@@ -297,7 +297,7 @@
     update work_role
     set wuzi = wuzi - #{wuzi,jdbcType=INTEGER},
     mofang = mofang - #{mofang,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and wuzi &gt;= #{wuzi,jdbcType=INTEGER} and mofang &gt;= #{mofang,jdbcType=INTEGER}
   </update>
   <resultMap id="phbMap" type="com.mochen.model.PhbInfo">
     <result column="name" jdbcType="VARCHAR" property="name" />

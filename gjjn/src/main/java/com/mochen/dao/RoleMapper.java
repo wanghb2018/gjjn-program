@@ -28,7 +28,7 @@ public interface RoleMapper {
     
     void mapBossUpdate(@Param("id")Integer id,@Param("isUp")Boolean isUp,@Param("exp")Integer exp,@Param("count")Integer count,@Param("wz")Integer wz,@Param("isOpen")Boolean isOpen, @Param("needJy")Integer needJy);
     
-    void jianzaoUpdate(@Param("id")Integer id, @Param("wuzi")Integer wuzi, @Param("mofang")Integer mofang);
+    int jianzaoUpdate(@Param("id")Integer id, @Param("wuzi")Integer wuzi, @Param("mofang")Integer mofang);
     
     @Cacheable(value=Constant.CACHE_HOUR, key="'dj_phb'")
     List<PhbInfo> djPhb();
