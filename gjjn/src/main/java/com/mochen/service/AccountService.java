@@ -33,86 +33,74 @@ public class AccountService {
 	RoleSJMapper roleSJMapper;
 	@Autowired
 	DuiwuMapper duiwuMapper;
-
+	
 	public User getById(Integer id) {
 		return userMapper.selectByPrimaryKey(id);
 	}
-
+	
 	public Role login(User user) {
 		user.setLastLogin(new Date());
 		userMapper.updateByPrimaryKey(user);
 		return roleMapper.getByUserId(user.getId());
 	}
-
+	
 	public Role getByUserId(Integer userId) {
 		return roleMapper.getByUserId(userId);
 	}
-
+	
 	public User getByUserName(String userName) {
 		return userMapper.getByUserName(userName);
 	}
-
+	
 	public void createUser(User user) {
 		userMapper.insert(user);
 	}
-
+	
 	public void updateUser(User user) {
 		userMapper.updateByPrimaryKey(user);
 	}
-
+	
 	public void createRole(Role role) {
 		roleMapper.insertSelective(role);
 	}
-
+	
 	public RoleSJ getRoleSJById(Integer id) {
 		return roleSJMapper.selectByPrimaryKey(id);
 	}
-
+	
 	public List<RoleSJ> getAllRoleSJ() {
 		return roleSJMapper.getAll();
 	}
-
+	
 	public void createKeyan(Keyan keyan) {
 		keyanMapper.insert(keyan);
 	}
-
+	
 	public void updateRole(Role role) {
 		roleMapper.updateByPrimaryKey(role);
 	}
-
-	public void roleAddJy(Role role, Integer jy, Integer wz, Integer count, Boolean flag) {
-		int exp = role.getExp() + jy;
-		boolean flag2 = false;
-		int needJy = 0;
-		synchronized (this) {
-			if (role.getLevel() < role.getDjsx()) {
-				RoleSJ roleSj = roleSJMapper.selectByPrimaryKey(role.getLevel());
-				if (exp >= roleSj.getNeedjy()) {
-					flag2 = true;
-					needJy = roleSj.getNeedjy();
-				}
-			}
-		}
-		roleMapper.mapBossUpdate(role.getId(), flag2, jy, count, wz, flag, needJy);
+	
+	public void roleAddJy(Integer roleId, Integer jy, Integer wz, Integer count, Boolean flag) {
+		roleMapper.mapBossUpdate(roleId, jy, count, wz, flag);
 	}
 	
 	public int jianzaoUpdate(Integer id, Integer wuzi, Integer mofang) {
 		return roleMapper.jianzaoUpdate(id, wuzi, mofang);
 	}
 	
-	public List<PhbInfo> djPhb(){
+	public List<PhbInfo> djPhb() {
 		return roleMapper.djPhb();
 	}
 	
-	public List<PhbInfo> zdlPhb(){
+	public List<PhbInfo> zdlPhb() {
 		return roleMapper.zdlPhb();
 	}
 	
-	public List<PhbInfo> tjPhb(){
+	public List<PhbInfo> tjPhb() {
 		return roleMapper.tjPhb();
 	}
 	
-	public List<PhbInfo> jnPhb(){
+	public List<PhbInfo> jnPhb() {
 		return roleMapper.jnPhb();
 	}
 	

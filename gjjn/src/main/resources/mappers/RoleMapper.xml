@@ -281,17 +281,17 @@
   </update>
   <update id="mapBossUpdate" >
     update work_role
-    set 
-    <if test="isUp">
-    	level = level + 1,
-    </if>
-     exp = exp + #{exp,jdbcType=INTEGER} - #{needJy,jdbcType=INTEGER},
+    set exp = exp + #{exp,jdbcType=INTEGER},
       <if test="isOpen">
       	openmap_id = openmap_id+1,
       </if>
       keyandian = keyandian + #{count,jdbcType=INTEGER},
       wuzi = wuzi + #{wz,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER};
+    update work_role r
+    inner join work_rolesj s on r.level = s.id
+    set r.level = r.level + 1, r.exp = r.exp - s.needjy
+ 	where r.id = #{id,jdbcType=INTEGER} and r.exp &gt;= s.needjy and r.level % 10 != 0;
   </update>
   <update id="jianzaoUpdate" >
     update work_role

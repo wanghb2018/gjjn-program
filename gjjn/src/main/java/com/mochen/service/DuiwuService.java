@@ -16,7 +16,6 @@ import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.MyJianniangMapper;
 import com.mochen.model.Duiwu;
 import com.mochen.model.Jianniang;
-import com.mochen.model.JianniangSJ;
 import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.MyJianniang;
@@ -82,26 +81,8 @@ public class DuiwuService {
 				duiwu.getFiveId(), duiwu.getSixId()).stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
-	public void duiwuAddJy(Role role, int jy, Duiwu duiwu) {
-		if (duiwu == null) {
-			duiwu = accountService.getDuiwuByRoleId(role.getId());
-		}
-		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
-		if (CollectionUtils.isEmpty(myJnIds)) {
-			return;
-		}
-		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
-		for (MyJianniang myJn : myJns) {
-			if (myJn.getLevel() < 100) {
-				JianniangSJ sj = jianniangService.getJnsjById(myJn.getLevel());
-				myJn.setJingyan(myJn.getJingyan() + jy);
-				if (myJn.getJingyan() > sj.getNeedjy()) {
-					myJn.setLevel(myJn.getLevel()+1);
-					myJn.setJingyan(myJn.getJingyan()-sj.getNeedjy());
-				}
-			} 
-		}
-		myJianniangMapper.batchUpdate(myJns);
+	public void duiwuAddJy(Integer roleId, int jy) {
+		myJianniangMapper.jnAddjy(roleId, jy);
 	}
 	
 	public Integer shangzhen(Integer roleId, Integer myJnId) {

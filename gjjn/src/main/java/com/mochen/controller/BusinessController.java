@@ -174,7 +174,7 @@ public class BusinessController {
 		GameMap gameMap = gameMapService.getGameMapById(role.getGuajimapId());
 		int wz = gameMap.getWz() * rewardCount;
 		int jy = gameMap.getJnjy() * rewardCount;
-		duiwuService.duiwuAddJy(role, jy, null);
+		duiwuService.duiwuAddJy(role.getId(), jy);
 		role.setGuajimapId(id);
 		role.setGuajitime(now);
 		role.setWuzi(role.getWuzi() + wz);

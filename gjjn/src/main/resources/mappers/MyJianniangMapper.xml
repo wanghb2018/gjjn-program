@@ -293,4 +293,11 @@
 	    where id = #{i.id,jdbcType=INTEGER};
   	</foreach>
   </update>
+  <update id="jnAddjy">
+   	update work_myjianniang m
+	inner join work_jianniangsj s on m.level = s.id
+	set m.level = if (m.jingyan + #{exp,jdbcType=INTEGER} &gt;= s.needjy, m.level+1, m.level),
+	m.jingyan = if (m.jingyan + #{exp,jdbcType=INTEGER} &gt;= s.needjy, m.jingyan + #{exp,jdbcType=INTEGER}-s.needjy, m.jingyan+#{exp,jdbcType=INTEGER})
+	where m.role_id = #{roleId,jdbcType=INTEGER} and m.iswar = 1 and m.level &lt; 100
+  </update>
 </mapper>

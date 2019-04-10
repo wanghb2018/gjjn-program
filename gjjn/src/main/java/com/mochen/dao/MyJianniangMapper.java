@@ -26,4 +26,6 @@ public interface MyJianniangMapper {
     List<MyJianniang> getUserJns(Integer roleId);
     
     MyJianniang getByJnId(@Param("roleId")Integer roleId, @Param("jnId")Integer jnId);
+    
+    void jnAddjy(@Param("roleId")Integer roleId, @Param("exp")Integer exp);
 }

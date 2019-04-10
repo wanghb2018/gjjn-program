@@ -33,8 +33,8 @@ public class JianniangService {
 	JianniangSJMapper jianniangSJMapper;
 	@Autowired
 	JianniangSXMapper jianniangSXMapper;
-
-	@Cacheable(value=Constant.CACHE_YEAR,key="'jianniang_'+#id", unless="#result == null")
+	
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniang_'+#id", unless = "#result == null")
 	public Jianniang getById(Integer id) {
 		return jianniangMapper.selectByPrimaryKey(id);
 	}
@@ -53,36 +53,36 @@ public class JianniangService {
 		myJianniangMapper.insert(myJN);
 		return myJN;
 	}
-
+	
 	public void addMyJN(Integer roleId, Jianniang jn) {
 		addMyJN(roleId, jn, 0);
 	}
-
+	
 	public List<MyJianniang> getUserJns(Integer roleId) {
 		return myJianniangMapper.getUserJns(roleId);
 	}
-
+	
 	public List<Suipian> getUserSps(Integer roleId) {
 		return suipianMapper.getAllUserSps(roleId);
 	}
-
+	
 	public void spBatchSave(List<Suipian> sps) {
 		suipianMapper.batchSave(sps);
 	}
-
+	
 	public void spBatchUpdate(List<Suipian> sps) {
 		suipianMapper.batchUpdate(sps);
 	}
-
+	
 	public MyJianniang getMyJnById(Integer id) {
 		return myJianniangMapper.selectByPrimaryKey(id);
 	}
-
+	
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'jnsj_'+#id")
 	public JianniangSJ getJnsjById(Integer id) {
 		return jianniangSJMapper.selectByPrimaryKey(id);
 	}
-
+	
 	public List<Suipian> getUserSpsById(Integer id, Integer roleId) {
 		return suipianMapper.getUserSps(id, roleId);
 	}
@@ -90,39 +90,39 @@ public class JianniangService {
 	public List<Suipian> getSpByJnId(Integer jnId, Integer roleId) {
 		return suipianMapper.getSpByJnId(jnId, roleId);
 	}
-
+	
 	public MyJianniang getByJnId(Integer roleId, Integer jnId) {
 		return myJianniangMapper.getByJnId(roleId, jnId);
 	}
-
+	
 	public Suipian getSpById(Integer id) {
 		return suipianMapper.selectByPrimaryKey(id);
 	}
-
+	
 	public Integer saleSuipianExist(Integer roleId) {
 		return suipianMapper.saleSuipianExist(roleId);
 	}
-
+	
 	public Integer saleSuipianFull(Integer roleId) {
 		return suipianMapper.saleSuipianFull(roleId);
 	}
-
-	@Cacheable(value=Constant.CACHE_YEAR,key=Constant.CACHE_ALL_JIANNIANG)
+	
+	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_JIANNIANG)
 	public List<Jianniang> getAllJn() {
 		return jianniangMapper.getAll();
 	}
 	
-	@Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_pinji_'+#pinji")
-	public List<Jianniang> getAllJnByPinji(Integer pinji){
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'all_jianniang_pinji_'+#pinji")
+	public List<Jianniang> getAllJnByPinji(Integer pinji) {
 		return jianniangMapper.getAllByPinji(pinji);
 	}
 	
-	@Cacheable(value=Constant.CACHE_YEAR,key="'all_jianniang_over_pinji_'+#pinji")
-	public List<Jianniang> getAllJnByOverPinji(Integer pinji){
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'all_jianniang_over_pinji_'+#pinji")
+	public List<Jianniang> getAllJnByOverPinji(Integer pinji) {
 		return jianniangMapper.getAllByOverPinji(pinji);
 	}
 	
-	public List<Jianniang> getLoseJn(Integer roleId){
+	public List<Jianniang> getLoseJn(Integer roleId) {
 		return jianniangMapper.getLoseJn(roleId);
 	}
 	
@@ -130,7 +130,7 @@ public class JianniangService {
 		return suipianMapper.getRoleBl(roleId);
 	}
 	
-	@Cacheable(value= Constant.CACHE_YEAR, key= "'jnsx_'+#id")
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'jnsx_'+#id")
 	public JianniangSX getJnSXbyId(Integer id) {
 		return jianniangSXMapper.selectByPrimaryKey(id);
 	}

@@ -21,8 +21,8 @@ public class AsyncJobService {
 	
 	@Async
 	public void mapBossAsyncJob(List<Suipian> sps, Duiwu duiwu, Integer jnJy, Role role, Integer zhgjy, Integer wuzi, Boolean flag) {
+		duiwuService.duiwuAddJy(role.getId(), jnJy);
+		accountService.roleAddJy(role.getId(), zhgjy, wuzi, duiwu.getCount(), flag);
 		jianniangService.spBatchSave(sps);
-		duiwuService.duiwuAddJy(role, jnJy, duiwu);
-		accountService.roleAddJy(role, zhgjy, wuzi, duiwu.getCount(), flag);
 	}
 }
