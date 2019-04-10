@@ -84,11 +84,13 @@ public class AccountService {
 		int exp = role.getExp() + jy;
 		boolean flag2 = false;
 		int needJy = 0;
-		if (role.getLevel() < role.getDjsx()) {
-			RoleSJ roleSj = roleSJMapper.selectByPrimaryKey(role.getLevel());
-			if (exp >= roleSj.getNeedjy()) {
-				flag2 = true;
-				needJy = roleSj.getNeedjy();
+		synchronized (this) {
+			if (role.getLevel() < role.getDjsx()) {
+				RoleSJ roleSj = roleSJMapper.selectByPrimaryKey(role.getLevel());
+				if (exp >= roleSj.getNeedjy()) {
+					flag2 = true;
+					needJy = roleSj.getNeedjy();
+				}
 			}
 		}
 		roleMapper.mapBossUpdate(role.getId(), flag2, jy, count, wz, flag, needJy);

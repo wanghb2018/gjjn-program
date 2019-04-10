@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -58,7 +58,6 @@ public class BusinessController {
 	DuiwuService duiwuService;
 	@Autowired
 	AsyncJobService asyncJobService;
-	private Random random = new Random();
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
@@ -145,7 +144,7 @@ public class BusinessController {
 		List<Suipian> sps = new ArrayList<>();
 		int c = 0;
 		for (int i = 0; i < rewardCount; i++) {
-			if (random.nextInt(300) == 250) {
+			if (ThreadLocalRandom.current().nextInt(300) == 250) {
 				c++;
 			}
 		}
@@ -157,7 +156,7 @@ public class BusinessController {
 			Map<Integer, Integer> jnCount = jnMaps.stream()
 					.collect(Collectors.toMap(JianniangMaps::getJnId, e -> circle));
 			for (int j = 0; j < yu; j++) {
-				int index = random.nextInt(length);
+				int index = ThreadLocalRandom.current().nextInt(length);
 				int jnId = jnMaps.get(index).getJnId();
 				jnCount.put(jnId, jnCount.get(jnId) + 1);
 			}
@@ -194,7 +193,7 @@ public class BusinessController {
 			result.setHr(-2);
 			return result;
 		}
-		if ((double) (random.nextInt(200) + 900) / 1000 * duiwu.getTotalzdl() <= map.getZdl()) {
+		if ((double) (ThreadLocalRandom.current().nextInt(200) + 900) / 1000 * duiwu.getTotalzdl() <= map.getZdl()) {
 			result.setHr(Constant.FAILED);
 			return result;
 		}
@@ -215,7 +214,7 @@ public class BusinessController {
 		data.setZhgjy(map.getZhgjy() * duiwu.getCount());
 		List<JianniangMaps> jnList = gameMapService.getByMapId(id);
 		List<Suipian> sps = new ArrayList<>();
-		random.ints(0, jnList.size()).limit(duiwu.getCount()).forEach(e -> {
+		ThreadLocalRandom.current().ints(0, jnList.size()).limit(duiwu.getCount()).forEach(e -> {
 			Jianniang jn = jianniangService.getById(jnList.get(e).getJnId());
 			sps.add(new Suipian(role.getId(), jn, 1));
 		});
@@ -364,8 +363,8 @@ public class BusinessController {
 			result.setHr(Constant.OTHER);
 			return result;
 		}
-		int num = 50 - (int) Math.pow(random.nextInt(900), 0.5);
-		int rate = random.nextInt(100) + 1;
+		int num = 50 - (int) Math.pow(ThreadLocalRandom.current().nextInt(900), 0.5);
+		int rate = ThreadLocalRandom.current().nextInt(100) + 1;
 		List<Jianniang> jns = null;
 		if (rate <= 30) {
 			jns = jianniangService.getAllJnByPinji(0);
@@ -376,7 +375,7 @@ public class BusinessController {
 		} else {
 			jns = jianniangService.getAllJnByOverPinji(2);
 		}
-		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
+		Suipian sp = new Suipian(role.getId(), jns.get(ThreadLocalRandom.current().nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
 		result.setData(sp);
 		return result;
@@ -399,8 +398,8 @@ public class BusinessController {
 			result.setHr(Constant.OTHER);
 			return result;
 		}
-		int num = 100 - (int) Math.pow(random.nextInt(4900), 0.5);
-		int rate = random.nextInt(1000) + 1;
+		int num = 100 - (int) Math.pow(ThreadLocalRandom.current().nextInt(4900), 0.5);
+		int rate = ThreadLocalRandom.current().nextInt(1000) + 1;
 		List<Jianniang> jns = null;
 		if (rate <= 630) {
 			jns = jianniangService.getAllJnByPinji(2);
@@ -413,7 +412,7 @@ public class BusinessController {
 		} else {
 			jns = jianniangService.getAllJnByOverPinji(5);
 		}
-		Suipian sp = new Suipian(role.getId(), jns.get(random.nextInt(jns.size())), num);
+		Suipian sp = new Suipian(role.getId(), jns.get(ThreadLocalRandom.current().nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
 		result.setData(sp);
 		return result;
@@ -639,7 +638,7 @@ public class BusinessController {
 		List<Jianniang> allJns = jianniangService.getAllJn();
 		Collections.shuffle(allJns);
 		return allJns.stream().limit(count)
-				.map(e -> new Suipian(role.getId(), e, random.nextInt(role.getQdts() + 1) + 1))
+				.map(e -> new Suipian(role.getId(), e, ThreadLocalRandom.current().nextInt(role.getQdts() + 1) + 1))
 				.collect(Collectors.toList());
 	}
 
