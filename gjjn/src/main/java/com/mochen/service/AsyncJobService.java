@@ -3,7 +3,6 @@ package com.mochen.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.mochen.model.Duiwu;
@@ -19,7 +18,6 @@ public class AsyncJobService {
 	@Autowired
 	AccountService accountService;
 	
-	@Async
 	public void mapBossAsyncJob(List<Suipian> sps, Duiwu duiwu, Integer jnJy, Role role, Integer zhgjy, Integer wuzi, Boolean flag) {
 		jianniangService.spBatchSave(sps);
 		duiwuService.duiwuAddJy(role.getId(), jnJy);

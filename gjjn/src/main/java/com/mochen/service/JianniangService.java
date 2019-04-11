@@ -75,21 +75,19 @@ public class JianniangService {
 	
 	public void spBatchSave(List<Suipian> sps) {
 		for (Suipian sp : sps) {
-			synchronized (userSPMap) {
-				userSPMap.compute(sp.getRoleId() + "_" + sp.getJnId(), (k, v) -> {
-					if (v != null) {
-						v.setNum(v.getNum() + sp.getNum());
-						return v;
-					} else {
-						return sp;
-					}
-				});
-			}
+			userSPMap.compute(sp.getRoleId() + "_" + sp.getJnId(), (k, v) -> {
+				if (v != null) {
+					v.setNum(v.getNum() + sp.getNum());
+					return v;
+				} else {
+					return sp;
+				}
+			});
 		}
 	}
 	
-	@Scheduled(cron = "*/8 * * * * *")
-	@Async
+	@Scheduled(cron = "*/10 * * * * *")
+	@Async("myThreadPool")
 	public void spSaveToDatabase() {
 		List<Suipian> sps = null;
 		synchronized (userSPMap) {

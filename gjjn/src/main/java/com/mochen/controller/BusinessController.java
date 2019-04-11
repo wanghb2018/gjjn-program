@@ -247,6 +247,8 @@ public class BusinessController {
 		role.setWuzi(role.getWuzi() - roleSj.getNeedwz());
 		role.setDjsx(role.getDjsx() + 10);
 		role.setJunxianId(role.getJunxianId() + 1);
+		role.setLevel(role.getLevel() + 1);
+		role.setExp(role.getExp() - roleSj.getNeedjy());
 		accountService.updateRole(role);
 		return Constant.SUCCESS;
 	}
