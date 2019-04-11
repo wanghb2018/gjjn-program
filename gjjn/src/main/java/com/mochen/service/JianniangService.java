@@ -1,13 +1,19 @@
 package com.mochen.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.mochen.dao.JianniangMapper;
 import com.mochen.dao.JianniangSJMapper;
@@ -33,6 +39,7 @@ public class JianniangService {
 	JianniangSJMapper jianniangSJMapper;
 	@Autowired
 	JianniangSXMapper jianniangSXMapper;
+	private volatile Map<String, Suipian> userSPMap = new ConcurrentHashMap<>();
 	
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniang_'+#id", unless = "#result == null")
 	public Jianniang getById(Integer id) {
@@ -67,7 +74,31 @@ public class JianniangService {
 	}
 	
 	public void spBatchSave(List<Suipian> sps) {
-		suipianMapper.batchSave(sps);
+		for (Suipian sp : sps) {
+			synchronized (userSPMap) {
+				userSPMap.compute(sp.getRoleId() + "_" + sp.getJnId(), (k, v) -> {
+					if (v != null) {
+						v.setNum(v.getNum() + sp.getNum());
+						return v;
+					} else {
+						return sp;
+					}
+				});
+			}
+		}
+	}
+	
+	@Scheduled(cron = "*/8 * * * * *")
+	@Async
+	public void spSaveToDatabase() {
+		List<Suipian> sps = null;
+		synchronized (userSPMap) {
+			sps = new ArrayList<>(userSPMap.values());
+			userSPMap.clear();
+		}
+		if (!CollectionUtils.isEmpty(sps)) {
+			suipianMapper.batchSave(sps);
+		}
 	}
 	
 	public void spBatchUpdate(List<Suipian> sps) {
