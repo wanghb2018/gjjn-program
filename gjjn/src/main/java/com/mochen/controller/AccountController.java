@@ -97,11 +97,11 @@ public class AccountController {
 		if (user == null) {
 			return Constant.OTHER;
 		}
-		if (Hasher.instance().checkPassword(password, user.getPassword())) {
-			user.setPassword(Hasher.instance().encode(password));
-			accountService.updateUser(user);
-			return Constant.SUCCESS;
+		if (!user.getEmail().equals(email)){
+			return Constant.FAILED;
 		}
-		return Constant.FAILED;
+		user.setPassword(Hasher.instance().encode(password));
+		accountService.updateUser(user);
+		return Constant.SUCCESS;
 	}
 }
