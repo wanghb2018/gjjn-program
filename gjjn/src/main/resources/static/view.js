@@ -157,7 +157,7 @@ function changepasswd(){
 		mui.toast('认真点，两次密码都不一致啦，是不是撸多了？');
 		return;
 	}
-	mui.post(domain+'changePassword/',
+	mui.post('changePassword/',
 	{
 		'userName':username,
 		'password':password,
