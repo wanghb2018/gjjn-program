@@ -742,7 +742,7 @@ function back_losejn(){
 	$('#losejn').hide();$('#menus').show();
 }
 function changetouxiang(){
-	mui.post("changeTouxiang",{'id':$('#jninfohideid').val()},function(data){
+	mui.get("changeTouxiang",{'id':$('#jninfohideid').val()},function(data){
 		if(data){
 			$('#roletouxiang').attr('src',data);
 			mui.toast("设置成功！");

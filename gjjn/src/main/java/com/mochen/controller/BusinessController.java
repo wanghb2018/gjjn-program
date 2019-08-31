@@ -202,7 +202,8 @@ public class BusinessController {
 			return result;
 		}
 		boolean flag = false;
-		if (map.getId().equals(role.getOpenmapId()) && map.getId() < 48) {
+		List<GameMap> allGameMap = gameMapService.getAllGameMap();
+		if (map.getId().equals(role.getOpenmapId()) && map.getId() < allGameMap.size()) {
 			result.setHr(Constant.OTHER);
 			flag = true;
 		}
@@ -444,7 +445,7 @@ public class BusinessController {
 	@GetMapping("/changeTouxiang")
 	public String changeTouxiang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);
-		MyJianniang myJn = jianniangService.getByJnId(role.getId(), id);
+		MyJianniang myJn = jianniangService.getMyJnById(id);
 		role.setTouxiang(myJn.getTouxiang());
 		accountService.updateRole(role);
 		return role.getTouxiang();
