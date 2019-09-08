@@ -77,7 +77,7 @@ public class AccountService {
 	}
 	
 	public void updateRole(Role role) {
-		roleMapper.updateByPrimaryKey(role);
+		roleMapper.updateByPrimaryKeyWithBLOBs(role);
 	}
 	
 	public void roleAddJy(Integer roleId, Integer jy, Integer wz, Integer count, Boolean flag) {
