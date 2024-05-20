@@ -22,16 +22,6 @@ public class GameMapService {
 	JianniangMapsMapper jianniangMapsMapper;
 	@Autowired
 	KeyanSJMapper keyanSJMapper;
-	
-	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_KEYANSJ)
-	public List<KeyanSJ> getAllKeyanSJ(){
-		return keyanSJMapper.getAll();
-	}
-	
-	@Cacheable(value = Constant.CACHE_YEAR, key = "'keyansj_'+#id")
-	public KeyanSJ getKeyanSjById(Integer id) {
-		return keyanSJMapper.selectByPrimaryKey(id);
-	}
 
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'gameMap_'+#id")
 	public GameMap getGameMapById(Integer id) {

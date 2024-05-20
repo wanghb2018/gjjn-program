@@ -56,10 +56,14 @@ public class BusinessController {
 	AsyncJobService asyncJobService;
 	@Autowired
 	JunxianService junxianService;
+	@Autowired
+	RoleSJService roleSJService;
+	@Autowired
+	KeyanSJService keyanSJService;
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
-		return accountService.getAllRoleSJ();
+		return roleSJService.getAll();
 	}
 
 	@GetMapping("/allGameMap")
@@ -74,7 +78,7 @@ public class BusinessController {
 	
 	@GetMapping("/allKeyanSj")
 	public List<KeyanSJ> getAllKeyanSj(){
-		return gameMapService.getAllKeyanSJ();
+		return keyanSJService.getAll();
 	}
 
 	@PostMapping("/createRole")
@@ -239,7 +243,7 @@ public class BusinessController {
 		if (role.getLevel() % 10 != 0 || !role.getLevel().equals(role.getDjsx())) {
 			return Constant.FAILED;
 		}
-		RoleSJ roleSj = accountService.getRoleSJById(role.getLevel());
+		RoleSJ roleSj = roleSJService.getById(role.getLevel());
 		if (role.getWuzi() < roleSj.getNeedwz()) {
 			return Constant.OTHER;
 		}
@@ -559,7 +563,7 @@ public class BusinessController {
 			if (keyan.getGjdj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getGjdj() + 1);
+			sj = keyanSJService.getById(keyan.getGjdj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}
@@ -570,7 +574,7 @@ public class BusinessController {
 			if (keyan.getFydj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getFydj() + 1);
+			sj = keyanSJService.getById(keyan.getFydj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}
@@ -581,7 +585,7 @@ public class BusinessController {
 			if (keyan.getXldj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getXldj() + 1);
+			sj = keyanSJService.getById(keyan.getXldj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}
@@ -592,7 +596,7 @@ public class BusinessController {
 			if (keyan.getSddj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getSddj() + 1);
+			sj = keyanSJService.getById(keyan.getSddj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}
@@ -603,7 +607,7 @@ public class BusinessController {
 			if (keyan.getBjdj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getBjdj() + 1);
+			sj = keyanSJService.getById(keyan.getBjdj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}
@@ -614,7 +618,7 @@ public class BusinessController {
 			if (keyan.getDbdj() >= 50) {
 				return Constant.OTHER;
 			}
-			sj = gameMapService.getKeyanSjById(keyan.getDbdj() + 1);
+			sj = keyanSJService.getById(keyan.getDbdj() + 1);
 			if (role.getWuzi() < sj.getNeedwz() || role.getKeyandian() < sj.getNeedjy()) {
 				return Constant.FAILED;
 			}

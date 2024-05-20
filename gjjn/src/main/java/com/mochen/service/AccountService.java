@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 import com.mochen.dao.DuiwuMapper;
 import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.RoleMapper;
-import com.mochen.dao.RoleSJMapper;
 import com.mochen.dao.UserMapper;
 import com.mochen.model.Duiwu;
 import com.mochen.model.Keyan;
 import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
-import com.mochen.model.RoleSJ;
 import com.mochen.model.User;
 import com.mochen.utils.Constant;
 
@@ -29,8 +27,6 @@ public class AccountService {
 	UserMapper userMapper;
 	@Autowired
 	KeyanMapper keyanMapper;
-	@Autowired
-	RoleSJMapper roleSJMapper;
 	@Autowired
 	DuiwuMapper duiwuMapper;
 	
@@ -63,15 +59,7 @@ public class AccountService {
 	public void createRole(Role role) {
 		roleMapper.insertSelective(role);
 	}
-	
-	public RoleSJ getRoleSJById(Integer id) {
-		return roleSJMapper.selectByPrimaryKey(id);
-	}
-	
-	public List<RoleSJ> getAllRoleSJ() {
-		return roleSJMapper.getAll();
-	}
-	
+
 	public void createKeyan(Keyan keyan) {
 		keyanMapper.insert(keyan);
 	}
