@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import com.mochen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,11 +38,6 @@ import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.Suipian;
-import com.mochen.service.AccountService;
-import com.mochen.service.AsyncJobService;
-import com.mochen.service.DuiwuService;
-import com.mochen.service.GameMapService;
-import com.mochen.service.JianniangService;
 import com.mochen.service.data.DuiwuData;
 import com.mochen.utils.Constant;
 import com.mochen.utils.Constant.InitialJN;
@@ -58,6 +54,8 @@ public class BusinessController {
 	DuiwuService duiwuService;
 	@Autowired
 	AsyncJobService asyncJobService;
+	@Autowired
+	JunxianService junxianService;
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
@@ -71,7 +69,7 @@ public class BusinessController {
 
 	@GetMapping("/allJunxian")
 	public List<Junxian> getAllJunxian() {
-		return duiwuService.getAllJunxian();
+		return junxianService.getAllJunxian();
 	}
 	
 	@GetMapping("/allKeyanSj")

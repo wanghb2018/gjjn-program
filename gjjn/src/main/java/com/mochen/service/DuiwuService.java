@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.mochen.dao.DuiwuMapper;
-import com.mochen.dao.JunxianMapper;
 import com.mochen.dao.KeyanMapper;
 import com.mochen.dao.MyJianniangMapper;
 import com.mochen.model.Duiwu;
@@ -30,7 +29,7 @@ public class DuiwuService {
 	@Autowired
 	JianniangService jianniangService;
 	@Autowired
-	JunxianMapper junxianMapper;
+	JunxianService junxianService;
 	@Autowired
 	KeyanMapper keyanMapper;
 	@Autowired
@@ -45,10 +44,6 @@ public class DuiwuService {
 	public Duiwu getDuiwuByRoleId(Integer roleId) {
 		return accountService.getDuiwuByRoleId(roleId);
 	}
-	
-	public List<Junxian> getAllJunxian(){
-		return junxianMapper.getAll();
-	}
 
 	public DuiwuData reCalJNZdl(Role role) {
 		Duiwu duiwu = accountService.getDuiwuByRoleId(role.getId());
@@ -62,7 +57,7 @@ public class DuiwuService {
 			jns.add(jianniangService.getById(myJn.getJnId()));
 		}
 		Keyan keyan = keyanMapper.getByRoleId(role.getId());
-		Junxian junxian = junxianMapper.selectByPrimaryKey(role.getJunxianId());
+		Junxian junxian = junxianService.getById(role.getJunxianId());
 		double jxRate = (double)junxian.getPowerrate() / 100 + 1;
 		for (int i = 0; i< myJns.size();i++) {
 			myJns.get(i).calShuxing(jns.get(i), keyan, jxRate);
