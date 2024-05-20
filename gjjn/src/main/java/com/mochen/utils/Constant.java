@@ -15,6 +15,7 @@ public class Constant {
 	public static final String CACHE_ALL_ROLESJ = "'all_rolesj'";
 	public static final String CACHE_ALL_GAMEMAP = "'all_gameMap'";
 	public static final String CACHE_ALL_JIANNIANG = "'all_jianniang'";
+	public static final String CACHE_ALL_JIANNIANG_MAP = "'all_jianniang_map'";
 	public static final String CACHE_ALL_KEYANSJ = "'all_keyansj'";
 	public static final String CACHE_ALL_JUNXIAN = "'all_junxian'";
 

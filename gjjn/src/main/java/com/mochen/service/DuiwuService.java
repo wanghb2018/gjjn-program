@@ -12,7 +12,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.mochen.dao.DuiwuMapper;
 import com.mochen.dao.KeyanMapper;
-import com.mochen.dao.MyJianniangMapper;
 import com.mochen.model.Duiwu;
 import com.mochen.model.Jianniang;
 import com.mochen.model.Junxian;
@@ -25,7 +24,7 @@ import com.mochen.utils.Constant;
 @Service
 public class DuiwuService {
 	@Autowired
-	MyJianniangMapper myJianniangMapper;
+	MyJianniangService myJianniangService;
 	@Autowired
 	JianniangService jianniangService;
 	@Autowired
@@ -51,10 +50,10 @@ public class DuiwuService {
 		if (CollectionUtils.isEmpty(myJnIds)) {
 			return new DuiwuData();
 		}
-		List<MyJianniang> myJns = myJianniangMapper.getByIdList(myJnIds);
+		List<MyJianniang> myJns = myJianniangService.getByIds(myJnIds);
 		List<Jianniang> jns = new ArrayList<>();
 		for (MyJianniang myJn : myJns) {
-			jns.add(jianniangService.getById(myJn.getJnId()));
+			jns.add(myJn.getJn());
 		}
 		Keyan keyan = keyanMapper.getByRoleId(role.getId());
 		Junxian junxian = junxianService.getById(role.getJunxianId());
@@ -62,7 +61,7 @@ public class DuiwuService {
 		for (int i = 0; i< myJns.size();i++) {
 			myJns.get(i).calShuxing(jns.get(i), keyan, jxRate);
 		}
-		myJianniangMapper.batchUpdate(myJns);
+		myJianniangService.batchUpdate(myJns);
 		DuiwuData data = new DuiwuData(myJns);
 		duiwu.setCount(myJns.size());
 		duiwu.setTotalzdl(data.getZdl());
@@ -77,7 +76,7 @@ public class DuiwuService {
 	}
 	
 	public void duiwuAddJy(Integer roleId, int jy) {
-		myJianniangMapper.jnAddjy(roleId, jy);
+		myJianniangService.jnAddjy(roleId, jy);
 	}
 	
 	public Integer shangzhen(Integer roleId, Integer myJnId) {
@@ -92,9 +91,7 @@ public class DuiwuService {
 		myJnIds.add(myJnId);
 		jnListToDuiwu(myJnIds, duiwu);
 		accountService.updateDuiwu(duiwu);
-		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
-		jn.setIswar(1);
-		myJianniangMapper.updateByPrimaryKey(jn);
+		myJianniangService.jnSetWar(myJnId, 1);
 		return Constant.SUCCESS;
 	}
 	
@@ -104,9 +101,7 @@ public class DuiwuService {
 		myJnIds.remove(myJnId);
 		jnListToDuiwu(myJnIds, duiwu);
 		accountService.updateDuiwu(duiwu);
-		MyJianniang jn = myJianniangMapper.selectByPrimaryKey(myJnId);
-		jn.setIswar(0);
-		myJianniangMapper.updateByPrimaryKey(jn);
+		myJianniangService.jnSetWar(myJnId, 0);
 		return Constant.SUCCESS;
 	}
 	

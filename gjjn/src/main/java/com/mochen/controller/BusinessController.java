@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import com.mochen.controller.uidata.*;
 import com.mochen.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.mochen.controller.uidata.GenericResult;
-import com.mochen.controller.uidata.MapBossData;
-import com.mochen.controller.uidata.MapGuajiData;
-import com.mochen.controller.uidata.MyJnInfoUIData;
-import com.mochen.controller.uidata.QiandaoData;
 import com.mochen.model.Duiwu;
 import com.mochen.model.GameMap;
 import com.mochen.model.Jianniang;
@@ -60,6 +56,8 @@ public class BusinessController {
 	RoleSJService roleSJService;
 	@Autowired
 	KeyanSJService keyanSJService;
+	@Autowired
+	MyJianniangService myJianniangService;
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
@@ -91,9 +89,9 @@ public class BusinessController {
 		role.setTouxiang(jn.getTouxiang());
 		role.setGuajitime(new Date());
 		accountService.createRole(role);
-		MyJianniang myjn = jianniangService.addMyJN(role.getId(), jn, 1);
+		MyJianniang myjn = myJianniangService.addMyJN(role.getId(), jn, 1);
 		Jianniang afu = jianniangService.getById(262); // 登录送阿芙
-		jianniangService.addMyJN(role.getId(), afu);
+		myJianniangService.addMyJN(role.getId(), afu);
 		Duiwu duiwu = new Duiwu(role.getId(), myjn);
 		duiwuService.create(duiwu);
 		Keyan keyan = new Keyan(role.getId());
@@ -109,14 +107,18 @@ public class BusinessController {
 	}
 
 	@GetMapping("/getDuiwuInfo")
-	public DuiwuData getDuiwuInfo(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+	public DuiwuResponse getDuiwuInfo(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
 		Role role = accountService.getByUserId(userId);
-		return duiwuService.reCalJNZdl(role);
+		return new DuiwuResponse(duiwuService.reCalJNZdl(role));
 	}
 
 	@GetMapping("/showJnList")
-	public List<MyJianniang> showJnList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
-		return jianniangService.getUserJns(roleId);
+	public List<MyJNResponse> showJnList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
+		List<MyJianniang> userJns = myJianniangService.getUserJns(roleId);
+		if (userJns == null) {
+			return null;
+		}
+		return userJns.stream().map(MyJNResponse::new).collect(Collectors.toList());
 	}
 
 	@GetMapping("/showSpList")
@@ -126,7 +128,7 @@ public class BusinessController {
 
 	@GetMapping("/showJnInfo")
 	public MyJnInfoUIData showJnInfo(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer jnId) {
-		MyJianniang myJn = jianniangService.getMyJnById(jnId);
+		MyJianniang myJn = myJianniangService.getJnById(jnId);
 		JianniangSJ jnSj = jianniangService.getJnsjById(myJn.getLevel());
 		return new MyJnInfoUIData(myJn, jnSj);
 	}
@@ -260,11 +262,11 @@ public class BusinessController {
 	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
 		List<Suipian> sps = jianniangService.getUserSpsById(id, roleId);
 		Suipian sp = sps.get(2);
-		MyJianniang myJn = jianniangService.getByJnId(roleId, sp.getJnId());
+		MyJianniang myJn = myJianniangService.getJnByJnId(roleId, sp.getJnId());
 		if (myJn != null) {
 			return Constant.OTHER;
 		}
-		Jianniang jn = jianniangService.getById(sp.getJnId());
+		Jianniang jn = myJn.getJn();
 		int index = sp.getPinji() < 3 ? 0 : 1;
 		int totalNum = sp.getNum() + sps.get(index).getNum();
 		if (totalNum < sp.getSpnum()) {
@@ -272,11 +274,11 @@ public class BusinessController {
 		}
 		if (sp.getNum() >= sp.getSpnum()) {
 			sps.get(2).setNum(sp.getNum() - sp.getSpnum());
-			jianniangService.addMyJN(roleId, jn);
+			myJianniangService.addMyJN(roleId, jn);
 		} else {
 			sps.get(index).setNum(totalNum - sp.getSpnum());
 			sps.get(2).setNum(0);
-			jianniangService.addMyJN(roleId, jn);
+			myJianniangService.addMyJN(roleId, jn);
 		}
 		jianniangService.spBatchUpdate(sps);
 		return Constant.SUCCESS;
@@ -447,8 +449,8 @@ public class BusinessController {
 	@GetMapping("/changeTouxiang")
 	public String changeTouxiang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);
-		MyJianniang myJn = jianniangService.getMyJnById(id);
-		role.setTouxiang(myJn.getTouxiang());
+		MyJianniang myJn = myJianniangService.getJnById(id);
+		role.setTouxiang(myJn.getJn().getTouxiang());
 		accountService.updateRole(role);
 		return role.getTouxiang();
 	}
@@ -511,8 +513,8 @@ public class BusinessController {
 	@GetMapping("/jnShengxing")
 	public Integer jnShengxing(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);
-		MyJianniang myJn = jianniangService.getMyJnById(id);
-		Jianniang jn = jianniangService.getById(myJn.getJnId());
+		MyJianniang myJn = myJianniangService.getJnById(id);
+		Jianniang jn = myJn.getJn();
 		if (myJn.getStar() - jn.getStar() >= 3 && jn.getPinji() < 6) {
 			return Constant.OTHER;
 		}
@@ -541,7 +543,7 @@ public class BusinessController {
 		}
 		myJn.setStar(myJn.getStar() + 1);
 		myJn.calJNZdl(myJn.getStar() - jn.getStar() + 1);
-		jianniangService.updateMyJn(myJn);
+		myJianniangService.update(myJn);
 		jianniangService.spBatchUpdate(sps);
 		role.setWuzi(role.getWuzi() - jnSx.getNeedwz());
 		accountService.updateRole(role);

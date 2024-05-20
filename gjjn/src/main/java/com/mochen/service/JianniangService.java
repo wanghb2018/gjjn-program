@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,12 +20,10 @@ import org.springframework.util.CollectionUtils;
 import com.mochen.dao.JianniangMapper;
 import com.mochen.dao.JianniangSJMapper;
 import com.mochen.dao.JianniangSXMapper;
-import com.mochen.dao.MyJianniangMapper;
 import com.mochen.dao.SuipianMapper;
 import com.mochen.model.Jianniang;
 import com.mochen.model.JianniangSJ;
 import com.mochen.model.JianniangSX;
-import com.mochen.model.MyJianniang;
 import com.mochen.model.Suipian;
 import com.mochen.utils.Constant;
 
@@ -31,8 +31,6 @@ import com.mochen.utils.Constant;
 public class JianniangService {
 	@Autowired
 	JianniangMapper jianniangMapper;
-	@Autowired
-	MyJianniangMapper myJianniangMapper;
 	@Autowired
 	SuipianMapper suipianMapper;
 	@Autowired
@@ -53,22 +51,7 @@ public class JianniangService {
 		jianniangMapper.insert(jn);
 		return jn;
 	}
-	
-	public MyJianniang addMyJN(Integer roleId, Jianniang jn, Integer isWar) {
-		MyJianniang myJN = new MyJianniang(roleId, jn, isWar);
-		myJN.calJNZdl(0);
-		myJianniangMapper.insert(myJN);
-		return myJN;
-	}
-	
-	public void addMyJN(Integer roleId, Jianniang jn) {
-		addMyJN(roleId, jn, 0);
-	}
-	
-	public List<MyJianniang> getUserJns(Integer roleId) {
-		return myJianniangMapper.getUserJns(roleId);
-	}
-	
+
 	public List<Suipian> getUserSps(Integer roleId) {
 		return suipianMapper.getAllUserSps(roleId);
 	}
@@ -102,11 +85,7 @@ public class JianniangService {
 	public void spBatchUpdate(List<Suipian> sps) {
 		suipianMapper.batchUpdate(sps);
 	}
-	
-	public MyJianniang getMyJnById(Integer id) {
-		return myJianniangMapper.selectByPrimaryKey(id);
-	}
-	
+
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'jnsj_'+#id")
 	public JianniangSJ getJnsjById(Integer id) {
 		return jianniangSJMapper.selectByPrimaryKey(id);
@@ -119,11 +98,7 @@ public class JianniangService {
 	public List<Suipian> getSpByJnId(Integer jnId, Integer roleId) {
 		return suipianMapper.getSpByJnId(jnId, roleId);
 	}
-	
-	public MyJianniang getByJnId(Integer roleId, Integer jnId) {
-		return myJianniangMapper.getByJnId(roleId, jnId);
-	}
-	
+
 	public Suipian getSpById(Integer id) {
 		return suipianMapper.selectByPrimaryKey(id);
 	}
@@ -139,6 +114,11 @@ public class JianniangService {
 	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_JIANNIANG)
 	public List<Jianniang> getAllJn() {
 		return jianniangMapper.getAll();
+	}
+
+	@Cacheable(value = Constant.CACHE_YEAR, key = Constant.CACHE_ALL_JIANNIANG_MAP)
+	public Map<Integer, Jianniang> getAllJnMap() {
+		return jianniangMapper.getAll().stream().collect(Collectors.toMap(Jianniang::getId, Function.identity()));
 	}
 	
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'all_jianniang_pinji_'+#pinji")
@@ -163,8 +143,5 @@ public class JianniangService {
 	public JianniangSX getJnSXbyId(Integer id) {
 		return jianniangSXMapper.selectByPrimaryKey(id);
 	}
-	
-	public void updateMyJn(MyJianniang myJn) {
-		myJianniangMapper.updateByPrimaryKey(myJn);
-	}
+
 }

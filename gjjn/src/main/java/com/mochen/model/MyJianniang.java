@@ -17,27 +17,19 @@ public class MyJianniang {
 
 	private Integer star;
 
-	private Integer level = 1;
+	private Integer level;
 
 	private Integer iswar;
 
 	private Integer zdl;
 
-	private Integer jingyan = 0;
+	private Integer jingyan;
 
 	private Integer jnId;
 
 	private Integer roleId;
 
-	private String name;
-
-	private Integer pinji;
-
-	private String touxiang;
-
-	private String lihui;
-
-	private String color;
+	private Jianniang jn;
 
 	public MyJianniang() {
 	}
@@ -53,11 +45,6 @@ public class MyJianniang {
 		this.iswar = iswar;
 		this.jnId = jn.getId();
 		this.roleId = roleId;
-		this.name = jn.getName();
-		this.pinji = jn.getPinji();
-		this.touxiang = jn.getTouxiang();
-		this.lihui = jn.getLihui();
-		this.color = jn.getColor();
 	}
 
 	public void calShuxing(Jianniang jn, Keyan keyan, double jxRate) {
@@ -195,43 +182,11 @@ public class MyJianniang {
 		this.roleId = roleId;
 	}
 
-	public String getName() {
-		return name;
+	public Jianniang getJn() {
+		return jn;
 	}
 
-	public void setName(String name) {
-		this.name = name == null ? null : name.trim();
-	}
-
-	public Integer getPinji() {
-		return pinji;
-	}
-
-	public void setPinji(Integer pinji) {
-		this.pinji = pinji;
-	}
-
-	public String getTouxiang() {
-		return touxiang;
-	}
-
-	public void setTouxiang(String touxiang) {
-		this.touxiang = touxiang == null ? null : touxiang.trim();
-	}
-
-	public String getLihui() {
-		return lihui;
-	}
-
-	public void setLihui(String lihui) {
-		this.lihui = lihui == null ? null : lihui.trim();
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color == null ? null : color.trim();
+	public void setJn(Jianniang jn) {
+		this.jn = jn;
 	}
 }
