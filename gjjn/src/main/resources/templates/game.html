@@ -8,8 +8,8 @@
 		<script src="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/js/mui.min.js"></script>
 		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 		<link href="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/css/mui.min.css" rel="stylesheet" />
-		<link href="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/css/game.css" rel="stylesheet" />
-		<script src="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/js/view2.js" type="text/javascript" charset="utf-8"></script>
+		<link th:href="@{css/game.css?t=202405262125}" rel="stylesheet" />
+		<script th:src="@{js/view.js?t=202405262125}" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -407,7 +407,7 @@
 				<!--舰娘页面-->
 				<div id="jianniangview" class="mui-control-content">
 					<!--舰娘头像list-->
-					<div style="margin: 5px; background-color: rgb(44,79,98);" id='jnlistdiv'>
+					<div id='jnlistdiv' class="jn-list-container">
 					</div>
 
 					<!--舰娘详情-->
@@ -490,7 +490,7 @@
 					</ul>
 				</div>
 				<!--出击界面-->
-				<div id="chujiview" class="mui-control-content" style="style=" background-color: red; "">
+				<div id="chujiview" class="mui-control-content">
 					<div class="mui-bar" style="top: 60px; height: 40px; background-color: rgb(9,56,77); color: rgb(228,234,8); line-height: 40px; font-size: 14px;">
 						<div style="float: left;" >挂机时间:<font id="roleguajitime">2018-06-10 14:01:12</font></div>
 						<div style="float: right;">挂机经验:<font id="roleguajijy">12000</font></div>

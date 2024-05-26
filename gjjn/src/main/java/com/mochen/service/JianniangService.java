@@ -52,10 +52,6 @@ public class JianniangService {
 		return jn;
 	}
 
-	public List<Suipian> getUserSps(Integer roleId) {
-		return suipianMapper.getAllUserSps(roleId);
-	}
-	
 	public void spBatchSave(List<Suipian> sps) {
 		for (Suipian sp : sps) {
 			userSPMap.compute(sp.getRoleId() + "_" + sp.getJnId(), (k, v) -> {

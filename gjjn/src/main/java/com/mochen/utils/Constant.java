@@ -19,6 +19,9 @@ public class Constant {
 	public static final String CACHE_ALL_KEYANSJ = "'all_keyansj'";
 	public static final String CACHE_ALL_JUNXIAN = "'all_junxian'";
 
+	public static final int JN_ZBL = 1;
+	public static final int JN_JBL = 2;
+
 	public enum InitialJN {
 		LAFEI("jnimg1", 19), BIAOQIANG("jnimg2", 101), Z23("jnimg3", 236);
 

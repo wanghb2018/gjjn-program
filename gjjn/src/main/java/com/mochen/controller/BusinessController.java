@@ -58,6 +58,8 @@ public class BusinessController {
 	KeyanSJService keyanSJService;
 	@Autowired
 	MyJianniangService myJianniangService;
+	@Autowired
+	SuipianService suipianService;
 
 	@GetMapping("/allRoleSJ")
 	public List<RoleSJ> getAllRoleSj() {
@@ -122,8 +124,9 @@ public class BusinessController {
 	}
 
 	@GetMapping("/showSpList")
-	public List<Suipian> showSpList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
-		return jianniangService.getUserSps(roleId);
+	public UserSpResponse showSpList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
+		List<Suipian> sps = suipianService.getUserSps(roleId);
+		return new UserSpResponse(sps);
 	}
 
 	@GetMapping("/showJnInfo")
@@ -269,14 +272,14 @@ public class BusinessController {
 		Jianniang jn = myJn.getJn();
 		int index = sp.getPinji() < 3 ? 0 : 1;
 		int totalNum = sp.getNum() + sps.get(index).getNum();
-		if (totalNum < sp.getSpnum()) {
+		if (totalNum < jn.getSpnum()) {
 			return Constant.FAILED;
 		}
-		if (sp.getNum() >= sp.getSpnum()) {
-			sps.get(2).setNum(sp.getNum() - sp.getSpnum());
+		if (sp.getNum() >= jn.getSpnum()) {
+			sps.get(2).setNum(sp.getNum() - jn.getSpnum());
 			myJianniangService.addMyJN(roleId, jn);
 		} else {
-			sps.get(index).setNum(totalNum - sp.getSpnum());
+			sps.get(index).setNum(totalNum - jn.getSpnum());
 			sps.get(2).setNum(0);
 			myJianniangService.addMyJN(roleId, jn);
 		}
@@ -531,13 +534,13 @@ public class BusinessController {
 		}
 		int blId = sps.get(2).getPinji() < 3 ? 0 : 1;
 		Suipian jnsp = sps.get(2);
-		if (jnsp.getNum() >= jnsp.getSpnum()) {
-			sps.get(2).setNum(jnsp.getNum() - jnsp.getSpnum());
+		if (jnsp.getNum() >= jn.getSpnum()) {
+			sps.get(2).setNum(jnsp.getNum() - jn.getSpnum());
 		} else {
-			if (jnsp.getNum() + sps.get(blId).getNum() < jnsp.getSpnum()) {
+			if (jnsp.getNum() + sps.get(blId).getNum() < jn.getSpnum()) {
 				return Constant.OTHER2;
 			}
-			int remind = jnsp.getNum() + sps.get(blId).getNum() - jnsp.getSpnum();
+			int remind = jnsp.getNum() + sps.get(blId).getNum() - jn.getSpnum();
 			sps.get(blId).setNum(remind);
 			sps.get(2).setNum(0);
 		}
@@ -653,19 +656,9 @@ public class BusinessController {
 		Suipian zbl = new Suipian();
 		zbl.setJnId(1);
 		zbl.setRoleId(roleId);
-		zbl.setName("泛用型布里");
-		zbl.setPinji(9);
-		zbl.setTouxiang("http://p0.qhimg.com/t017856449a5a277e5e.jpg");
-		zbl.setColor("violet");
-		zbl.setSpnum(75);
 		Suipian jbl = new Suipian();
 		jbl.setJnId(2);
 		jbl.setRoleId(roleId);
-		jbl.setName("试作型布里MKII");
-		jbl.setPinji(8);
-		jbl.setTouxiang("http://p4.qhimg.com/t01ec7743170cae9e68.jpg");
-		jbl.setColor("gold");
-		jbl.setSpnum(100);
 		return Arrays.asList(zbl, jbl);
 	}
 }

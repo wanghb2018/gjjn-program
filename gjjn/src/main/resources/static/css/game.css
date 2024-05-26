@@ -1,0 +1,162 @@
+body{
+	background-color: #2C4F62;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {   
+ /* WebKit browsers */   
+color: #FFFFFF;   
+}   
+input:-moz-placeholder, textarea:-moz-placeholder {   
+/* Mozilla Firefox 4 to 18 */   
+color: #FFFFFF;   
+}   
+input::-moz-placeholder, textarea::-moz-placeholder {   
+ /* Mozilla Firefox 19+ */   
+color: #FFFFFF;   
+}   
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {   
+ /* Internet Explorer 10+ */   
+color: #FFFFFF;   
+} 
+.mui-bar{
+	height: 60px;
+	background-color: #072335;
+}
+.mui-title{
+	line-height: 60px;
+	color: #FFFFFF;
+}
+.labelrow{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.tstxt{
+	font-size: 12px;
+	color: gray;
+	margin: 0 auto;
+}
+.input-group{
+	background-color: #2C4F62;
+}
+.labelrow label{
+	color: white;
+    line-height: 200%;
+    padding: 8px;
+}
+
+.input-group input, .mui-input-group textarea {
+    margin-bottom: 0;
+    border: 1px solid #232e40;
+    border-radius: 6px;
+    background-color: #3B7082;
+    color: #FFFFFF;
+}
+
+.button-padded{
+	margin: 10px;
+}
+
+.mui-btn-block{
+	background-color: #09384D; /*9,56,77*/
+	color: #FFFFFF;
+	border-color: #09384D;
+}
+
+.link-area{
+	text-align: center;
+}
+.link-area a{
+	color: #FFFFFF;
+}
+
+.mui-login-bt{
+	text-align: center;
+}
+.mui-login-bt a{
+	margin: 10px;
+	width: 40%;
+	height: 50px;
+	background-color: #09384D;
+	color: #FFFFFF;
+	border: none;
+	font-size: 18px;
+    margin-bottom: 10px;
+    padding: 12px 0;
+}
+
+.cjjs_jnimg{
+	border: 2px #2C4F62 solid;
+}
+
+.cjjs_jnimg_xuanzhong{
+	border: 2px yellow solid;
+}
+
+.mui-content{
+	background-color: #2C4F62;
+	margin: 5px;
+}
+
+.mui-grid-view.mui-grid-9 .mui-table-view-cell{
+	background-color: rgb(59,112,130);
+	border-color: rgb(44,79,98);
+}
+
+.lileft{
+	float: left;
+	color: rgb(243,195,10);
+}
+
+.liright{
+	float: right;
+	color: white;
+}
+.libutton{
+	margin: -5px -5px -5px 10px;
+	background-color: #09384d;
+	color: #FFFFFF;
+	border: none; 
+}
+.mui-table-view .mui-media, .mui-table-view .mui-media-body{
+	background-color: rgb(59,112,130);
+}
+.mui-table-view{
+	background-color: rgb(59,112,130);
+}
+.mui-grid-view.mui-grid-9{
+	background-color: rgb(44,79,98);
+}
+.mui-btn{
+	background-color: #09384d;
+	color: #FFFFFF;
+	border: none; 	
+}
+.imglibutton{
+	line-height:1.7;
+}
+
+.jntxlist{
+	width: calc(100% / 6 - 4px);
+	margin: 2px;
+}
+.myp{
+	color: #F0FFFF;
+}
+.tishi{font-size:12px;color:#999;display:block;}
+.btnsys{padding:8px 0;margin:0 0 5px 0;margin-right:1%;margin-left:1%;float:left;width:48%;height:58px;}
+.mytitlebut{
+	background-color: #8a6de9;
+}
+/*#mapul button{
+	background-color: red;
+}*/
+.mychujibutton{
+	background-color: red;
+}
+.jn-list-container {
+	background-color: rgb(44,79,98);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	padding-bottom: 8px;
+}

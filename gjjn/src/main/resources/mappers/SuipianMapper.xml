@@ -6,14 +6,9 @@
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="jn_id" jdbcType="INTEGER" property="jnId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="pinji" jdbcType="INTEGER" property="pinji" />
-    <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
-    <result column="color" jdbcType="VARCHAR" property="color" />
-    <result column="spnum" jdbcType="INTEGER" property="spnum" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, num, jn_id, role_id, name, pinji, touxiang, color, spnum
+    id, num, jn_id, role_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,8 +23,7 @@
     where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 order by jn_id asc
   </select>
   <select id="getAllUserSps" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and jn_id &lt; 3 union  
-	select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and jn_id &gt; 2 and  num &gt; 0 order by pinji desc,num desc,jn_id asc;
+    select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and num &gt; 0
   </select>
   <select id="getUserSps" resultMap="BaseResultMap">
     SELECT * FROM work_suipian where id = #{id,jdbcType=INTEGER} union 
@@ -45,23 +39,16 @@
   </delete>
   <insert id="insert" parameterType="com.mochen.model.Suipian">
     insert into work_suipian (num, jn_id, 
-      role_id, name, pinji, 
-      touxiang, color, spnum
-      )
+      role_id)
     values (#{num,jdbcType=INTEGER}, #{jnId,jdbcType=INTEGER}, 
-      #{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pinji,jdbcType=INTEGER}, 
-      #{touxiang,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{spnum,jdbcType=INTEGER}
-      )
+      #{roleId,jdbcType=INTEGER})
   </insert>
   <insert id="batchSave" parameterType="java.util.List">
-  	insert into work_suipian (num, jn_id, 
-      role_id, name, pinji, 
-      touxiang, color, spnum)
+  	insert into work_suipian (num, jn_id, role_id)
     values
   	<foreach collection="list" item="i" separator=",">
   		(#{i.num,jdbcType=INTEGER}, #{i.jnId,jdbcType=INTEGER}, 
-      #{i.roleId,jdbcType=INTEGER}, #{i.name,jdbcType=VARCHAR}, #{i.pinji,jdbcType=INTEGER}, 
-      #{i.touxiang,jdbcType=VARCHAR}, #{i.color,jdbcType=VARCHAR}, #{i.spnum,jdbcType=INTEGER})
+      #{i.roleId,jdbcType=INTEGER})
   	</foreach>
      ON DUPLICATE KEY UPDATE num = num + values(num)
   </insert>
@@ -80,21 +67,6 @@
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="pinji != null">
-        pinji,
-      </if>
-      <if test="touxiang != null">
-        touxiang,
-      </if>
-      <if test="color != null">
-        color,
-      </if>
-      <if test="spnum != null">
-        spnum,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,21 +80,6 @@
       </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="pinji != null">
-        #{pinji,jdbcType=INTEGER},
-      </if>
-      <if test="touxiang != null">
-        #{touxiang,jdbcType=VARCHAR},
-      </if>
-      <if test="color != null">
-        #{color,jdbcType=VARCHAR},
-      </if>
-      <if test="spnum != null">
-        #{spnum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -138,21 +95,6 @@
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="pinji != null">
-        pinji = #{pinji,jdbcType=INTEGER},
-      </if>
-      <if test="touxiang != null">
-        touxiang = #{touxiang,jdbcType=VARCHAR},
-      </if>
-      <if test="color != null">
-        color = #{color,jdbcType=VARCHAR},
-      </if>
-      <if test="spnum != null">
-        spnum = #{spnum,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -160,12 +102,7 @@
     update work_suipian
     set num = #{num,jdbcType=INTEGER},
       jn_id = #{jnId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      pinji = #{pinji,jdbcType=INTEGER},
-      touxiang = #{touxiang,jdbcType=VARCHAR},
-      color = #{color,jdbcType=VARCHAR},
-      spnum = #{spnum,jdbcType=INTEGER}
+      role_id = #{roleId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="batchUpdate">
