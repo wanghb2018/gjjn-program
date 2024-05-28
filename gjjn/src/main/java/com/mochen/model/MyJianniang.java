@@ -45,6 +45,8 @@ public class MyJianniang {
 		this.iswar = iswar;
 		this.jnId = jn.getId();
 		this.roleId = roleId;
+		this.level = 1;
+		this.jingyan = 0;
 	}
 
 	public void calShuxing(Jianniang jn, Keyan keyan, double jxRate) {

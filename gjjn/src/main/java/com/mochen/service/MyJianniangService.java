@@ -43,6 +43,9 @@ public class MyJianniangService {
 
     public MyJianniang getJnByJnId(Integer roleId, Integer jnId) {
         MyJianniang myJn = mapper.getByJnId(roleId, jnId);
+        if (myJn == null) {
+            return null;
+        }
         Jianniang jn = jianniangService.getById(myJn.getJnId());
         myJn.setJn(jn);
         return myJn;

@@ -37,7 +37,7 @@ public class JianniangService {
 	JianniangSJMapper jianniangSJMapper;
 	@Autowired
 	JianniangSXMapper jianniangSXMapper;
-	private volatile Map<String, Suipian> userSPMap = new ConcurrentHashMap<>();
+	private final Map<String, Suipian> userSPMap = new ConcurrentHashMap<>();
 	
 	@Cacheable(value = Constant.CACHE_YEAR, key = "'jianniang_'+#id", unless = "#result == null")
 	public Jianniang getById(Integer id) {
@@ -86,11 +86,7 @@ public class JianniangService {
 	public JianniangSJ getJnsjById(Integer id) {
 		return jianniangSJMapper.selectByPrimaryKey(id);
 	}
-	
-	public List<Suipian> getUserSpsById(Integer id, Integer roleId) {
-		return suipianMapper.getUserSps(id, roleId);
-	}
-	
+
 	public List<Suipian> getSpByJnId(Integer jnId, Integer roleId) {
 		return suipianMapper.getSpByJnId(jnId, roleId);
 	}

@@ -25,10 +25,6 @@
   <select id="getAllUserSps" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select * from work_suipian where role_id = #{role_id,jdbcType=INTEGER} and num &gt; 0
   </select>
-  <select id="getUserSps" resultMap="BaseResultMap">
-    SELECT * FROM work_suipian where id = #{id,jdbcType=INTEGER} union 
-	SELECT * FROM work_suipian where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 ORDER BY jn_id asc
-  </select>
   <select id="getSpByJnId" resultMap="BaseResultMap">
     SELECT * FROM work_suipian where jn_id = #{jnId,jdbcType=INTEGER} and role_id = #{roleId,jdbcType=INTEGER} union 
 	SELECT * FROM work_suipian where role_id = #{roleId,jdbcType=INTEGER} and jn_id &lt; 3 ORDER BY jn_id asc
@@ -126,5 +122,11 @@
 	inner join work_jianniang j on m.jn_id = j.id and m.star -j.star = 3
 	set s.num = 0
 	where m.role_id = #{roleId,jdbcType=INTEGER};
+  </select>
+  <select id="getByJnIds" resultMap="BaseResultMap">
+  	select * from work_suipian where role_id = #{roleId} AND jn_id in
+  	<foreach collection="jnIds" item="i" open="(" close=")" separator=",">
+  		#{i}
+  	</foreach>
   </select>
 </mapper>

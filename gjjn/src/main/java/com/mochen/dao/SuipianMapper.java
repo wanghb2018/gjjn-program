@@ -22,9 +22,7 @@ public interface SuipianMapper {
     List<Suipian> getAllUserSps(Integer roleId);
     
     void batchSave(List<Suipian> sps);
-    
-    List<Suipian> getUserSps(@Param("id")Integer id, @Param("roleId")Integer roleId);
-    
+
     List<Suipian> getSpByJnId(@Param("jnId")Integer jnId, @Param("roleId")Integer roleId);
     
     void batchUpdate(List<Suipian> sps);
@@ -34,4 +32,6 @@ public interface SuipianMapper {
     Integer saleSuipianFull(Integer roleId);
     
     List<Suipian> getRoleBl(Integer roleId);
+
+    List<Suipian> getByJnIds(@Param("jnIds")List<Integer> jnId, @Param("roleId")Integer roleId);
 }

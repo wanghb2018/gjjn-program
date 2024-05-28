@@ -456,7 +456,7 @@ function showsplist(a){
 				var data = d.sps;
 				var spliststr = "";
 				for(var i=2;i<data.length;i++){
-					spliststr = spliststr + "<li id='splistid"+data[i].id+"' class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].touxiang+"'><div class='mui-media-body'><font color='"+data[i].color+"'>"+data[i].name+"</font><p class='myp mui-ellipsis'>数量：<span>"+data[i].num+"</span>/<span>"+data[i].spnum+"</span></p></div></div><div style='float: right;'><div id='numbox"+data[i].id+"' class='mui-numbox' data-numbox-step='1' data-numbox-min='0' data-numbox-max='"+data[i].num+"'><button class='mui-btn mui-numbox-btn-minus' type='button'>-</button><input class='mui-numbox-input' type='number' /><button class='mui-btn mui-numbox-btn-plus' type='button'>+</button></div> <button type='button' class='imglibutton mui-btn' onclick='salesuipian("+data[i].id+","+data[i].pinji+")'>出售</button> <button type='button' class='imglibutton mui-btn' onclick='jnhecheng("+data[i].id+","+data[i].spnum+")'>合成</button></div></li>";
+					spliststr = spliststr + "<li id='splistid"+data[i].id+"' class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+data[i].touxiang+"'><div class='mui-media-body'><font color='"+data[i].color+"'>"+data[i].name+"</font><p class='myp mui-ellipsis'>数量：<span>"+data[i].num+"</span>/<span>"+data[i].spnum+"</span></p></div></div><div style='float: right;'><div id='numbox"+data[i].id+"' class='mui-numbox' data-numbox-step='1' data-numbox-min='0' data-numbox-max='"+data[i].num+"'><button class='mui-btn mui-numbox-btn-minus' type='button'>-</button><input class='mui-numbox-input' type='number' /><button class='mui-btn mui-numbox-btn-plus' type='button'>+</button></div> <button type='button' class='imglibutton mui-btn' onclick='salesuipian("+data[i].id+","+data[i].pinji+")'>出售</button> <button type='button' class='imglibutton mui-btn' onclick='jnhecheng("+data[i].jnId+","+data[i].spnum+")'>合成</button></div></li>";
 				}
 				$('#splistul').empty();
 				$('#splistul').html(spliststr);
@@ -544,10 +544,10 @@ function showjninfo2(id){
 	});
 }
 
-function jnhecheng(id,neednum){
+function jnhecheng(jnId,neednum){
 	mui.confirm("是否使用"+neednum+"个碎片(不足则使用布里碎片)合成？","提示",["取消","确定"],function(e){
 		if(e.index==1){
-			mui.get('jnHecheng',{'id':id},function(data){
+			mui.get('jnHecheng',{'jnId':jnId},function(data){
 				if(data==1){
 					mui.toast("对应舰娘已存在！");
 				}else if(data==0){

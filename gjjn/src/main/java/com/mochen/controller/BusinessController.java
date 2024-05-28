@@ -26,7 +26,6 @@ import com.mochen.model.Jianniang;
 import com.mochen.model.JianniangMaps;
 import com.mochen.model.JianniangSJ;
 import com.mochen.model.JianniangSX;
-import com.mochen.model.Junxian;
 import com.mochen.model.Keyan;
 import com.mochen.model.KeyanSJ;
 import com.mochen.model.MyJianniang;
@@ -34,7 +33,6 @@ import com.mochen.model.PhbInfo;
 import com.mochen.model.Role;
 import com.mochen.model.RoleSJ;
 import com.mochen.model.Suipian;
-import com.mochen.service.data.DuiwuData;
 import com.mochen.utils.Constant;
 import com.mochen.utils.Constant.InitialJN;
 
@@ -51,8 +49,6 @@ public class BusinessController {
 	@Autowired
 	AsyncJobService asyncJobService;
 	@Autowired
-	JunxianService junxianService;
-	@Autowired
 	RoleSJService roleSJService;
 	@Autowired
 	KeyanSJService keyanSJService;
@@ -60,26 +56,6 @@ public class BusinessController {
 	MyJianniangService myJianniangService;
 	@Autowired
 	SuipianService suipianService;
-
-	@GetMapping("/allRoleSJ")
-	public List<RoleSJ> getAllRoleSj() {
-		return roleSJService.getAll();
-	}
-
-	@GetMapping("/allGameMap")
-	public List<GameMap> getAllGameMap() {
-		return gameMapService.getAllGameMap();
-	}
-
-	@GetMapping("/allJunxian")
-	public List<Junxian> getAllJunxian() {
-		return junxianService.getAllJunxian();
-	}
-	
-	@GetMapping("/allKeyanSj")
-	public List<KeyanSJ> getAllKeyanSj(){
-		return keyanSJService.getAll();
-	}
 
 	@PostMapping("/createRole")
 	public Role createRole(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId, String jnImgId, String roleName,
@@ -262,29 +238,8 @@ public class BusinessController {
 	}
 
 	@GetMapping("/jnHecheng")
-	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer id) {
-		List<Suipian> sps = jianniangService.getUserSpsById(id, roleId);
-		Suipian sp = sps.get(2);
-		MyJianniang myJn = myJianniangService.getJnByJnId(roleId, sp.getJnId());
-		if (myJn != null) {
-			return Constant.OTHER;
-		}
-		Jianniang jn = myJn.getJn();
-		int index = sp.getPinji() < 3 ? 0 : 1;
-		int totalNum = sp.getNum() + sps.get(index).getNum();
-		if (totalNum < jn.getSpnum()) {
-			return Constant.FAILED;
-		}
-		if (sp.getNum() >= jn.getSpnum()) {
-			sps.get(2).setNum(sp.getNum() - jn.getSpnum());
-			myJianniangService.addMyJN(roleId, jn);
-		} else {
-			sps.get(index).setNum(totalNum - jn.getSpnum());
-			sps.get(2).setNum(0);
-			myJianniangService.addMyJN(roleId, jn);
-		}
-		jianniangService.spBatchUpdate(sps);
-		return Constant.SUCCESS;
+	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer jnId) {
+		return suipianService.combineJN(jnId, roleId);
 	}
 
 	@GetMapping("/saleSuipian")

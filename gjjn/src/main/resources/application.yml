@@ -15,9 +15,9 @@ spring:
       initial-size: 5
       max-total: 100
   redis:
-    host: 127.0.0.1
+    host: 192.168.2.70
     port: 6379
-    database: 0
+    database: 1
     lettuce:
       pool:
         max-active: 20
