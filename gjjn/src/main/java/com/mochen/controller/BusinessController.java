@@ -156,7 +156,7 @@ public class BusinessController {
 		role.setGuajitime(now);
 		role.setWuzi(role.getWuzi() + wz);
 		accountService.updateRole(role);
-		result.setData(new MapGuajiData(sps, jy, wz, guajiSecond, now));
+		result.setData(new MapGuajiData(sps.stream().map(SuipianResponse::new).collect(Collectors.toList()), jy, wz, guajiSecond, now));
 		return result;
 	}
 

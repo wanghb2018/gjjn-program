@@ -6,7 +6,7 @@ import java.util.List;
 import com.mochen.model.Suipian;
 
 public class MapGuajiData {
-	private List<Suipian> sps;
+	private List<SuipianResponse> sps;
 	private Integer jy;
 	private Integer wz;
 	private Integer sec;
@@ -15,7 +15,7 @@ public class MapGuajiData {
 	public MapGuajiData() {
 	}
 
-	public MapGuajiData(List<Suipian> sps, Integer jy, Integer wz, Integer sec, Date guajitime) {
+	public MapGuajiData(List<SuipianResponse> sps, Integer jy, Integer wz, Integer sec, Date guajitime) {
 		this.sps = sps;
 		this.jy = jy;
 		this.wz = wz;
@@ -23,11 +23,11 @@ public class MapGuajiData {
 		this.guajitime = guajitime;
 	}
 
-	public List<Suipian> getSps() {
+	public List<SuipianResponse> getSps() {
 		return sps;
 	}
 
-	public void setSps(List<Suipian> sps) {
+	public void setSps(List<SuipianResponse> sps) {
 		this.sps = sps;
 	}
 
