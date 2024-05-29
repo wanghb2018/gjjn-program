@@ -17,6 +17,7 @@ public class Suipian {
     	this.num = num;
     	this.jnId = jn.getId();
     	this.roleId = roleId;
+        this.jn = jn;
     }
 
     public Integer getId() {

@@ -202,7 +202,7 @@ public class BusinessController {
 			Jianniang jn = jianniangService.getById(jnList.get(e).getJnId());
 			sps.add(new Suipian(role.getId(), jn, 1));
 		});
-		data.setSps(sps);
+		data.setSps(sps.stream().map(SuipianResponse::new).collect(Collectors.toList()));
 		result.setData(data);
 		asyncJobService.mapBossAsyncJob(sps, duiwu, data.getJnjy(), role, data.getZhgjy(), data.getWz(), flag);
 		return result;
@@ -299,7 +299,7 @@ public class BusinessController {
 		data.setMofang(100 + role.getQdts() * 3);
 		data.setZuanshi(50 + role.getQdts());
 		List<Suipian> sps = addSuipian(role);
-		data.setSps(sps);
+		data.setSps(sps.stream().map(SuipianResponse::new).collect(Collectors.toList()));
 		jianniangService.spBatchSave(sps);
 		role.setQdts(role.getQdts() + 1);
 		role.setQdsj(now);

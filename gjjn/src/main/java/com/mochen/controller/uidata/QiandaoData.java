@@ -5,16 +5,16 @@ import java.util.List;
 import com.mochen.model.Suipian;
 
 public class QiandaoData {
-	private List<Suipian> sps;
+	private List<SuipianResponse> sps;
 	private Integer zuanshi;
 	private Integer mofang;
 	private Integer shiyou;
 
-	public List<Suipian> getSps() {
+	public List<SuipianResponse> getSps() {
 		return sps;
 	}
 
-	public void setSps(List<Suipian> sps) {
+	public void setSps(List<SuipianResponse> sps) {
 		this.sps = sps;
 	}
 
