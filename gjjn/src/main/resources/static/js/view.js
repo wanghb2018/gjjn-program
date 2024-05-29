@@ -455,9 +455,9 @@ function showsplist(a){
 			if (d.sps) {
 				var data = d.sps;
 				var spliststr = "";
-				for(var i=2;i<data.length;i++){
+				for(var i=0;i<data.length;i++){
 					spliststr = spliststr + "<img src='"+data[i].touxiang+"' class='jntxlist" + (data[i].hecheng ? "" : " opacity-img")
-						+ "' style='border: 3px "+data[i].color+" solid' onclick='jnhecheng("+data[i].jnId+","+data[i].spnum+","+data[i].hecheng+")'/> ";
+						+ "' style='border: 3px "+data[i].color+" solid' onclick='jnhecheng("+data[i].jnId+","+data[i].spnum+","+data[i].hecheng+",\""+data[i].name+"\")'/> ";
 				}
 				$('#splistul').empty();
 				$('#splistul').html(spliststr);
@@ -545,11 +545,11 @@ function showjninfo2(id){
 	});
 }
 
-function jnhecheng(jnId,neednum,hecheng){
+function jnhecheng(jnId,neednum,hecheng,name){
 	if (!hecheng) {
 		return;
 	}
-	mui.confirm("是否使用"+neednum+"个碎片(不足则使用布里碎片)合成？","提示",["取消","确定"],function(e){
+	mui.confirm("是否使用"+neednum+"个碎片(红色品级以下不足可使用布里碎片)合成"+name+"？","提示",["取消","确定"],function(e){
 		if(e.index==1){
 			mui.get('jnHecheng',{'jnId':jnId},function(data){
 				if(data==1){
