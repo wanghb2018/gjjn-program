@@ -160,3 +160,13 @@ color: #FFFFFF;
 	justify-content: flex-start;
 	padding-bottom: 8px;
 }
+.opacity-img {
+	opacity: 0.2;
+}
+#splistul {
+	background-color: rgb(44,79,98);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	padding-bottom: 8px;
+}

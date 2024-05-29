@@ -99,12 +99,6 @@ public class BusinessController {
 		return userJns.stream().map(MyJNResponse::new).collect(Collectors.toList());
 	}
 
-	@GetMapping("/showSpList")
-	public UserSpResponse showSpList(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId) {
-		List<Suipian> sps = suipianService.getUserSps(roleId);
-		return new UserSpResponse(sps);
-	}
-
 	@GetMapping("/showJnInfo")
 	public MyJnInfoUIData showJnInfo(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer jnId) {
 		MyJianniang myJn = myJianniangService.getJnById(jnId);
@@ -235,11 +229,6 @@ public class BusinessController {
 		role.setExp(role.getExp() - roleSj.getNeedjy());
 		accountService.updateRole(role);
 		return Constant.SUCCESS;
-	}
-
-	@GetMapping("/jnHecheng")
-	public Integer jnHecheng(@SessionAttribute(Constant.SESSION_ROLE_ID) Integer roleId, Integer jnId) {
-		return suipianService.combineJN(jnId, roleId);
 	}
 
 	@GetMapping("/saleSuipian")
@@ -398,12 +387,12 @@ public class BusinessController {
 			return null;
 		}
 	}
-	
+
 	@GetMapping("/getLoseJn")
 	public List<Jianniang> getLoseJn(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId){
 		return jianniangService.getLoseJn(roleId);
 	}
-	
+
 	@GetMapping("/changeTouxiang")
 	public String changeTouxiang(@SessionAttribute(Constant.SESSION_USER_ID)Integer userId, Integer id) {
 		Role role = accountService.getByUserId(userId);

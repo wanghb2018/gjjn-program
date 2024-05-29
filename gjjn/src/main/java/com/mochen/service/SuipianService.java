@@ -22,18 +22,8 @@ public class SuipianService {
     @Autowired
     MyJianniangService myJianniangService;
 
-    public List<Suipian> getUserSps(Integer roleId) {
-        List<Suipian> sps = mapper.getAllUserSps(roleId);
-        if (CollectionUtils.isEmpty(sps)) {
-            return null;
-        }
-        Map<Integer, Jianniang> allJnMap = jianniangService.getAllJnMap();
-        sps = sps.stream().peek(e -> e.setJn(allJnMap.get(e.getJnId())))
-                .sorted(Comparator.comparing(Suipian::getPinji, Comparator.reverseOrder())
-                        .thenComparing(Suipian::getNum, Comparator.reverseOrder())
-                        .thenComparing(Suipian::getId))
-                .collect(Collectors.toList());
-        return sps;
+    public List<Suipian> getUserSpByJnIds(List<Integer> jnIds, Integer roleId) {
+        return mapper.getByJnIds(jnIds, roleId);
     }
 
     public int combineJN(int jnId, int roleId) {
@@ -52,9 +42,12 @@ public class SuipianService {
         Map<Integer, Suipian> suipianMap = suipians.stream().collect(Collectors.toMap(Suipian::getJnId, Function.identity()));
         Suipian jnsp = suipianMap.get(jnId);
         if (jnsp == null) {
-            return Constant.OTHER;
+            return Constant.FAILED;
         }
-        Suipian bl =  suipianMap.getOrDefault(jn.getPinji() < 3 ? Constant.JN_ZBL : Constant.JN_JBL, new Suipian());
+        Suipian bl = new Suipian();
+        if (jn.getPinji() < 5) {
+            bl =  suipianMap.getOrDefault(jn.getPinji() < 3 ? Constant.JN_ZBL : Constant.JN_JBL, new Suipian());
+        }
         int total = jnsp.getNum() + bl.getNum();
         if (total < jn.getSpnum()) {
             return Constant.FAILED;

@@ -18,9 +18,7 @@ public interface SuipianMapper {
     int updateByPrimaryKeySelective(Suipian record);
 
     int updateByPrimaryKey(Suipian record);
-    
-    List<Suipian> getAllUserSps(Integer roleId);
-    
+
     void batchSave(List<Suipian> sps);
 
     List<Suipian> getSpByJnId(@Param("jnId")Integer jnId, @Param("roleId")Integer roleId);

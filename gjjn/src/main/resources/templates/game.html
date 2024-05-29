@@ -8,8 +8,8 @@
 		<script src="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/js/mui.min.js"></script>
 		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 		<link href="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/css/mui.min.css" rel="stylesheet" />
-		<link th:href="@{css/game.css?t=202405262125}" rel="stylesheet" />
-		<script th:src="@{js/view.js?t=202405262126}" type="text/javascript" charset="utf-8"></script>
+		<link th:href="@{css/game.css?t=202405291708}" rel="stylesheet" />
+		<script th:src="@{js/view.js?t=202405291708}" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
 		</script>
@@ -193,7 +193,7 @@
 					<span class="mui-tab-label">舰娘</span>
 				</a>
 				<a class="mui-tab-item" onclick="showsplist('a')">
-					<span class="mui-tab-label">仓库</span>
+					<span class="mui-tab-label">合成</span>
 				</a>
 				<a class="mui-tab-item" onclick="gotomap()">
 					<span class="mui-tab-label">出击</span>
@@ -509,9 +509,9 @@
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="jianzao()">普通建造<span class="tishi">快速获取舰娘</span></button>
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="gjjianzao()">高级建造<span class="tishi">高级建造保底紫皮</span></button>
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="zuanshisd()">钻石商店<span class="tishi">50钻石购买500石油</span></button>
-					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="getlosejn()">未获取的舰娘<span class="tishi">查看还有哪些未得到的舰娘</span></button>
-					<button id="btn_full" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianfull()">出售满破碎片<span class="tishi">粉色及以下满破舰娘的碎片</span></button>
-					<button id="btn_exist" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianexist()">一键出售碎片<span class="tishi">粉色及以下已拥有舰娘的碎片</span></button>
+<!--					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="getlosejn()">未获取的舰娘<span class="tishi">查看还有哪些未得到的舰娘</span></button>-->
+					<button id="btn_full" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianfull()">出售满破碎片<span class="tishi">满破舰娘的碎片换魔方啦</span></button>
+<!--					<button id="btn_exist" type="button" class="mui-btn mui-btn-block btnsys" onclick="salesuipianexist()">一键出售碎片<span class="tishi">粉色及以下已拥有舰娘的碎片</span></button>-->
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="dhzbl()">紫布里兑换<span class="tishi">200个魔方兑换一个紫布里</span></button>
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salezbl()">金布里兑换<span class="tishi">20个紫布里兑换一个金布里</span></button>				
 					<button type="button" class="mui-btn mui-btn-block btnsys" onclick="salemofang()">魔方出售<span class="tishi">1000魔方兑换16W物资</span></button>

@@ -1,15 +1,12 @@
 package com.mochen.controller.uidata;
 
+import com.mochen.model.Jianniang;
 import com.mochen.model.Suipian;
 
 public class SuipianResponse {
-    private Integer id;
-
     private Integer num;
 
     private Integer jnId;
-
-    private Integer roleId;
 
     private String name;
 
@@ -21,26 +18,29 @@ public class SuipianResponse {
 
     private Integer spnum;
 
+    private Boolean hecheng;
+
     public SuipianResponse() {}
 
+    public SuipianResponse(Jianniang jn, int num) {
+        this.jnId = jn.getId();
+        this.name = jn.getName();
+        this.pinji = jn.getPinji();
+        this.touxiang = jn.getTouxiang();
+        this.color = jn.getColor();
+        this.spnum = jn.getSpnum();
+        this.num = num;
+        this.hecheng = num >= jn.getSpnum();
+    }
+
     public SuipianResponse(Suipian sp) {
-        this.id = sp.getId();
         this.num = sp.getNum();
         this.jnId = sp.getJnId();
-        this.roleId = sp.getRoleId();
         this.name = sp.getJn().getName();
         this.pinji = sp.getJn().getPinji();
         this.touxiang = sp.getJn().getTouxiang();
         this.color = sp.getJn().getColor();
         this.spnum = sp.getJn().getSpnum();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getNum() {
@@ -57,14 +57,6 @@ public class SuipianResponse {
 
     public void setJnId(Integer jnId) {
         this.jnId = jnId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 
     public String getName() {
@@ -105,5 +97,13 @@ public class SuipianResponse {
 
     public void setSpnum(Integer spnum) {
         this.spnum = spnum;
+    }
+
+    public Boolean getHecheng() {
+        return hecheng;
+    }
+
+    public void setHecheng(Boolean hecheng) {
+        this.hecheng = hecheng;
     }
 }
