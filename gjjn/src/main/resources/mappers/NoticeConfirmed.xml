@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mochen.dao.NoticeConfirmedMapper">
+  <resultMap id="BaseResultMap" type="com.mochen.model.NoticeConfirmed">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mochen.model.NoticeConfirmed">
+    insert into work_notice_confirmed (role_id, notice_id)
+    values (#{roleId,jdbcType=INTEGER}, #{noticeId,jdbcType=INTEGER})
+  </insert>
+
+  <select id="getRoleConfirmed" resultMap="BaseResultMap">
+    select * from work_notice_confirmed
+    where role_id = #{roleId} and notice_id = #{noticeId} limit 1;
+  </select>
+
+</mapper>

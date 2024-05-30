@@ -18,6 +18,8 @@ public class Constant {
 	public static final String CACHE_ALL_JIANNIANG_MAP = "'all_jianniang_map'";
 	public static final String CACHE_ALL_KEYANSJ = "'all_keyansj'";
 	public static final String CACHE_ALL_JUNXIAN = "'all_junxian'";
+	public static final String CACHE_ALL_NOTICE = "'all_notice'";
+	public static final String CACHE_LATEST_NOTICE = "'latest_notice'";
 
 	public static final int JN_ZBL = 1;
 	public static final int JN_JBL = 2;

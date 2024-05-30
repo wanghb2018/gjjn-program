@@ -11,7 +11,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @MapperScan("com.mochen.dao")
 @EnableAsync
 @EnableScheduling
-@EnableRedisHttpSession
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 60 * 60 * 24 * 30)
 public class GjjnApplication {
 
 	public static void main(String[] args) {

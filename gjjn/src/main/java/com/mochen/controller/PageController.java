@@ -22,11 +22,6 @@ public class PageController {
 	JianniangService jianniangService;
 	@Autowired
 	AccountService accountService;
-	
-	@GetMapping("/ad")
-	public String ad() {
-		return "ad";
-	}
 
 	@GetMapping("/")
 	public String index() {

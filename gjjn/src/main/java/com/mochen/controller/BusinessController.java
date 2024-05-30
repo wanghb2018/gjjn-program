@@ -301,8 +301,8 @@ public class BusinessController {
 	}
 
 	@GetMapping("/jianzao")
-	public GenericResult<Suipian> jianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
-		GenericResult<Suipian> result = new GenericResult<>();
+	public GenericResult<SuipianResponse> jianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		GenericResult<SuipianResponse> result = new GenericResult<>();
 		Role role = accountService.getByUserId(userId);
 		if (role.getMofang() < 100) {
 			result.setHr(Constant.FAILED);
@@ -331,13 +331,13 @@ public class BusinessController {
 		}
 		Suipian sp = new Suipian(role.getId(), jns.get(ThreadLocalRandom.current().nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
-		result.setData(sp);
+		result.setData(new SuipianResponse(sp));
 		return result;
 	}
 
 	@GetMapping("/gjJianzao")
-	public GenericResult<Suipian> gjJianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
-		GenericResult<Suipian> result = new GenericResult<>();
+	public GenericResult<SuipianResponse> gjJianzao(@SessionAttribute(Constant.SESSION_USER_ID) Integer userId) {
+		GenericResult<SuipianResponse> result = new GenericResult<>();
 		Role role = accountService.getByUserId(userId);
 		if (role.getMofang() < 268) {
 			result.setHr(Constant.FAILED);
@@ -368,7 +368,7 @@ public class BusinessController {
 		}
 		Suipian sp = new Suipian(role.getId(), jns.get(ThreadLocalRandom.current().nextInt(jns.size())), num);
 		jianniangService.spBatchSave(Arrays.asList(sp));
-		result.setData(sp);
+		result.setData(new SuipianResponse(sp));
 		return result;
 	}
 
