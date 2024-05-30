@@ -472,7 +472,7 @@ function showsplist(a){
 		if(d){
 			$('#zbl').html(d.zbl);
 			$('#jbl').html(d.jbl);
-			if (d.sps) {
+			if (d.sps && d.sps.length > 0) {
 				var data = d.sps;
 				var spliststr = "";
 				for(var i=0;i<data.length;i++){
