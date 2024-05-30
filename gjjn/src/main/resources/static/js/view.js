@@ -481,7 +481,9 @@ function showsplist(a){
 				}
 				$('#splistul').empty();
 				$('#splistul').html(spliststr);
-				mui('.mui-numbox').numbox();
+			} else {
+				$('#splistul').empty();
+				$('#splistul').html('<span style="color: gold; margin: auto; padding-top: 32px;">恭喜你已解锁全部舰娘！</span>');
 			}
 		}
 	});
