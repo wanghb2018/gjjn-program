@@ -28,10 +28,18 @@ public class HechengController {
     public UserSpResponse getLoseList(@SessionAttribute(Constant.SESSION_ROLE_ID)Integer roleId) {
         List<Jianniang> jns = jianniangService.getLoseJn(roleId);
         if (CollectionUtils.isEmpty(jns)) {
-            return null;
+            UserSpResponse response = new UserSpResponse();
+            List<Suipian> suipians = suipianService.getUserSpByJnIds(Arrays.asList(Constant.JN_ZBL, Constant.JN_JBL), roleId);
+            Optional.ofNullable(suipians).orElse(Collections.emptyList()).forEach(sp -> {
+                if (sp.getJnId() == Constant.JN_ZBL) {
+                    response.setZbl(sp.getNum());
+                } else if (sp.getJnId() == Constant.JN_JBL) {
+                    response.setJbl(sp.getNum());
+                }
+            });
+            return response;
         }
-        List<Integer> jnIds = jns.stream().map(Jianniang::getId).collect(Collectors.toList());
-        List<Integer> needSpJnIds = new ArrayList<>(jnIds);
+        List<Integer> needSpJnIds = jns.stream().map(Jianniang::getId).collect(Collectors.toList());
         needSpJnIds.add(Constant.JN_ZBL);
         needSpJnIds.add(Constant.JN_JBL);
         List<Suipian> spList = suipianService.getUserSpByJnIds(needSpJnIds, roleId);
