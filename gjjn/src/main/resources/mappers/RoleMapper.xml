@@ -320,7 +320,8 @@
 	GROUP BY m.role_id order by num desc limit 50;
   </select>
   <select id="jnPhb" resultMap="phbMap">
-  	select m.name name, m.touxiang tx, m.zdl num, m.color color, r.rolename label from work_myjianniang m
+  	select j.name name, j.touxiang tx, m.zdl num, j.color color, r.rolename label from work_myjianniang m
+    inner join work_jianniang j on m.jn_id = j.id
 	inner join work_role r on m.role_id = r.id
 	order by m.zdl desc limit 100;
   </select>
