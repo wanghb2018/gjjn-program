@@ -36,7 +36,7 @@ function jnhecheng(jnId,neednum,hecheng,name){
                 if(data==1){
                     mui.toast("对应舰娘已存在！");
                 }else if(data==0){
-                    showsplist();
+                    showhclist();
                     mui.toast("恭喜你合成成功！");
                 }else{
                     mui.toast("碎片不足！");
