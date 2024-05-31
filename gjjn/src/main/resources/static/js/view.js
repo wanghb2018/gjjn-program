@@ -317,86 +317,6 @@ function rolejinjie(){
 	});
 }
 
-function salesuipian(id,pinji){
-	var num=mui('#numbox'+id).numbox().getValue();
-	if (num >0){
-		mui.confirm("确定要出售"+num+"个碎片换取魔方？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			mui.get('saleSuipian',{
-			'id':id,
-			'num':num
-			},function(data){
-			if(data){
-			var str = "<font color='gold'>获得魔方"+data+"个</font>";
-			mui.toast(str,{ duration:'long', type:'div' });
-			}
-			showsplist();
-		});
-		}
-	});
-
-		
-	}else{
-		if(pinji>3){
-			mui.confirm("确定要全部出售该碎片？","提示",["取消","确定"],function(e){
-				if(e.index==1){
-					mui.get('saleSuipian',{
-					'id':id,
-					'num':-1
-					},function(data){
-					if(data){
-					var str = "<font color='gold'>获得魔方"+data+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-					}
-					$("#splistid"+id).hide();
-						});
-					}
-			});
-		}else{
-			mui.get('saleSuipian',{
-					'id':id,
-					'num':-1
-					},function(data){
-					if(data){
-					var str = "<font color='gold'>获得魔方"+data+"个</font>";
-					mui.toast(str,{ duration:'long', type:'div' });
-					}
-					$("#splistid"+id).hide();
-						});
-		}
-		
-	}
-}
-
-function renderRoleDuiwu(a){
-	if (a){
-		$("#jianduiview").show();
-		$("#jianniangview").hide();
-		$("#cangkuview").hide();
-		$("#chujiview").hide();
-		$("#caidanview").hide();
-	}
-	renderRoleDuiwuWithData(null);
-}
-
-function renderRoleDuiwuWithData(data){
-	if (data){
-		renderRoleData(data);
-	} else {
-		$.get('getRoleInfo',function(data){
-			role = data;
-			renderRoleData(data);
-		});
-	}
-	getAndRenderDuiwu()
-}
-
-function getAndRenderDuiwu(){
-	$.get('getDuiwuInfo',function(data){
-		renderduiwu(data);
-	});
-}
-
 function renderRoleData(data){
 	if(data){
 		$('#rolename').html(data.rolename);
@@ -416,18 +336,6 @@ function renderRoleData(data){
 	}
 }
 
-function renderduiwu(dw){
-	var liststr = "";
-	if (dw.myJns){
-		for(var i=0;i<dw.myJns.length;i++){
-			liststr = liststr + "<li class='mui-table-view-cell mui-media'><div style='float: left;'><img class='mui-media-object mui-pull-left' src='"+ dw.myJns[i].touxiang+"'><div class='mui-media-body'><font color='"+dw.myJns[i].color+"'>"+dw.myJns[i].name+"</font><p class='mui-ellipsis'><font color='white'>Lv."+dw.myJns[i].level+"</font><font style='margin-left: 3px;' color='white'>战斗力:"+dw.myJns[i].zdl+"</font></p></div></div><div style='float: right;'><button type='button' class='imglibutton mui-btn' onclick='jnxiuxi("+dw.myJns[i].id+")'>休息</button> <button type='button' class='imglibutton mui-btn' onclick='jninfoview("+dw.myJns[i].id+")'>查看</button></div></li>";
-		}
-	}
-	$('#rolezdl').html(dw.zdl);
-	$('#mydwlist').empty();
-	$('#mydwlist').html(liststr);
-}
-
 function rendermap(index,id){
 	var mapstr = "";
 	for(var i=0;i<index;i++){
@@ -440,152 +348,6 @@ function rendermap(index,id){
 		$("#mapbtn"+id).text("结算");
 	}
 	$('#roleguajijy').html(allMap[index-1].jnjy);
-}
-
-function showjnlist(){
-	$("#jianduiview").hide();
-	$("#jianniangview").show();
-	$("#cangkuview").hide();
-	$("#chujiview").hide();
-	$("#caidanview").hide();
-	$.get('showJnList',function(data){
-		if(data){
-			var jnliststr = "";
-			for(var i=0;i<data.length;i++){
-				jnliststr = jnliststr + "<img src='"+data[i].touxiang+"' class='jntxlist' style='border: 3px "+data[i].color+" solid' onclick='showjninfo2("+data[i].id+")'/> ";
-			}
-			$('#jnlistdiv').empty();
-			$('#jnlistdiv').html(jnliststr);
-		}
-	});
-}
-
-function showsplist(a){
-	if (a){
-		$("#jianduiview").hide();
-		$("#jianniangview").hide();
-		$("#cangkuview").show();
-		$("#chujiview").hide();
-		$("#caidanview").hide();
-	}
-	mui.get('showHcList',function(d){
-		if(d){
-			$('#zbl').html(d.zbl);
-			$('#jbl').html(d.jbl);
-			if (d.sps && d.sps.length > 0) {
-				var data = d.sps;
-				var spliststr = "";
-				for(var i=0;i<data.length;i++){
-					spliststr = spliststr + "<img src='"+data[i].touxiang+"' class='jntxlist" + (data[i].hecheng ? "" : " opacity-img")
-						+ "' style='border: 3px "+data[i].color+" solid' onclick='jnhecheng("+data[i].jnId+","+data[i].spnum+","+data[i].hecheng+",\""+data[i].name+"\")'/> ";
-				}
-				$('#splistul').empty();
-				$('#splistul').html(spliststr);
-			} else {
-				$('#splistul').empty();
-				$('#splistul').html('<span style="color: gold; margin: auto; padding-top: 32px;">恭喜你已解锁全部舰娘！</span>');
-			}
-		}
-	});
-}
-
-function shangzhen(){
-	mui.get("shangzhen",{'id':$('#jninfohideid').val()},function(data){
-		if(data==0){	
-			getAndRenderDuiwu();
-			mui.toast("上阵成功！");
-		}else if(data==-1){
-			mui.toast("舰队人数已满6人！");
-		}else if(data==1){
-			mui.toast("该舰娘已在队伍中！");
-		}
-	});
-}
-
-function jnxiuxi(id){
-	mui.get('xiuxi',{'id':id},function(data){
-		if(data==0){
-			getAndRenderDuiwu();
-			mui.toast("操作成功！");
-		}
-	});
-}
-
-function jninfoview(id){
-	mui.get('showJnInfo',{
-		'jnId':id
-	},function(data){
-		if(data){
-			$('#jninfo_touxiang').attr('src',data.jn.touxiang);
-			$('#jninfo_name').html("<font color='"+data.jn.color+"'>"+data.jn.name+"</font>");
-			$('#jninfo_zdl').html(data.jn.zdl);
-			$('#jninfo_id').html(data.jn.level);
-			$('#jninfo_star').html(data.jn.star);
-			$('#jninfo_gj').html(data.jn.gongji);
-			$('#jninfo_fy').html(data.jn.fangyu);
-			$('#jninfo_xl').html(data.jn.xueliang);
-			$('#jninfo_sd').html(data.jn.sudu);
-			$('#jninfo_bj').html(data.jn.baoji);
-			$('#jninfo_db').html(data.jn.duobi);
-			$('#jninfo_jy').html(data.jn.jingyan);
-			$('#jninfo_sj').html(data.sj.needjy);
-			$('#jninfo_lh').attr('src',data.jn.lihui);
-			$('#jianduisx').hide();
-			$('#jiannianginfo').show();
-			$('#jninfohideid').val(data.jn.id);
-		}
-	});
-}
-
-function showjninfo2(id){
-	mui.get('showJnInfo',{
-		'jnId':id
-	},function(data){
-		if(data){
-			$('#jninfo_touxiang2').attr('src',data.jn.touxiang);
-			$('#jninfo_name2').html("<font color='"+data.jn.color+"'>"+data.jn.name+"</font>");
-			$('#jninfo_zdl2').html(data.jn.zdl);
-			$('#jninfo_id2').html(data.jn.level);
-			$('#jninfo_star2').html(data.jn.star);
-			$('#jninfo_gj2').html(data.jn.gongji);
-			$('#jninfo_fy2').html(data.jn.fangyu);
-			$('#jninfo_xl2').html(data.jn.xueliang);
-			$('#jninfo_sd2').html(data.jn.sudu);
-			$('#jninfo_bj2').html(data.jn.baoji);
-			$('#jninfo_db2').html(data.jn.duobi);
-			$('#jninfo_jy2').html(data.jn.jingyan);
-			$('#jninfo_sj2').html(data.sj.needjy);
-			$('#jninfo_lh2').attr('src',data.jn.lihui);
-			if(data.jn.iswar == 1)
-				$('#jninfo_shangzhen2').hide();
-			else
-				$('#jninfo_shangzhen2').show();
-			$('#jnlistdiv').hide();
-			$('#jiannianginfo2').show();
-			$('#jninfohideid').val(data.jn.id);
-		}
-	});
-}
-
-function jnhecheng(jnId,neednum,hecheng,name){
-	if (!hecheng) {
-		return;
-	}
-	mui.confirm("是否使用"+neednum+"个碎片(红色品级以下不足可使用布里碎片)合成"+name+"？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			mui.get('jnHecheng',{'jnId':jnId},function(data){
-				if(data==1){
-					mui.toast("对应舰娘已存在！");
-				}else if(data==0){
-					showsplist();
-					mui.toast("恭喜你合成成功！");
-				}else{
-					mui.toast("碎片不足！");
-				}
-			});
-		}
-	});
-	
 }
 
 function gotomap(){
@@ -611,6 +373,7 @@ function showcaidanview(){
 function jninfo_back(){
 	$('#jiannianginfo').hide();
 	$('#jianduisx').show();
+	renderRoleDuiwu();
 }
 
 function jninfo_back2(){
@@ -750,28 +513,7 @@ function getphbinfo(type){
 		}
 	});
 }
-function getNoticeList(){
-	var menuPage = $('#menu-page');
-	menuPage.click();
-	menuPage.addClass("mui-active");
-	$('#jd-page').removeClass("mui-active");
-	$('#menus').hide();
-	$('#losejn').show();
-	mui.get('getNoticeList',function(data){
-		if(data && data.length > 0){
-			var str = "";
-			for(var i = 0;i<data.length;i++){
-				var item = data[i];
-				var date = new Date(item.createdTime);
-				str = str + `<div style="color: wheat; line-height: 24px;"><h3 style="color: cyan">${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日</h3><h4>${item.content}</h4><p style="color: white; font-size: 16px;">${item.detail}</p><div><hr>`;
-			}
-			$('#losejnul').html(str);
-		}
-	})
-}
-function back_losejn(){
-	$('#losejn').hide();$('#menus').show();
-}
+
 function changetouxiang(){
 	mui.get("changeTouxiang",{'id':$('#jninfohideid').val()},function(data){
 		if(data){
@@ -828,24 +570,7 @@ function dhzbl(){
 		}
 	});
 }
-function jnshengxing(index){
-	mui.confirm("是否使用对应舰娘碎片(不足则使用布里碎片)进行升星？","提示",["取消","确定"],function(e){
-		if(e.index==1){
-			mui.get("jnShengxing",{'id':$('#jninfohideid').val()},function(data){
-				if(data==0){					
-					mui.toast("升星成功！");
-					renderRoleDuiwu();
-				}else if(data==-1){
-					mui.toast("物资不足!");
-				}else if(data.result=='defaultsp'){
-					mui.toast("碎片不足");
-				}else if(data==1){
-					mui.toast("已达到最大星级！");
-				}
-			});
-		}
-	});
-}
+
 function openkeyanview(){
 	mui.get("keyanData",function(data){
 		if(data){
@@ -877,15 +602,11 @@ function keyan_back(){
 	$('#jianduisx').show();
 }
 function keyansj(type){
-	mui.get('keyanSj',{'type':type},function(data){
-		if(data==0){
-			mui.toast("升级成功！");
+	mui.get('keyanSj',{'type':type},function(r){
+		mui.toast(r.msg);
+		if(r.hr === 0) {
 			openkeyanview();
 			renderRoleDuiwu();
-		}else if(data==1){
-			mui.toast("已达等级上限！");
-		}else{
-			mui.toast("所需资源不足！");
 		}
 	});
 }

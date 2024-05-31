@@ -1,6 +1,6 @@
 package com.mochen.controller.uidata;
 
-import com.mochen.service.data.DuiwuData;
+import com.mochen.service.data.DuiwuInfo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +12,7 @@ public class DuiwuResponse {
     public DuiwuResponse() {
     }
 
-    public DuiwuResponse(DuiwuData data) {
+    public DuiwuResponse(DuiwuInfo data) {
         if (data.getMyJns() != null) {
             this.myJns = data.getMyJns().stream().map(MyJNResponse::new).collect(Collectors.toList());
         }

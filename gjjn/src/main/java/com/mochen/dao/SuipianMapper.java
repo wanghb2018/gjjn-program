@@ -21,8 +21,6 @@ public interface SuipianMapper {
 
     void batchSave(List<Suipian> sps);
 
-    List<Suipian> getSpByJnId(@Param("jnId")Integer jnId, @Param("roleId")Integer roleId);
-    
     void batchUpdate(List<Suipian> sps);
     
     Integer saleSuipianExist(Integer roleId);

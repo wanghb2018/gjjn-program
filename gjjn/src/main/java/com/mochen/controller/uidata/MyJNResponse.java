@@ -42,6 +42,8 @@ public class MyJNResponse {
 
     private String color;
 
+    private Integer spnum;
+
     public MyJNResponse() {
     }
 
@@ -67,6 +69,7 @@ public class MyJNResponse {
         this.touxiang = jn.getTouxiang();
         this.lihui = jn.getLihui();
         this.color = jn.getColor();
+        this.spnum = jn.getSpnum();
     }
 
     public Integer getId() {
@@ -219,5 +222,13 @@ public class MyJNResponse {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Integer getSpnum() {
+        return spnum;
+    }
+
+    public void setSpnum(Integer spnum) {
+        this.spnum = spnum;
     }
 }

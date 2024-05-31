@@ -54,7 +54,7 @@ public class HechengController {
             if (num > 0) {
                 if (jn.getPinji() < 3) {
                     num += zbl.getNum();
-                } else if (jn.getPinji() < 5) {
+                } else if (jn.getPinji() < 6) {
                     num += jbl.getNum();
                 }
             }

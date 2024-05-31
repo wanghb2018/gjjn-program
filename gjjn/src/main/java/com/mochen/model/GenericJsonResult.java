@@ -3,6 +3,7 @@ package com.mochen.model;
 public class GenericJsonResult<T> {
 	private Integer hr = 0;
 	private T data;
+	private String msg;
 
 	public Integer getHr() {
 		return hr;
@@ -20,4 +21,11 @@ public class GenericJsonResult<T> {
 		this.data = data;
 	}
 
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 }

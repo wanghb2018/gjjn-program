@@ -1,28 +1,32 @@
 package com.mochen.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import com.mochen.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.mochen.dao.DuiwuMapper;
-import com.mochen.dao.KeyanMapper;
-import com.mochen.model.Duiwu;
-import com.mochen.model.Jianniang;
-import com.mochen.model.Junxian;
-import com.mochen.model.Keyan;
-import com.mochen.model.MyJianniang;
-import com.mochen.model.Role;
-import com.mochen.service.data.DuiwuData;
+import com.mochen.service.data.DuiwuInfo;
 import com.mochen.utils.Constant;
 
 @Service
 public class DuiwuService {
+	@Autowired
+	DuiwuMapper duiwuMapper;
+
+	@Autowired
+	DuiwuService duiwuService;
 	@Autowired
 	MyJianniangService myJianniangService;
 	@Autowired
@@ -30,106 +34,114 @@ public class DuiwuService {
 	@Autowired
 	JunxianService junxianService;
 	@Autowired
-	KeyanMapper keyanMapper;
+	KeyanService keyanService;
 	@Autowired
 	AccountService accountService;
-	@Autowired
-	DuiwuMapper duiwuMapper;
 
 	public void create(Duiwu duiwu) {
 		duiwuMapper.insertSelective(duiwu);
 	}
 	
 	public Duiwu getDuiwuByRoleId(Integer roleId) {
-		return accountService.getDuiwuByRoleId(roleId);
+		return duiwuMapper.getByRoleId(roleId);
 	}
 
-	public DuiwuData reCalJNZdl(Role role) {
-		Duiwu duiwu = accountService.getDuiwuByRoleId(role.getId());
+	public Duiwu updateDuiwu(Duiwu duiwu) {
+		duiwuMapper.updateByPrimaryKey(duiwu);
+		return duiwu;
+	}
+
+	@Cacheable(value = Constant.CACHE_YEAR, key = "'duiwuinfo_'+#roleId")
+	public DuiwuInfo getDuiwuInfo(Integer roleId) {
+		Duiwu duiwu = getDuiwuByRoleId(roleId);
 		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
 		if (CollectionUtils.isEmpty(myJnIds)) {
-			return new DuiwuData();
+			return new DuiwuInfo(duiwu);
 		}
 		List<MyJianniang> myJns = myJianniangService.getByIds(myJnIds);
-		List<Jianniang> jns = new ArrayList<>();
-		for (MyJianniang myJn : myJns) {
-			jns.add(myJn.getJn());
+        return new DuiwuInfo(duiwu, myJns);
+	}
+
+	@CachePut(value = Constant.CACHE_YEAR, key = "'duiwuinfo_'+#roleId")
+	public DuiwuInfo reCalDwZdl(Integer roleId) {
+		Duiwu duiwu = getDuiwuByRoleId(roleId);
+		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
+		if (CollectionUtils.isEmpty(myJnIds)) {
+			return new DuiwuInfo(duiwu);
 		}
-		Keyan keyan = keyanMapper.getByRoleId(role.getId());
+		List<MyJianniang> myJns = myJianniangService.getByIds(myJnIds);
+		Keyan keyan = keyanService.getByRoleId(roleId);
+		Role role = accountService.getRoleById(roleId);
 		Junxian junxian = junxianService.getById(role.getJunxianId());
 		double jxRate = (double)junxian.getPowerrate() / 100 + 1;
-		for (int i = 0; i< myJns.size();i++) {
-			myJns.get(i).calShuxing(jns.get(i), keyan, jxRate);
+		int totalZdl = 0;
+		for (MyJianniang myJn : myJns) {
+			myJn.calShuxing(keyan);
+			totalZdl = totalZdl + myJn.getZdl();
 		}
 		myJianniangService.batchUpdate(myJns);
-		DuiwuData data = new DuiwuData(myJns);
+		DuiwuInfo response = new DuiwuInfo(duiwu, myJns, jxRate);
 		duiwu.setCount(myJns.size());
-		duiwu.setTotalzdl(data.getZdl());
-		accountService.updateDuiwu(duiwu);
-		return data;
+		duiwu.setTotalzdl(response.getZdl());
+		updateDuiwu(duiwu);
+		return response;
+	}
 
+	@CacheEvict(value = Constant.CACHE_YEAR, key = "'duiwuinfo_'+#roleId")
+	public Integer shangzhen(Integer roleId, Integer myJnId) {
+		DuiwuInfo duiwuInfo = duiwuService.getDuiwuInfo(roleId);
+		if (duiwuInfo.getMyJns().size() >= 6) {
+			return Constant.FAILED;
+		}
+		if (duiwuInfo.getMyJns().stream().anyMatch(e -> e.getId().equals(myJnId))) {
+			return Constant.OTHER;
+		}
+
+		MyJianniang myJn = myJianniangService.getJnById(myJnId);
+		myJn.setIswar(1);
+
+		Keyan keyan = keyanService.getByRoleId(roleId);
+		myJn.calShuxing(keyan);
+		duiwuInfo.getMyJns().add(myJn);
+
+		Role role = accountService.getRoleById(roleId);
+		Junxian junxian = junxianService.getById(role.getJunxianId());
+		double jxRate = (double)junxian.getPowerrate() / 100 + 1;
+		duiwuInfo.calDwZdl(jxRate);
+
+		Duiwu duiwu = duiwuInfo.toDuiwu();
+		updateDuiwu(duiwu);
+
+		myJianniangService.update(myJn);
+		return Constant.SUCCESS;
+	}
+
+	@CacheEvict(value = Constant.CACHE_YEAR, key = "'duiwuinfo_'+#roleId")
+	public Integer xiuxi(Integer roleId, Integer myJnId) {
+		DuiwuInfo duiwuInfo = duiwuService.getDuiwuInfo(roleId);
+		duiwuInfo.getMyJns().removeIf(e -> e.getId().equals(myJnId));
+		Role role = accountService.getRoleById(roleId);
+		Junxian junxian = junxianService.getById(role.getJunxianId());
+		double jxRate = (double)junxian.getPowerrate() / 100 + 1;
+		duiwuInfo.calDwZdl(jxRate);
+
+		MyJianniang myJn = myJianniangService.getJnById(myJnId);
+		myJn.setIswar(0);
+		myJn.calShuxing(null);
+
+		updateDuiwu(duiwuInfo.toDuiwu());
+		myJianniangService.update(myJn);
+		return Constant.SUCCESS;
 	}
 
 	private List<Integer> duiwuToMyJnIds(Duiwu duiwu) {
-		return Arrays.asList(duiwu.getOneId(), duiwu.getTwoId(), duiwu.getThreeId(), duiwu.getFourId(),
-				duiwu.getFiveId(), duiwu.getSixId()).stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return Stream.of(duiwu.getOneId(), duiwu.getTwoId(), duiwu.getThreeId(), duiwu.getFourId(),
+				duiwu.getFiveId(), duiwu.getSixId()).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
 	public void duiwuAddJy(Integer roleId, int jy) {
 		myJianniangService.jnAddjy(roleId, jy);
 	}
-	
-	public Integer shangzhen(Integer roleId, Integer myJnId) {
-		Duiwu duiwu = accountService.getDuiwuByRoleId(roleId);
-		if (duiwu.getCount() == 6) {
-			return Constant.FAILED;
-		}
-		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
-		if (myJnIds.contains(myJnId)) {
-			return Constant.OTHER;
-		}
-		myJnIds.add(myJnId);
-		jnListToDuiwu(myJnIds, duiwu);
-		accountService.updateDuiwu(duiwu);
-		myJianniangService.jnSetWar(myJnId, 1);
-		return Constant.SUCCESS;
-	}
-	
-	public Integer xiuxi(Integer roleId, Integer myJnId) {
-		Duiwu duiwu = accountService.getDuiwuByRoleId(roleId);
-		List<Integer> myJnIds = duiwuToMyJnIds(duiwu);
-		myJnIds.remove(myJnId);
-		jnListToDuiwu(myJnIds, duiwu);
-		accountService.updateDuiwu(duiwu);
-		myJianniangService.jnSetWar(myJnId, 0);
-		return Constant.SUCCESS;
-	}
-	
-	private void jnListToDuiwu(List<Integer> jnIds, Duiwu duiwu) {
-		duiwu.setOneId(null);
-		duiwu.setTwoId(null);
-		duiwu.setThreeId(null);
-		duiwu.setFourId(null);
-		duiwu.setFiveId(null);
-		duiwu.setSixId(null);
-		duiwu.setCount(jnIds.size());
-		switch (jnIds.size()) {
-		case 6:
-			duiwu.setSixId(jnIds.get(5));
-		case 5:
-			duiwu.setFiveId(jnIds.get(4));
-		case 4:
-			duiwu.setFourId(jnIds.get(3));
-		case 3:
-			duiwu.setThreeId(jnIds.get(2));
-		case 2:
-			duiwu.setTwoId(jnIds.get(1));
-		case 1:
-			duiwu.setOneId(jnIds.get(0));
-			break;
-		default:
-			break;
-		}
-	}
+
 
 }

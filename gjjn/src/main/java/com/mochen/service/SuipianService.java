@@ -45,7 +45,7 @@ public class SuipianService {
             return Constant.FAILED;
         }
         Suipian bl = new Suipian();
-        if (jn.getPinji() < 5) {
+        if (jn.getPinji() < 6) {
             bl =  suipianMap.getOrDefault(jn.getPinji() < 3 ? Constant.JN_ZBL : Constant.JN_JBL, new Suipian());
         }
         int total = jnsp.getNum() + bl.getNum();

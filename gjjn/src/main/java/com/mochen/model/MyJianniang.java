@@ -1,5 +1,7 @@
 package com.mochen.model;
 
+import java.util.Optional;
+
 public class MyJianniang {
 	private Integer id;
 
@@ -49,22 +51,27 @@ public class MyJianniang {
 		this.jingyan = 0;
 	}
 
-	public void calShuxing(Jianniang jn, Keyan keyan, double jxRate) {
-		double gjRate = Math.pow(1.1, keyan.getGjdj());
-		double fyRate = Math.pow(1.1, keyan.getFydj());
-		double xlRate = Math.pow(1.1, keyan.getXldj());
-		double sdRate = Math.pow(1.1, keyan.getSddj());
-		double bjRate = 2 * keyan.getBjdj();
-		double dbRate = 2 * keyan.getDbdj();
-		double lvRate = 1 + (0.11 + 0.02 * jn.getPinji()) * (this.level - 1);
-		double r = lvRate * jxRate;
-		this.gongji = (int) (jn.getGongji() * gjRate * r);
-		this.fangyu = (int) (jn.getFangyu() * fyRate * r);
-		this.xueliang = (int) (jn.getXueliang() * xlRate * r);
-		this.sudu = (int) (jn.getSudu() * sdRate * r);
+	public void calShuxing(Keyan keyan) {
+		double gjRate = Optional.ofNullable(keyan).map(Keyan::getGjdj).orElse(0) * 0.1;
+		double fyRate = Optional.ofNullable(keyan).map(Keyan::getFydj).orElse(0) * 0.1;
+		double xlRate = Optional.ofNullable(keyan).map(Keyan::getXldj).orElse(0) * 0.1;
+		double sdRate = Optional.ofNullable(keyan).map(Keyan::getSddj).orElse(0) * 0.1;
+		double bjRate = Optional.ofNullable(keyan).map(Keyan::getBjdj).orElse(0);
+		double dbRate = Optional.ofNullable(keyan).map(Keyan::getDbdj).orElse(0);
+		double lvRate = (0.11 + 0.01 * jn.getPinji()) * (this.level - 1);
+		int startDiff = this.star - jn.getStar();
+		double startRate = 0;
+		if (startDiff >= 1) {
+			startRate = Math.log(startDiff) + 0.2 * startDiff + 0.8;
+		}
+		this.gongji = (int) (jn.getGongji() * (1 + lvRate + gjRate + startRate));
+		this.fangyu = (int) (jn.getFangyu() * (1 + lvRate + fyRate + startRate));
+		this.xueliang = (int) (jn.getXueliang() * (1 + lvRate + xlRate + startRate));
+		this.sudu = (int) (jn.getSudu() * (1 + lvRate + sdRate + startRate));
 		this.baoji = (int) (jn.getBaoji() + bjRate);
 		this.duobi = (int) (jn.getDuobi() + dbRate);
-		calJNZdl(this.star - jn.getStar());
+		this.zdl = (int) (this.gongji * (1 + (this.baoji * 0.5 + this.duobi) / 100) + this.fangyu + this.xueliang
+				+ this.sudu * 0.6);
 	}
 
 	public void calJNZdl(Integer starDiff) {

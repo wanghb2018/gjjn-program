@@ -3,17 +3,11 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>挂机舰娘</title>
-		<link rel="shortcut icon" type="image/x-icon" href="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/img/gjjn_icon.jpg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/js/mui.min.js"></script>
-		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-		<link href="https://assetst.qsxt.info/tmp/gjjn/gjjn/static/css/mui.min.css" rel="stylesheet" />
+		<link rel="shortcut icon" type="image/x-icon" href="http://gjjnres.yoimiya.tech/gjjn/static/img/gjjn_icon.jpg" />
+		<link href="http://gjjnres.yoimiya.tech/gjjn/static/css/mui.min.css" rel="stylesheet" />
 		<link th:href="@{css/game.css?t=202405291708}" rel="stylesheet" />
-		<script th:src="@{js/view.js?t=202405301911}" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" charset="utf-8">
-			mui.init();
-		</script>
-		
+
 	</head>
 
 	<body onload="login('get')">
@@ -193,7 +187,7 @@
 				<a class="mui-tab-item" onclick="showjnlist()">
 					<span class="mui-tab-label">舰娘</span>
 				</a>
-				<a class="mui-tab-item" onclick="showsplist('a')">
+				<a class="mui-tab-item" onclick="showhclist()">
 					<span class="mui-tab-label">合成</span>
 				</a>
 				<a class="mui-tab-item" onclick="gotomap()">
@@ -391,11 +385,11 @@
 										<span style="float: right; color: white;" id="jninfo_db">1111</span>
 									</li>
 									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
-										<span style="float: left; color: gold;">当前经验</span>
+										<span style="float: left; color: gold;">经验</span>
 										<span style="float: right; color: white;" id="jninfo_jy">1111</span>
 									</li>
 									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
-										<span style="float: left; color: gold;">升级经验</span>
+										<span style="float: left; color: gold;">碎片</span>
 										<span style="float: right; color: white;" id="jninfo_sj">1111</span>
 									</li>
 								</ul>
@@ -466,11 +460,11 @@
 										<span style="float: right; color: white;" id="jninfo_db2">1111</span>
 									</li>
 									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
-										<span style="float: left; color: gold;">当前经验</span>
+										<span style="float: left; color: gold;">经验</span>
 										<span style="float: right; color: white;" id="jninfo_jy2">1111</span>
 									</li>
 									<li class="mui-table-view-cell mui-media mui-col-xs-12 mui-col-sm-12" style="border-color: rgb(44,79,98);">
-										<span style="float: left; color: gold;">升级经验</span>
+										<span style="float: left; color: gold;">碎片</span>
 										<span style="float: right; color: white;" id="jninfo_sj2">1111</span>
 									</li>
 								</ul>
@@ -553,4 +547,15 @@
 			</div>
 		</div>
 	</body>
+
+	<script src="http://gjjnres.yoimiya.tech/gjjn/static/js/mui.min.js"></script>
+	<script src="http://gjjnres.yoimiya.tech/gjjn/static/js/jquery.min.js"></script>
+	<script th:src="@{js/duiwu.js?t=202405311730}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{js/notice.js?t=202405311730}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{js/hecheng.js?t=202405311730}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{js/jianniang.js?t=202405311730}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{js/view.js?t=202405311730}" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		mui.init();
+	</script>
 </html>

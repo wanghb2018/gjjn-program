@@ -87,10 +87,6 @@ public class JianniangService {
 		return jianniangSJMapper.selectByPrimaryKey(id);
 	}
 
-	public List<Suipian> getSpByJnId(Integer jnId, Integer roleId) {
-		return suipianMapper.getSpByJnId(jnId, roleId);
-	}
-
 	public Suipian getSpById(Integer id) {
 		return suipianMapper.selectByPrimaryKey(id);
 	}
