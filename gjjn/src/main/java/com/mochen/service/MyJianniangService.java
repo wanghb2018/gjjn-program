@@ -60,7 +60,7 @@ public class MyJianniangService {
 
     public MyJianniang addMyJN(Integer roleId, Jianniang jn, Integer isWar) {
         MyJianniang myJN = new MyJianniang(roleId, jn, isWar);
-        myJN.calJNZdl(0);
+        myJN.calShuxing(null);
         mapper.insert(myJN);
         return myJN;
     }

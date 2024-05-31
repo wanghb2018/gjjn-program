@@ -74,11 +74,6 @@ public class MyJianniang {
 				+ this.sudu * 0.6);
 	}
 
-	public void calJNZdl(Integer starDiff) {
-		this.zdl = (int) ((this.gongji * (1 + (this.baoji * 0.5 + this.duobi) / 100) + this.fangyu + this.xueliang
-				+ this.sudu * 0.6) * (1 + starDiff));
-	}
-
 	public Integer getId() {
 		return id;
 	}

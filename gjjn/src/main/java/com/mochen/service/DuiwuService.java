@@ -70,6 +70,11 @@ public class DuiwuService {
 			return new DuiwuInfo(duiwu);
 		}
 		List<MyJianniang> myJns = myJianniangService.getByIds(myJnIds);
+		if (CollectionUtils.isEmpty(myJns)) {
+			DuiwuInfo duiwuInfo = new DuiwuInfo(duiwu);
+			updateDuiwu(duiwuInfo.toDuiwu());
+			return new DuiwuInfo(duiwu);
+		}
 		Keyan keyan = keyanService.getByRoleId(roleId);
 		Role role = accountService.getRoleById(roleId);
 		Junxian junxian = junxianService.getById(role.getJunxianId());
