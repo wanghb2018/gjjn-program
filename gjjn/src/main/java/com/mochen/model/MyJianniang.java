@@ -53,10 +53,10 @@ public class MyJianniang {
 	}
 
 	public void calShuxing(Keyan keyan) {
-		double gjRate = Optional.ofNullable(keyan).map(Keyan::getGjdj).orElse(0) * 0.1;
-		double fyRate = Optional.ofNullable(keyan).map(Keyan::getFydj).orElse(0) * 0.1;
-		double xlRate = Optional.ofNullable(keyan).map(Keyan::getXldj).orElse(0) * 0.1;
-		double sdRate = Optional.ofNullable(keyan).map(Keyan::getSddj).orElse(0) * 0.1;
+		double gjRate = Optional.ofNullable(keyan).map(Keyan::getGjdj).orElse(0) * 0.2;
+		double fyRate = Optional.ofNullable(keyan).map(Keyan::getFydj).orElse(0) * 0.2;
+		double xlRate = Optional.ofNullable(keyan).map(Keyan::getXldj).orElse(0) * 0.2;
+		double sdRate = Optional.ofNullable(keyan).map(Keyan::getSddj).orElse(0) * 0.2;
 		double bjRate = Optional.ofNullable(keyan).map(Keyan::getBjdj).orElse(0);
 		double dbRate = Optional.ofNullable(keyan).map(Keyan::getDbdj).orElse(0);
 		double lvRate = (0.11 + 0.01 * jn.getPinji()) * (this.level - 1);
