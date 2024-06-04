@@ -211,7 +211,14 @@ public class BusinessController {
 		if (role.getZuanshi() < 50) {
 			return Constant.FAILED;
 		}
-		accountService.updateRoleByChangeDetail(role.getId(), -50, 500, null, null, null);
+		int zuanshi = role.getZuanshi();
+		int count = 0;
+		do {
+			zuanshi = zuanshi - 50;
+			count++;
+		} while (zuanshi >= 50);
+
+		accountService.updateRoleByChangeDetail(role.getId(), -50 * count, 500 * count, null, null, null);
 		return Constant.SUCCESS;
 	}
 	
