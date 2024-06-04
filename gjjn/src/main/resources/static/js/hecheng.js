@@ -14,9 +14,9 @@ function showhclist(){
                 var spliststr = "";
                 for(var i=0;i<data.length;i++){
                     spliststr += `
-                        <div class="jntxlist" onclick="jnhecheng(${data[i].jnId}, ${data[i].spnum}, ${data[i].hecheng},'${data[i].name}')">
+                        <div class="jntxlist" style="margin-top: 0; margin-bottom: 0" onclick="jnhecheng(${data[i].jnId}, ${data[i].spnum}, ${data[i].hecheng},'${data[i].name}')">
                             <img src="${data[i].touxiang}" class="sp-img${data[i].hecheng ? '':' opacity-img'}" style="border: 3px ${data[i].color} solid">
-                            <span class="sp-num-span" style="color: ${data[i].color}">${data[i].num}</span>
+                            <span class="sp-num-span" style="color: ${data[i].color}">${data[i].num > 0 ? data[i].num : ''}</span>
                         </div>`
                 }
                 $('#splistul').empty();
