@@ -525,10 +525,10 @@ function changetouxiang(){
 function zuanshisd(){
 	mui.get("zuanshisd",function(data){
 		if(data==0){
+			loadRoleData(null);
 			mui.toast("购买成功！");
-			$('#zs_num').html(parseInt($('#zs_num').html())-50);
 		}else{
-			mui.toast("砖石不足！");
+			mui.toast("钻石不足！");
 		}
 	});
 }

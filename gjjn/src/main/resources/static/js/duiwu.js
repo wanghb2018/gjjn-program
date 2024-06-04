@@ -10,6 +10,11 @@ function renderRoleDuiwu(a){
 }
 
 function renderRoleDuiwuWithData(data){
+    loadRoleData(data);
+    getAndRenderDuiwu();
+}
+
+function loadRoleData(data){
     if (data){
         renderRoleData(data);
     } else {
@@ -18,7 +23,6 @@ function renderRoleDuiwuWithData(data){
             renderRoleData(data);
         });
     }
-    getAndRenderDuiwu()
 }
 
 function getAndRenderDuiwu(){
