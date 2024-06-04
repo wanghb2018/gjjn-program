@@ -371,7 +371,7 @@ public class BusinessController {
 		DuiwuInfo oldData = duiwuService.getDuiwuInfo(role.getId());
 		DuiwuInfo duiwuInfo = duiwuService.reCalDwZdl(role.getId());
 		result.setHr(Constant.SUCCESS);
-		result.setMsg(String.format("科研升级成功！队伍战力提升：%d -> %d", oldData.getZdl(), duiwuInfo.getZdl()));
+		result.setMsg(String.format("科研升级成功！队伍战力提升：%d", (duiwuInfo.getZdl() - oldData.getZdl())));
 		return result;
 	}
 }
