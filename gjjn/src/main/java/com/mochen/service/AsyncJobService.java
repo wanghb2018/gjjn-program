@@ -25,7 +25,7 @@ public class AsyncJobService {
 	@Autowired
 	MyJianniangService myJianniangService;
 
-	@Async
+	@Async("myThreadPool")
 	public void mapBossAsyncJob(List<Suipian> sps, DuiwuInfo duiwu, Integer jnJy, Role role, Integer zhgjy, Integer wuzi, Boolean flag) {
 		jianniangService.spBatchSave(sps);
 		Map<Integer, Integer> myjnLevelMap = duiwu.getMyJns().stream().collect(Collectors.toMap(MyJianniang::getId, MyJianniang::getLevel));
