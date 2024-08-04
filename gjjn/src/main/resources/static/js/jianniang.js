@@ -41,7 +41,16 @@ function showjninfo2(id){
                 spstr = spstr + " + <span style='color: gold'>" + data.jblNum + "</span>";
             }
             $('#jninfo_sj2').html(spstr + " / " + "<span style='color: "+data.jn.color+"'>" + data.jn.spnum + "</span>");
-            $('#jninfo_lh2').attr('src',data.jn.lihui);
+            if (data.jn.lihui.endsWith('.mp4')) {
+                $('#jninfo_lh2_video').attr('src',data.jn.lihui);
+                $('#jninfo_lh2_video').show();
+                $('#jninfo_lh2').hide();
+            } else {
+                $('#jninfo_lh2').attr('src',data.jn.lihui);
+                $('#jninfo_lh2').show();
+                $('#jninfo_lh2_video').hide();
+            }
+
             if(data.jn.iswar == 1)
                 $('#jninfo_shangzhen2').hide();
             else

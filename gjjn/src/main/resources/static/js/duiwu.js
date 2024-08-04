@@ -90,7 +90,15 @@ function jninfoview(id){
                 spstr = spstr + " + <span style='color: gold'>" + data.jblNum + "</span>";
             }
             $('#jninfo_sj').html(spstr + " / " + "<span style='color: "+data.jn.color+"'>" + data.jn.spnum + "</span>");
-            $('#jninfo_lh').attr('src',data.jn.lihui);
+            if (data.jn.lihui.endsWith('.mp4')) {
+                $('#jninfo_lh_video').attr('src',data.jn.lihui);
+                $('#jninfo_lh_video').show();
+                $('#jninfo_lh').hide();
+            } else {
+                $('#jninfo_lh').attr('src',data.jn.lihui);
+                $('#jninfo_lh').show();
+                $('#jninfo_lh_video').hide();
+            }
             $('#jianduisx').hide();
             $('#jiannianginfo').show();
             $('#jninfohideid').val(data.jn.id);
